@@ -1,0 +1,56 @@
+import express from "express";
+import cors from "cors";
+import pkg from "pg";
+import bodyParser from "body-parser";
+
+const { Pool } = pkg;
+const app = express();
+const port = 3000;
+
+//middlewares
+app.use(cors());
+app.use(bodyParser.json());
+
+// Configure the PostgreSQL connection
+const pool = new Pool({
+  user: "alexanderhergert",
+  host: "localhost",
+  database: "webdevjobs",
+  password: "1234",
+  port: 5432, // or your PostgreSQL port
+});
+
+// Example query execution
+app.get("/", async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM jobs");
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.post("/users", async (req, res) => {
+  console.log(req.body);
+  const { user_id, nickname, name } = req.body;
+  try {
+    // Logic for writing user data to the database
+    const client = await pool.connect();
+    await client.query(
+      "INSERT INTO users (user_id, nickname, name) VALUES ($1, $2, $3)",
+      [user_id, nickname, name]
+    );
+    client.release();
+    res.status(200).json({ message: "User created successfully!" });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
