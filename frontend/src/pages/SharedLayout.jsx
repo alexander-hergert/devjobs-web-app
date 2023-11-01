@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-//import Navbar from "../components/Navbar/Navbar";
+import Menubar from "../components/Menubar";
 import Footer from "../components/Footer";
 
 //shared code goes into jsx
 const SharedLayout = () => {
   return (
     <>
-      {/* <Navbar /> */}
+      <Menubar />
       <Outlet />
       <Footer />
     </>
