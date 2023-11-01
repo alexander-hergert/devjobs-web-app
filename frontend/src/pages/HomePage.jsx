@@ -1,8 +1,12 @@
 import React from "react";
-//import Filter from "../components/Filter";
+import Filter from "../components/Filter";
 
 const HomePage = () => {
-  return <main>{/* <Filter /> */}</main>;
+  return (
+    <main>
+      <Filter />
+    </main>
+  );
 };
 
 export default HomePage;

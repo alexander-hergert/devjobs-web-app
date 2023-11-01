@@ -13,8 +13,8 @@ export default {
           accent: "#ffffff", //borders
         },
         dark: {
-          "base-100": "#19202d", //background
-          neutral: "#121721", //element
+          "base-100": "#121721", //background
+          neutral: "#19202d", //element
           primary: "#ffffff", //text
           secondary: "#ffffff", //input
           accent: "#000000", //borders
