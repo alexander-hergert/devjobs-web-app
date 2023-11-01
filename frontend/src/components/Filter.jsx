@@ -10,11 +10,11 @@ const Filter = () => {
   };
 
   return (
-    <section className="flex justify-center h-[4rem]">
+    <section className="flex h-[4rem]">
       <form
         onSubmit={handleSubmit}
         action=""
-        className="flex justify-center items-center w-[90vw] bg-neutral"
+        className="flex justify-center items-center bg-neutral"
       >
         <div className="flex item-center gap-2 w-[30vw] border h-[4rem]">
           <img
