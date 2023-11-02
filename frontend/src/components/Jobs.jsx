@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import Job from "./Job";
+import { useDispatch, useSelector } from "react-redux";
+import { getJobs } from "../slices/jobsSlice";
 
 const Jobs = () => {
-  //data belongs then in redux store but for now in component
+  const dispatch = useDispatch();
+  const jobs = useSelector((state) => state.jobs.jobs);
 
-  const [data, setData] = useState([]);
   useEffect(() => {
     try {
       axios.get("../data.json").then((response) => {
-        console.log(response);
-        setData(response.data);
+        dispatch(getJobs({ payload: response.data }));
       });
     } catch {}
   }, []);
@@ -18,7 +19,7 @@ const Jobs = () => {
   return (
     <>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-        {data.map((job) => (
+        {jobs?.payload?.map((job) => (
           <Job key={job.id} job={job} />
         ))}
       </section>

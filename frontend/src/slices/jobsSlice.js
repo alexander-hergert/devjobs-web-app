@@ -1,16 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-//Example slice remove what you not use
-const todosSlice = createSlice({
-  name: "todos",
-  //initialState: [],
+const jobsSlice = createSlice({
+  name: "jobs",
   initialState: {
-    todos: [],
+    jobs: [],
     isLoading: false,
   },
   reducers: {
-    addTodo: (state, action) => {
-      state.todos.push(action.payload);
+    getJobs: (state, action) => {
+      state.jobs = action.payload;
     },
     removeTodo: (state, action) => {
       //return state.todos.filter((todo) => todo.id !== action.payload);
@@ -38,7 +36,7 @@ const todosSlice = createSlice({
   },
 });
 
-export const { addTodo, removeTodo, updateTodo, clearTodos, getTodos } =
-  todosSlice.actions;
+export const { getJobs, removeTodo, updateTodo, clearTodos, getTodos } =
+  jobsSlice.actions;
 
-export default todosSlice;
+export default jobsSlice;
