@@ -8,9 +8,14 @@ const Style = styled.section`
   z-index: 10;
   width: 100vw;
   height: 100vh;
+
+  input,
+  textarea {
+    width: 25vw;
+  }
 `;
 
-const EditProfile = ({ setIsEdit }) => {
+const EditProfile = ({ setIsEditProfile }) => {
   const {
     register,
     handleSubmit,
@@ -18,18 +23,23 @@ const EditProfile = ({ setIsEdit }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => console.log(data); //Post request to backend
 
   return (
     <Style>
-      <button className="btn" onClick={() => setIsEdit(false)}>
+      <button
+        className="btn block m-auto bg-neutral"
+        onClick={() => setIsEditProfile(false)}
+      >
         CLOSE
       </button>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
-        className="flex flex-col bg-neutral w-[20vw] m-auto"
+        className="flex flex-col bg-neutral w-[50vw] m-auto p-10"
       >
+        <h2 className="text-center">Edit Profile</h2>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="fullname">Fullname</label>
           <input type="text" id="fullname" {...register("fullname")} />
@@ -44,7 +54,7 @@ const EditProfile = ({ setIsEdit }) => {
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="location">Location</label>
-          <input type="text" {...register("location")} />
+          <input type="text" id="location" {...register("location")} />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="skills">Skills</label>
@@ -54,7 +64,7 @@ const EditProfile = ({ setIsEdit }) => {
           <label htmlFor="website">Website</label>
           <input type="text" id="website" {...register("website")} />
         </div>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Save Changes" className="self-center btn" />
       </form>
     </Style>
   );
