@@ -39,7 +39,6 @@ const Menubar = () => {
   useEffect(() => {
     if (user) {
       dispatch(setUser({ payload: user }));
-      localStorage.setItem("user", JSON.stringify(true));
     }
   }, [user]);
 
