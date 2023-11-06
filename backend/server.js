@@ -2,6 +2,21 @@ import express from "express";
 import cors from "cors";
 import pkg from "pg";
 import bodyParser from "body-parser";
+import bcrypt from "bcrypt";
+
+// Generate a salt
+const salt = bcrypt.genSaltSync(10);
+const password = "Typemaster";
+// Hash the password
+const hashedPassword = bcrypt.hashSync(password, salt);
+// Compare the stored hashed password with the input password
+const isMatch = bcrypt.compareSync(password, hashedPassword);
+if (isMatch) {
+  console.log("Login successful");
+  console.log(hashedPassword);
+} else {
+  console.log("Invalid password");
+}
 
 const { Pool } = pkg;
 const app = express();

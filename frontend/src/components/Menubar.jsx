@@ -39,6 +39,7 @@ const Menubar = () => {
   useEffect(() => {
     if (user) {
       dispatch(setUser({ payload: user }));
+      console.log(user);
     }
   }, [user]);
 
