@@ -47,6 +47,39 @@ app.get("/", async (req, res) => {
   }
 });
 
+// fetch filtered jobs for Homepage
+// fetch filtered jobs for Homepage
+app.get("/filter", async (req, res) => {
+  console.log(req.query);
+  try {
+    const { searchTerm, location, contract } = req.query;
+    console.log(searchTerm, location, contract);
+    const client = await pool.connect();
+
+    let query = "SELECT * FROM jobs WHERE 1 = 1";
+    const queryParams = [];
+
+    query +=
+      " AND (position ILIKE '%' || $1 || '%' OR company ILIKE '%' || $1 || '%' OR description ILIKE '%' || $1 || '%' OR requirements ILIKE '%' || $1 || '%' OR job_role ILIKE '%' || $1 || '%' OR requirements_list ILIKE '%' || $1 || '%' OR job_role_list ILIKE '%' || $1 || '%')";
+    queryParams.push(searchTerm || "");
+
+    query += " AND location ILIKE '%' || $2 || '%'";
+    queryParams.push(location || "");
+
+    if (contract === "true") {
+      query += " AND contract = $3";
+      queryParams.push("Full Time");
+    }
+
+    const result = await client.query(query, queryParams);
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // fetch single job for InnerJobPage
 app.get("/:jobId", async (req, res) => {
   try {

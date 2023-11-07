@@ -1,18 +1,34 @@
 import React from "react";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { getJobs } from "../slices/jobsSlice";
 
 const Filter = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(
-      "Here goes axios request. The request is sending the filters to the backend and the backend will return the filtered data as json."
-    );
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log("form", data);
+    try {
+      axios
+        .get(`http://localhost:3000/filter`, { params: data })
+        .then((response) => {
+          dispatch(getJobs({ payload: response.data }));
+          console.log(response.data);
+        });
+    } catch {}
   };
 
   return (
     <section className="flex h-[4rem]">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         action=""
         className="flex justify-center items-center bg-neutral"
       >
@@ -26,9 +42,8 @@ const Filter = () => {
             className="bg-neutral outline-none"
             aria-label="search field"
             type="text"
-            name=""
-            id=""
             placeholder="Filter by title, companies, expertise..."
+            {...register("searchTerm")}
           />
         </div>
         <div className="flex item-center gap-2 w-[30vw] border h-[4rem]">
@@ -41,14 +56,13 @@ const Filter = () => {
             className="bg-neutral outline-none"
             aria-label="location filter"
             type="text"
-            name=""
-            id=""
             placeholder="Filter by location..."
+            {...register("location")}
           />
         </div>
         <div className="flex justify-evenly item-center gap-2 w-[30vw] border h-[4rem]">
-          <input type="checkbox" name="fulltime" id="fulltime" />
-          <label className="self-center" htmlFor="fulltime">
+          <input type="checkbox" {...register("contract")} />
+          <label className="self-center" htmlFor="contract">
             Full Time Only
           </label>
           <button className="btn self-center">Search</button>
