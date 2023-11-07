@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import JobHeader from "../components/JobHeader";
 import JobBody from "../components/JobBody";
 import JobFooter from "../components/JobFooter";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getSingleJob } from "../slices/jobsSlice";
 
 const InnerPage = () => {
+  const params = useParams();
+  const jobId = params.jobId;
+
+  const dispatch = useDispatch();
+  const jobs = useSelector((state) => state.jobs.jobs);
+  const job = jobs[0];
+
+  useEffect(() => {
+    try {
+      axios.get(`http://localhost:3000/${jobId}`).then((response) => {
+        dispatch(getSingleJob({ payload: response.data }));
+        console.log(response.data);
+      });
+    } catch {}
+  }, []);
+
+  if (!job) {
+    return (
+      <div className="flex justify-center items-center">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
+  //fetch the job from the backend
   return (
     <main className="flex flex-col justify-center">
-      <JobHeader />
-      <JobBody />
-      <JobFooter />
+      <JobHeader job={job} />
+      <JobBody job={job} />
+      <JobFooter job={job} />
     </main>
   );
 };

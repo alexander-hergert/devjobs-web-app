@@ -12,10 +12,6 @@ const Job = ({ job }) => {
     posted_at,
     contract,
     location,
-    role,
-    level,
-    languages,
-    tools,
   } = job;
 
   return (

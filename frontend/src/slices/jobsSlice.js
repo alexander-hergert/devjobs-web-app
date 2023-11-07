@@ -8,15 +8,10 @@ const jobsSlice = createSlice({
   },
   reducers: {
     getJobs: (state, action) => {
-      state.jobs = action.payload;
+      state.jobs = action.payload.payload;
     },
-    removeTodo: (state, action) => {
-      //return state.todos.filter((todo) => todo.id !== action.payload);
-      state.todos.forEach((todo, index) => {
-        if (todo.id === action.payload) {
-          state.todos.splice(index, 1);
-        }
-      });
+    getSingleJob: (state, action) => {
+      state.jobs = action.payload.payload;
     },
     updateTodo: (state, action) => {
       state.todos.forEach((todo) => {
@@ -36,7 +31,7 @@ const jobsSlice = createSlice({
   },
 });
 
-export const { getJobs, removeTodo, updateTodo, clearTodos, getTodos } =
+export const { getJobs, getSingleJob, updateTodo, clearTodos, getTodos } =
   jobsSlice.actions;
 
 export default jobsSlice;

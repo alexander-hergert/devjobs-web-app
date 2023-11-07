@@ -34,11 +34,27 @@ const pool = new Pool({
   port: 5432, // or your PostgreSQL port
 });
 
-// Example query execution
+// fetch all jobs for Homepage
 app.get("/", async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM jobs");
+    res.json(result.rows);
+    client.release();
+  } catch (err) {
+    console.error("Error executing query", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// fetch single job for InnerJobPage
+app.get("/:jobId", async (req, res) => {
+  try {
+    const { jobId } = req.params;
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM jobs WHERE job_id = $1", [
+      jobId,
+    ]);
     res.json(result.rows);
     client.release();
   } catch (err) {

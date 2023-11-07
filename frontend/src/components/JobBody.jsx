@@ -1,48 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { timeSince } from "../utils";
 
-const JobBody = () => {
-  const jobs = useSelector((state) => state.jobs.jobs);
-  const params = useParams();
-  const jobId = Number(params.jobId) - 1;
-
-  const {
-    postedAt,
-    contract,
-    position,
-    location,
-    description,
-    requirements,
-    role,
-  } = jobs.payload[jobId];
+const JobBody = ({ job }) => {
+  const requirementsString = job?.requirements_list;
+  const requirementsArray = requirementsString?.split("##");
+  const roleString = job?.job_role_list;
+  const roleArray = roleString?.split("##");
 
   return (
     <section className="self-center w-[50vw] border px-10 bg-neutral">
       <div className="flex justify-between items-center">
         <div>
           <p>
-            {postedAt} • {contract}
+            {timeSince(new Date(job?.posted_at))} • {job?.contract}
           </p>
-          <h1>{position}</h1>
-          <p>{location}</p>
+          <h1>{job?.position}</h1>
+          <p>{job?.location}</p>
         </div>
         <button className="btn">Apply Now</button>
       </div>
-      <p className="my-5">{description}</p>
+      <p className="my-5">{job?.description}</p>
       <h2 className="my-10">Requirements</h2>
-      <p>{requirements.content}</p>
-      <ul className="list-decimal my-4 pl-5">
-        {requirements.items?.map((item) => (
+      <p>{job?.requirements.content}</p>
+      <ul className="list-disc my-4 pl-5">
+        {requirementsArray?.map((item) => (
           <li className="my-2" key={item}>
             {item}
           </li>
         ))}
       </ul>
       <h2 className="my-10">What You Will Do</h2>
-      <p>{role.content}</p>
+      <p>{job?.job_role}</p>
       <ul className="list-decimal my-4 pl-5">
-        {role.items?.map((item) => (
+        {roleArray?.map((item) => (
           <li className="my-2" key={item}>
             {item}
           </li>

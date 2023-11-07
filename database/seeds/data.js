@@ -95,13 +95,13 @@ export const jobs = [
     requirements_list: `5+ years of industry experience in a software engineering role, preferably building a SaaS product. You can demonstrate significant impact that your work has had on the product and/or the team.##
     Experience with scalable distributed systems, both built from scratch as well as on AWS primitives.##
     Extremely data-driven.##
-    Ability to debug complex systems.##`,
+    Ability to debug complex systems.`,
     job_role:
       "We are looking for a Senior Software Engineer to join as one of our first hires. As we iterate on our MVP, you will have the opportunity to drive the vision and own the build behind our digital experience. You’ll have the support of an experienced technical advisor, a Head of Product, and an external team to work with.",
     job_role_list: `This role is for someone who is excited about the early stage - you’ll be responsible for turning the platform vision into reality through smart, efficient building and testing.##
     Translate the product roadmap into engineering requirements and own the engineering roadmap.##
     Work with limited resources to test and learn as efficiently as possible, while laying the framework to build a more scalable product over time.##
-    Collaborate with product, design, and external engineering teammates as needed.##`,
+    Collaborate with product, design, and external engineering teammates as needed.`,
     company_website: "https://example.com/scoot",
   },
   {
@@ -121,13 +121,13 @@ export const jobs = [
     requirements_list: `You have a knack for UI design##
   Have Haskell or Purescript knowledge/hacking under your belt.##
   An experienced engineer familiar with automated testing and deployment.##
-  Experienced with functional programming and domain-driven design or simply interested and capable of learning on the job.##`,
+  Experienced with functional programming and domain-driven design or simply interested and capable of learning on the job.`,
     job_role:
       "The role is more frontend-focused where you will be tasked to build browser-based UIs for Haskell applications.",
     job_role_list: `Build up our tech stack around Haskell and introduce best practices##
   Contribute to the design of our conversational engine and the architecture supporting it##
   Design new UIs, working closely with users, stakeholders and the backend team.##
-  Maximize robustness, performance, and scalability of solutions##`,
+  Maximize robustness, performance, and scalability of solutions`,
     company_website: "https://example.com/blogr",
   },
   {
@@ -146,13 +146,13 @@ export const jobs = [
       "As our ideal candidate, you have previous experience in Ruby on Rails and are eager to continue to develop professionally. You work well in an agile environment, and collaborate well with other Software Engineers, Test Automation Engineers, Product Managers, and Designers. You thrive in a fast-paced environment, and are able to adapt when needed.",
     requirements_list: `Active participation on a software development team designing, coding, testing, and releasing functionality to our customers##
   Close collaboration with other engineers and product managers to become a valued member of an autonomous, cross-functional team##
-  Operational responsibility for the services that are owned by your team, potentially including taking part in an on-call rotation##`,
+  Operational responsibility for the services that are owned by your team, potentially including taking part in an on-call rotation`,
     job_role:
       "This is an IDEAL job if you already have a few years of software engineering experience under your belt, and you want to be part of a small, intensely skilled team, who feel total ownership of their work, and can’t imagine a day without learning & coding. You will play a crucial role in the Vector platform and everything you do will matter.",
     job_role_list: `Design, code, deploy, and test applications according to the user stories/requirements and industry best practices.##
   Follow industry standard software lifecycle process when developing software##
   Conduct code-review with other developers##
-  Assist in development and peer review of plans, technical solutions, and related documentation.##`,
+  Assist in development and peer review of plans, technical solutions, and related documentation.`,
     company_website: "https://example.com/vector",
   },
   {
@@ -173,13 +173,13 @@ export const jobs = [
   Proficiency in developing REST APIs##
   Expert proficiency with relational databases (MySQL) and optimizing SQL queries##
   Extensive experience with microservices-based architecture in production##
-  Experience with CircleCI, Jenkins or similar CI/CD applications##`,
+  Experience with CircleCI, Jenkins or similar CI/CD applications`,
     job_role:
       "You'll work alongside a skilled team of Senior Engineers across five countries participating in system design, architecture, maintenance, and refactoring decisions. You'll be working on new features and integrations and be active in code reviews and coordinating engineering efforts across teams and products.",
     job_role_list: `Administering and configuring software##
   Identify opportunity and help to implement a monitoring solution for proactive and predictable operations.##
   Triaging problems with applications - identifying known errors and problem trends and finding permanent solutions through root cause analysis.##
-  Providing level 2 and 3 application support.##`,
+  Providing level 2 and 3 application support.`,
     company_website: "https://example.com/officelite",
   },
   {
@@ -202,7 +202,7 @@ export const jobs = [
   Experience and solid understanding to deploy and maintain container orchestration platforms such as ECS or Kubernetes##
   Knowledge of networking fundamentals##
   Expertise with cloud security, understand the principle of least privilege##
-  Strong written and verbal communication skills##`,
+  Strong written and verbal communication skills`,
     job_role:
       "You will work closely with development teams to implement automation solutions using technologies like Amazon Web Services (AWS), Ansible, Jenkins, and Kubernetes to automatically build, test, integrate, and deploy complex, modern systems. You will leverage the full power of the cloud to configure highly resilient and scalable applications that support zero downtime. This position is open to a mid-level to senior professional depending on experience and background.",
     job_role_list: `Configure and maintain resources on AWS##
@@ -210,7 +210,7 @@ export const jobs = [
   Responsible for production deployments using Jenkins, CodeDeploy, GitHub Actions##
   Manage security groups and access controls##
   Use ticket management system such as Jira and Confluence to manage work priorities##
-  Ability to clearly articulate and communicate complex technical ideas to non-DevOps colleagues##`,
+  Ability to clearly articulate and communicate complex technical ideas to non-DevOps colleagues`,
     company_website: "https://example.com/pod",
   },
   {
@@ -231,7 +231,7 @@ export const jobs = [
   5+ years demonstrating strong technical skills supporting end users##
   3+ years in a leadership capacity (Team Lead, Supervisor, or Manager)##
   Experience using Professional Services Automation (PSA) tools or ticketing platforms such as ConnectWise, Autotask, ServiceNow, etc.##
-  Possess and demonstrate excellent interpersonal/communication skills##`,
+  Possess and demonstrate excellent interpersonal/communication skills`,
     job_role:
       "This is an 80% management and 20% hands-on supervisory role where you will be responsible for the support of automation technologies and managing a team of support engineers in a 24x7 high-volume environment.",
     job_role_list: `Lead, coach and manage service desk teams on a daily basis to improve customer service and efficiency##
@@ -239,7 +239,7 @@ export const jobs = [
   Oversee the work performed by the team to help prioritize open tickets and tasks##
   Provide guidance and direction on technical issues##
   Develop and maintain KPIs for measuring team performance and improving customer experience##
-  Provide status reports to management and collaborate on new initiatives and technical planning##`,
+  Provide status reports to management and collaborate on new initiatives and technical planning`,
     company_website: "https://example.com/creative",
   },
   {
@@ -259,13 +259,13 @@ export const jobs = [
     requirements_list: `Strong programming skills in Objective-C and/or Swift##
   Previous experience developing mobile applications on iOS##
   Experience working closely across a variety of teams, including product management, design, and engineering##
-  Knowledge of core CS concepts such as common data structures and algorithms, profiling, and optimization##`,
+  Knowledge of core CS concepts such as common data structures and algorithms, profiling, and optimization`,
     job_role:
       "You will be responsible for building infrastructure and abstractions to help us double our engineering velocity.  You will work at all layers of the stack and closely with partners across engineering, data science, research, product, and design. You will help our codebase stay ahead of the curve of the constantly evolving development ecosystem.",
     job_role_list: `Design and develop UI components that make feature development faster, baking in consistency and accessibility to the designs##
   Build frameworks and infrastructure to make product development faster, safer, and more consistent##
   Improve the performance and stability of the mobile app##
-  Strive to keep the mobile codebase secure##`,
+  Strive to keep the mobile codebase secure`,
     company_website: "https://example.com/pomodoro",
   },
   {
@@ -285,13 +285,13 @@ export const jobs = [
     requirements_list: `Computer Science degree or equivalent##
   Experience with EJB, J2EE,Tomcat, JBoss andrelational databases such as MySQL, MSSQL, Oracle##
   At least three years of post-graduate experience##
-  Deep understanding of OO programming principals and commitment to clean, efficient, well documented code.##`,
+  Deep understanding of OO programming principals and commitment to clean, efficient, well documented code.`,
     job_role:
       "Job responsibilities will include developing scalable Java applications while providing expertise in the full software development lifecycle, from concept and design to testing.",
     job_role_list: `Design and develop high-volume, low-latency applications that enhance Maker's core platform##
   Create well designed, testable, efficient code##
   Participate in all phases of the development lifecycle##
-  Investigate alternatives and technologies and present them for architectural review, in order to support continuous improvement##`,
+  Investigate alternatives and technologies and present them for architectural review, in order to support continuous improvement`,
     company_website: "https://example.com/maker",
   },
   {
@@ -310,14 +310,14 @@ export const jobs = [
       "You will be responsible for executing high quality solutions for customers and contributing to the day-to-day technical excellence of a delivery team. You should have a deep understanding of Modern JavaScript, HTML and CSS, the software development life cycle, and possess the ability to implement and execute standard software architecture patterns.",
     requirements_list: `4+ years of experience of Frontend Development##
   Expertise with React required##
-  Expertise with Next.js, Apollo, Typescript, and GraphQL preferred##`,
+  Expertise with Next.js, Apollo, Typescript, and GraphQL preferred`,
     job_role:
       "Beyond working closely with our team to build an exciting app, you’ll be leading Frontend development of our React/Next.js product. You’ll be coming up with UI/UX for the app and making architectural decisions for the frontend.",
     job_role_list: `Use your thorough understanding of core client-side technologies to architect complex user interactions for desktop and mobile browsers using React##
   Create universal JS modules to be used on both the client and the server##
   Lead, direct and mentor more junior team members (including code review)##
   Cover your code with unit and integration tests written with Jest and Mocha##
-  Take part in decision-making around major architectural choices of the front-end team##`,
+  Take part in decision-making around major architectural choices of the front-end team`,
     company_website: "https://example.com/coffeeroasters",
   },
   {
@@ -334,10 +334,17 @@ export const jobs = [
       "Mastercraft is looking for a UX/UI Designer to turn our software into easy-to-use products for our clients. Responsibilities include gathering user requirements, designing graphic elements and building software component",
     requirements:
       "To be successful in this role, you should have experience with design software and wireframe tools preferably Figma. You should also have a portfolio of professional design projects that includes work with web/mobile applications.",
-    requirements_list: `At least 3 years of experience in a related field.## Portfolio of design projects.## Degree in Design, UX or relevant field.## Experience with design process and systematic approach to organization, workflow##`,
+    requirements_list: `At least 3 years of experience in a related field.##
+    Portfolio of design projects.##
+    Degree in Design, UX or relevant field.
+    ## Experience with design process and systematic approach to organization, workflow`,
     job_role:
       "You’ll create both functional and appealing features that address our clients’ needs and help us grow our customer base. We expect you to have experience with market/user research and stay current with most recent trends, tools, workflows.",
-    job_role_list: `Gather and evaluate user requirements in collaboration with UX/UI manager or stakeholders.## Illustrate design ideas using storyboards, process flows and sitemaps.## Develop UI mockups and prototypes that clearly illustrate how sites function and look like.## Create original graphic designs (eg. images, sketches and tables).## Identify and troubleshoot UX problems## Conduct layout adjustments based on user feedback.##`,
+    job_role_list: `Gather and evaluate user requirements in collaboration with UX/UI manager or stakeholders.##
+    Illustrate design ideas using storyboards, process flows and sitemaps.##
+    Develop UI mockups and prototypes that clearly illustrate how sites function and look like.##
+    Create original graphic designs (eg. images, sketches and tables).##
+    Identify and troubleshoot UX problems## Conduct layout adjustments based on user feedback.`,
     company_website: "https://example.com/mastercraft",
   },
   {
@@ -354,10 +361,18 @@ export const jobs = [
       "Crowdfund is currently expanding and working on revolutionizing the world of raising funds for any project – creative, entrepreneurial or cause-related. Come and join us in this growth! We are looking for an exceptionally talented Fullstack Developer who will become an integral part of the company’s exciting new chapter.",
     requirements:
       "We'd love to hear from you if you take ownership of your work and continuously want to improve the products you've built. We're looking for developers who have an uncanny ability to work very well cross-functionality in a flat startup.",
-    requirements_list: `4+ years of web development experience## Strong CS fundamentals and problem solving skills## Production expertise with Ruby on Rails [preferred], Python, PHP, Java, or your favorite modern stack## Excellent debugging skills & strong belief in automated testing and coverage## Team player who enjoys mentoring and agile environments## Passion, drive, energy, a sense of humor and a great attitude!##`,
+    requirements_list: `4+ years of web development experience##
+    Strong CS fundamentals and problem solving skills##
+    Production expertise with Ruby on Rails [preferred], Python, PHP, Java, or your favorite modern stack##
+    Excellent debugging skills & strong belief in automated testing and coverage##
+    Team player who enjoys mentoring and agile environments##
+    Passion, drive, energy, a sense of humor and a great attitude!`,
     job_role:
       "At Crowdfund, you will have the opportunity to literally change the world and people’s lives by developing new features for our consumer platform to make it even more robust. You’ll work with exceptional developers and there are lots of interesting technical challenges to tackle, including projects dealing with heavy transaction volume, scalability and Big Data.",
-    job_role_list: `Build a marketplace that empowers people to follow their dreams!## Architect, design and implement beautiful, performant & scalable Ruby code.## Create features for the international payment system which sees millions of transactions per day.## Extend the reach of our platform APIs.##`,
+    job_role_list: `Build a marketplace that empowers people to follow their dreams!##
+    Architect, design and implement beautiful, performant & scalable Ruby code.##
+    Create features for the international payment system which sees millions of transactions per day.##
+    Extend the reach of our platform APIs.`,
     company_website: "https://example.com/crowdfund",
   },
   {
@@ -378,13 +393,13 @@ export const jobs = [
     Experience in web application security analysis and resolution.##
     Experience working within a modern Javascript workflow through technologies such as: GitHub, CSS Preprocessors, Styled Components, Single Page Application frameworks and Module Bundlers (Webpack etc.)##
     Experience in implementing A/B Tests##
-    Hands on experience with React/Redux in a production application##`,
+    Hands on experience with React/Redux in a production application`,
     job_role:
       "Here's the role: sling code, architect new systems, mentor junior engineers, and manage product as a tech lead on Typemaster’s growing dev team. You will work directly with Typemaster’s two technical co-founders and other engineers in a culture that includes clean code, extensive testing, rapid iteration, and the values you bring to the table. You will come to own one of our product lines, and will have the ability to contribute to multiple projects.",
     job_role_list: `Security audit of web application with an emphasis on commerce/transactional flows##
     Maintain and improve security skills, knowledge, and training through professional development, including participating in tech conferences and wider tech community forums##
     Work on a modern stack including React and Django.##
-    Enforce code quality through test driven development via unit tests and automated tests.##`,
+    Enforce code quality through test driven development via unit tests and automated tests.`,
     company_website: "https://example.com/typemaster",
   },
   {
@@ -404,14 +419,14 @@ export const jobs = [
     requirements_list: `Multiple years of React experience##
     Good eye for detail##
     Passion for great user experience and API design##
-    Comfortable working with cross-functional and cross-cultural teams##`,
+    Comfortable working with cross-functional and cross-cultural teams`,
     job_role:
       "We want people who are passionate about building apps that you and your peers will love. We are looking for an experienced Front-end Developer who shares our passion for making complex applications appear simple for our customers. We’ll give you the freedom to do what you do best, so you should feel comfortable owning your work from start to finish, as well as bringing fresh ideas to the table that can make our products, development experience, and team better. You’ll have the opportunity to work closely with designers, product managers, and other engineers across the stack to make ideas a reality.",
     job_role_list: `Working with our team to build out our React/Typescript/GraphQL stack##
     Collaborating with product and design to increase conversions and improve user experience##
     Building new, efficient, and scalable front-end applications that will interface with public and internal APIs##
     Writing clean, maintainable, and testable code##
-    Work with backend teams to solve complex problems##`,
+    Work with backend teams to solve complex problems`,
     company_website: "https://example.com/crowdfund",
   },
   {
@@ -433,14 +448,14 @@ export const jobs = [
     requirements_list: `A degree in Computer Science or an equivalent engineering foundation.##
       Experience in Python and/or JavaScript.##
       Ability to thrive in a fast-paced startup.##
-      Someone who loves to learn and is passionate about helping others.##`,
+      Someone who loves to learn and is passionate about helping others.`,
     job_role:
       "We're looking for a dynamic individual who is no stranger to building well-designed, performant and effective front-end web applications that support complex business rules/flows. You will start by learning from the experiences of our current team and our current offerings and become intimately familiar with our codebase. You will leverage your experience to establish best practices for web development and drive the team and the codebase to a higher level.",
     job_role_list: `Write frontend code and build UI to implement new features. Includes taking in data from our API, structuring that data, and displaying it.##
       Build backend code for API.##
       Consistently improve our platform so we can deliver features quickly with high reliability and scalability.##
       Apply user experience methodology and best practices to translate user needs and business requirements into engaging user-centered design.##
-      Write/maintain documentation for the client and other team members.##`,
+      Write/maintain documentation for the client and other team members.`,
   },
   {
     user_id: process.env.Blogr,
@@ -461,12 +476,12 @@ export const jobs = [
     requirements_list: `Experience in JavaScript software development, preferably in a product company##
       Experience with React and state management libraries (such as Redux or Mobx)##
       Understand cross-browser compatibility issues and ways to work around them.##
-      English language fluency, excellent communication skills##`,
+      English language fluency, excellent communication skills`,
     job_role:
       "In this role, you are part of our Product team comprised of Frontend & Backend Developers, UX & UI Specialists and Product Owners. You'll work on mission critical projects from the first day on, support other engineers, share your knowledge with your colleagues, and contribute to agile projects.",
     job_role_list: `Help define our software engineering culture##
       Write high quality software for the frontend##
       Do code reviews##
-      Proactively solve the problems most important to the business##`,
+      Proactively solve the problems most important to the business`,
   },
 ];

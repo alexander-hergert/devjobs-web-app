@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import InnerPage from "./pages/InnerPage";
 import Dashboard from "./pages/Dashboard";
 import ErrorPage from "./pages/ErrorPage";
+import axios from "axios";
 
 const router = createBrowserRouter([
   {
