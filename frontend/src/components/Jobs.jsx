@@ -10,8 +10,9 @@ const Jobs = () => {
 
   useEffect(() => {
     try {
-      axios.get("../data.json").then((response) => {
+      axios.get("http://localhost:3000/").then((response) => {
         dispatch(getJobs({ payload: response.data }));
+        console.log(response.data);
       });
     } catch {}
   }, []);
@@ -20,7 +21,7 @@ const Jobs = () => {
     <>
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
         {jobs?.payload?.map((job) => (
-          <Job key={job.id} job={job} />
+          <Job key={job.job_id} job={job} />
         ))}
       </section>
       <button className="btn m-auto block">Load More</button>

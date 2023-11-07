@@ -89,13 +89,13 @@ const createTableJobs = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS jobs (
         job_id SERIAL PRIMARY KEY, 
-        user_id VARCHAR(255) REFERENCES users(user_id),
-        logo VARCHAR(255) NOT NULL,
-        logoBackground VARCHAR(255) NOT NULL,
+        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),
+        logo VARCHAR(255),
+        logo_background VARCHAR(255),
         status BOOLEAN NOT NULL, 
         company VARCHAR(100) NOT NULL, 
         position VARCHAR(50) NOT NULL, 
-        postedAt DATE NOT NULL, 
+        posted_at TIMESTAMP NOT NULL, 
         contract VARCHAR(50) NOT NULL, 
         location VARCHAR(50) NOT NULL, 
         description TEXT NOT NULL, 
@@ -119,11 +119,11 @@ const fillJobsTable = async (client) => {
       client,
       job.user_id,
       job.logo,
-      job.logoBackground,
+      job.logo_background,
       job.status,
       job.company,
       job.position,
-      job.postedAt,
+      job.posted_at,
       job.contract,
       job.location,
       job.description,
@@ -151,11 +151,12 @@ const createTableApplications = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS applications (
         app_id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),
+        job_id INT NOT NULL REFERENCES jobs(job_id),
         app_status VARCHAR(20) DEFAULT 'Pending',
-        content TEXT NOT NULL,
-        user_id VARCHAR(255) REFERENCES users(user_id),
-        job_id INT REFERENCES jobs(job_id)
-      )`
+        content TEXT NOT NULL
+        )
+      `
     );
     console.log("Table applications created successfully!");
   } catch (error) {
@@ -166,9 +167,9 @@ const createTableApplications = async (client) => {
 const fillApplicationsTable = async (client) => {
   try {
     await client.query(
-      `INSERT INTO applications (app_status, content)
-        VALUES ($1, $2)`,
-      ["Pending", "I am a frontend developer"]
+      `INSERT INTO applications (user_id, job_id, app_status, content)
+        VALUES ($1, $2, $3, $4)`,
+      [user_id, 1, "Pending", "I am a frontend developer"]
     );
     console.log("Applications inserted successfully!");
   } catch (error) {

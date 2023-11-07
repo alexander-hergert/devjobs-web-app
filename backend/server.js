@@ -12,8 +12,7 @@ const hashedPassword = bcrypt.hashSync(password, salt);
 // Compare the stored hashed password with the input password
 const isMatch = bcrypt.compareSync(password, hashedPassword);
 if (isMatch) {
-  console.log("Login successful");
-  console.log(hashedPassword);
+  //console.log("Login successful");
 } else {
   console.log("Invalid password");
 }

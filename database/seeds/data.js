@@ -81,11 +81,11 @@ export const jobs = [
   {
     user_id: process.env.Scoot,
     logo: "../assets/logos/scoot.svg",
-    logoBackground: "hsl(36, 87%, 49%)",
+    logo_background: "hsl(36, 87%, 49%)",
     status: true,
     company: "Scoot",
     position: "Senior Software Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "United Kingdom",
     description:
@@ -107,11 +107,11 @@ export const jobs = [
   {
     user_id: process.env.Blogr,
     logo: "../assets/logos/blogr.svg",
-    logoBackground: "hsl(12, 79%, 52%)",
+    logo_background: "hsl(12, 79%, 52%)",
     status: true,
     company: "Blogr",
     position: "Haskell and PureScript Dev",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "United States",
     description:
@@ -133,11 +133,11 @@ export const jobs = [
   {
     user_id: process.env.Vector,
     logo: "../assets/logos/vector.svg",
-    logoBackground: "hsl(235, 10%, 23%)",
+    logo_background: "hsl(235, 10%, 23%)",
     status: true,
     company: "Vector",
     position: "Midlevel Back End Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "Russia",
     description:
@@ -158,11 +158,11 @@ export const jobs = [
   {
     user_id: process.env.OfficeLite,
     logo: "../assets/logos/officelite.svg",
-    logoBackground: "hsl(227, 62%, 48%)",
+    logo_background: "hsl(227, 62%, 48%)",
     status: true,
     company: "Office Lite",
     position: "Senior Application Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "Japan",
     description:
@@ -185,11 +185,11 @@ export const jobs = [
   {
     user_id: process.env.Pod,
     logo: "../assets/logos/pod.svg",
-    logoBackground: "hsl(216, 46%, 14%)",
+    logo_background: "hsl(216, 46%, 14%)",
     status: true,
     company: "Pod",
     position: "Remote DevOps Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "Japan",
     description:
@@ -216,11 +216,11 @@ export const jobs = [
   {
     user_id: process.env.Creative,
     logo: "../assets/logos/creative.svg",
-    logoBackground: "hsl(295, 55%, 21%)",
+    logo_background: "hsl(295, 55%, 21%)",
     status: true,
     company: "Creative",
     position: "Desktop Support Manager",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "Germany",
     description:
@@ -245,11 +245,11 @@ export const jobs = [
   {
     user_id: process.env.Pomodoro,
     logo: "../assets/logos/pomodoro.svg",
-    logoBackground: "hsl(254, 71%, 45%)",
+    logo_background: "hsl(254, 71%, 45%)",
     status: true,
     company: "Pomodoro",
     position: "iOS Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "United States",
     description:
@@ -271,11 +271,11 @@ export const jobs = [
   {
     user_id: process.env.Maker,
     logo: "../assets/logos/maker.svg",
-    logoBackground: "hsl(218, 58%, 31%)",
+    logo_background: "hsl(218, 58%, 31%)",
     status: true,
     company: "Maker",
     position: "Senior EJB Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "United Kingdom",
     description:
@@ -297,11 +297,11 @@ export const jobs = [
   {
     user_id: process.env.Coffeeroasters,
     logo: "../assets/logos/coffeeroasters.svg",
-    logoBackground: "hsl(29, 60%, 87%)",
+    logo_background: "hsl(29, 60%, 87%)",
     status: true,
     company: "Coffeeroasters",
     position: "Senior Frontend Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "Singapore",
     description:
@@ -323,11 +323,11 @@ export const jobs = [
   {
     user_id: process.env.Mastercraft,
     logo: "../assets/logos/mastercraft.svg",
-    logoBackground: "hsl(0, 0%, 12%)",
+    logo_background: "hsl(0, 0%, 12%)",
     status: true,
     company: "Mastercraft",
     position: "App & Website Designer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Freelance",
     location: "United States",
     description:
@@ -343,11 +343,11 @@ export const jobs = [
   {
     user_id: process.env.Crowdfund,
     logo: "../assets/logos/crowdfund.svg",
-    logoBackground: "hsl(157, 57%, 50%)",
+    logo_background: "hsl(157, 57%, 50%)",
     status: true,
     company: "Crowdfund",
     position: "Fullstack Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "New Zealand",
     description:
@@ -363,11 +363,11 @@ export const jobs = [
   {
     user_id: process.env.Typemaster,
     logo: "../assets/logos/typemaster.svg",
-    logoBackground: "hsl(22, 89%, 52%)",
+    logo_background: "hsl(22, 89%, 52%)",
     status: true,
     company: "Typemaster",
     position: "Technical Lead Engineer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Part Time",
     location: "United Kingdom",
     description:
@@ -390,11 +390,11 @@ export const jobs = [
   {
     user_id: process.env.Crowdfund,
     logo: "../assets/logos/crowdfund.svg",
-    logoBackground: "hsl(157, 57%, 50%)",
+    logo_background: "hsl(157, 57%, 50%)",
     status: true,
     company: "Crowdfund",
     position: "Front-end Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "New Zealand",
     description:
@@ -417,11 +417,11 @@ export const jobs = [
   {
     user_id: process.env.Coffeeroasters,
     logo: "../assets/logos/coffeeroasters.svg",
-    logoBackground: "hsl(29, 60%, 87%)",
+    logo_background: "hsl(29, 60%, 87%)",
     status: true,
     company: "Coffeeroasters",
     position: "Junior Full-Stack Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "Singapore",
     website: "https://example.com/coffeeroasters",
@@ -445,11 +445,11 @@ export const jobs = [
   {
     user_id: process.env.Blogr,
     logo: "../assets/logos/blogr.svg",
-    logoBackground: "hsl(12, 79%, 52%)",
+    logo_background: "hsl(12, 79%, 52%)",
     status: true,
     company: "Blogr",
     position: "Midweight Front-end Developer",
-    postedAt: new Date(),
+    posted_at: new Date(),
     contract: "Full Time",
     location: "United States",
     website: "https://example.com/blogr",
