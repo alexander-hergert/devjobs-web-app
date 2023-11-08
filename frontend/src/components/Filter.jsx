@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { getJobs } from "../slices/jobsSlice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -13,14 +14,22 @@ const Filter = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+
   const onSubmit = (data) => {
     console.log("form", data);
     try {
       axios
-        .get(`http://localhost:3000/filter`, { params: data })
+        .get(`http://localhost:3000/jobs`, { params: data })
         .then((response) => {
           dispatch(getJobs({ payload: response.data }));
           console.log(response.data);
+          console.log(data);
+          navigate(
+            `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
+          );
         });
     } catch {}
   };
@@ -43,6 +52,7 @@ const Filter = () => {
             aria-label="search field"
             type="text"
             placeholder="Filter by title, companies, expertise..."
+            defaultValue={query.get("searchTerm")}
             {...register("searchTerm")}
           />
         </div>
@@ -57,11 +67,16 @@ const Filter = () => {
             aria-label="location filter"
             type="text"
             placeholder="Filter by location..."
+            defaultValue={query.get("location")}
             {...register("location")}
           />
         </div>
         <div className="flex justify-evenly item-center gap-2 w-[30vw] border h-[4rem]">
-          <input type="checkbox" {...register("contract")} />
+          <input
+            type="checkbox"
+            {...register("contract")}
+            defaultChecked={query.get("contract") === "true"}
+          />
           <label className="self-center" htmlFor="contract">
             Full Time Only
           </label>

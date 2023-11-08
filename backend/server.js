@@ -48,12 +48,10 @@ app.get("/", async (req, res) => {
 });
 
 // fetch filtered jobs for Homepage
-// fetch filtered jobs for Homepage
-app.get("/filter", async (req, res) => {
+app.get("/jobs", async (req, res) => {
   console.log(req.query);
   try {
     const { searchTerm, location, contract } = req.query;
-    console.log(searchTerm, location, contract);
     const client = await pool.connect();
 
     let query = "SELECT * FROM jobs WHERE 1 = 1";

@@ -3,18 +3,29 @@ import axios from "axios";
 import Job from "./Job";
 import { useDispatch, useSelector } from "react-redux";
 import { getJobs } from "../slices/jobsSlice";
+import { useLocation } from "react-router-dom";
 
 const Jobs = () => {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.jobs);
+  const location = useLocation();
 
   useEffect(() => {
     try {
-      axios.get("http://localhost:3000/").then((response) => {
-        dispatch(getJobs({ payload: response.data }));
-        console.log(response.data);
-      });
-    } catch {}
+      if (!location.search) {
+        axios.get("http://localhost:3000/").then((response) => {
+          dispatch(getJobs({ payload: response.data }));
+          console.log(response.data);
+        });
+      } else {
+        axios
+          .get(`http://localhost:3000/jobs/${location.search}`)
+          .then((response) => {
+            dispatch(getJobs({ payload: response.data }));
+            console.log(response.data);
+          });
+      }
+    } catch (error) {}
   }, []);
 
   if (jobs.length === 0) {
