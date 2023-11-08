@@ -94,23 +94,23 @@ app.get("/:jobId", async (req, res) => {
   }
 });
 
-app.post("/users", async (req, res) => {
-  console.log(req.body);
-  const { user_id, nickname, name } = req.body;
-  try {
-    // Logic for writing user data to the database
-    const client = await pool.connect();
-    await client.query(
-      "INSERT INTO users (user_id, nickname, name) VALUES ($1, $2, $3)",
-      [user_id, nickname, name]
-    );
-    client.release();
-    res.status(200).json({ message: "User created successfully!" });
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// app.post("/users", async (req, res) => {
+//   console.log(req.body);
+//   const { user_id, nickname, name } = req.body;
+//   try {
+//     // Logic for writing user data to the database
+//     const client = await pool.connect();
+//     await client.query(
+//       "INSERT INTO users (user_id, nickname, name) VALUES ($1, $2, $3)",
+//       [user_id, nickname, name]
+//     );
+//     client.release();
+//     res.status(200).json({ message: "User created successfully!" });
+//   } catch (error) {
+//     console.error("Error creating user:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

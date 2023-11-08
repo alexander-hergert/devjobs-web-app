@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import JobHeader from "../components/JobHeader";
 import JobBody from "../components/JobBody";
 import JobFooter from "../components/JobFooter";
@@ -14,6 +14,8 @@ const InnerPage = () => {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.jobs);
   const job = jobs[0];
+
+  const [isApplication, setIsApplication] = useState(false);
 
   useEffect(() => {
     try {
@@ -36,8 +38,16 @@ const InnerPage = () => {
   return (
     <main className="flex flex-col justify-center">
       <JobHeader job={job} />
-      <JobBody job={job} />
-      <JobFooter job={job} />
+      <JobBody
+        job={job}
+        isApplication={isApplication}
+        setIsApplication={setIsApplication}
+      />
+      <JobFooter
+        job={job}
+        isApplication={isApplication}
+        setIsApplication={setIsApplication}
+      />
     </main>
   );
 };
