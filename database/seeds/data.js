@@ -1,76 +1,72 @@
-import dotenv from "dotenv";
-
-dotenv.config({ path: "../../.env" });
-
 export const companies = [
   {
-    user_id: process.env.Scoot,
+    user_id: "Scoot",
     name: "Scoot",
     email: "applications@scoot.com",
     logo: "../assets/logos/scoot.svg",
   },
   {
-    user_id: process.env.Blogr,
+    user_id: "Blogr",
     name: "Blogr",
     email: "applications@blogr.com",
     logo: "../assets/logos/blogr.svg",
   },
   {
-    user_id: process.env.Vector,
+    user_id: "Vector",
     name: "Vector",
     email: "applications@vector.com",
     logo: "../assets/logos/vector.svg",
   },
   {
-    user_id: process.env.OfficeLite,
+    user_id: "Office Lite",
     name: "Office Lite",
     email: "applications@officelite.com",
     logo: "../assets/logos/officelite.svg",
   },
   {
-    user_id: process.env.Pod,
+    user_id: "Pod",
     name: "Pod",
     email: "applications@pod.com",
     logo: "../assets/logos/pod.svg",
   },
   {
-    user_id: process.env.Creative,
+    user_id: "Creative",
     name: "Creative",
     email: "applications@creative.com",
     logo: "../assets/logos/creative.svg",
   },
   {
-    user_id: process.env.Pomodoro,
+    user_id: "Pomodoro",
     name: "Pomodoro",
     email: "applications@pomodoro.com",
     logo: "../assets/logos/pomodoro.svg",
   },
   {
-    user_id: process.env.Maker,
+    user_id: "Maker",
     name: "Maker",
     email: "applications@maker.com",
     logo: "../assets/logos/maker.svg",
   },
   {
-    user_id: process.env.Coffeeroasters,
+    user_id: "Coffeeroasters",
     name: "Coffeeroasters",
     email: "applications@coffeeroasters.com",
     logo: "../assets/logos/coffeeroasters.svg",
   },
   {
-    user_id: process.env.Mastercraft,
+    user_id: "Mastercraft",
     name: "Mastercraft",
     email: "applications@mastercraft.com",
     logo: "../assets/logos/mastercraft.svg",
   },
   {
-    user_id: process.env.Crowdfund,
+    user_id: "Crowdfund",
     name: "Crowdfund",
     email: "applications@crowdfund.com",
     logo: "../assets/logos/crowdfund.svg",
   },
   {
-    user_id: process.env.Typemaster,
+    user_id: "Typemaster",
     name: "Typemaster",
     email: "applications@typemaster.com",
     logo: "../assets/logos/typemaster.svg",
@@ -79,7 +75,7 @@ export const companies = [
 
 export const jobs = [
   {
-    user_id: process.env.Scoot,
+    user_id: "Scoot",
     logo: "../assets/logos/scoot.svg",
     logo_background: "hsl(36, 87%, 49%)",
     status: true,
@@ -105,7 +101,7 @@ export const jobs = [
     company_website: "https://example.com/scoot",
   },
   {
-    user_id: process.env.Blogr,
+    user_id: "Blogr",
     logo: "../assets/logos/blogr.svg",
     logo_background: "hsl(12, 79%, 52%)",
     status: true,
@@ -131,7 +127,7 @@ export const jobs = [
     company_website: "https://example.com/blogr",
   },
   {
-    user_id: process.env.Vector,
+    user_id: "Vector",
     logo: "../assets/logos/vector.svg",
     logo_background: "hsl(235, 10%, 23%)",
     status: true,
@@ -156,7 +152,7 @@ export const jobs = [
     company_website: "https://example.com/vector",
   },
   {
-    user_id: process.env.OfficeLite,
+    user_id: "Office Lite",
     logo: "../assets/logos/officelite.svg",
     logo_background: "hsl(227, 62%, 48%)",
     status: true,
@@ -183,7 +179,7 @@ export const jobs = [
     company_website: "https://example.com/officelite",
   },
   {
-    user_id: process.env.Pod,
+    user_id: "Pod",
     logo: "../assets/logos/pod.svg",
     logo_background: "hsl(216, 46%, 14%)",
     status: true,
@@ -214,7 +210,7 @@ export const jobs = [
     company_website: "https://example.com/pod",
   },
   {
-    user_id: process.env.Creative,
+    user_id: "Creative",
     logo: "../assets/logos/creative.svg",
     logo_background: "hsl(295, 55%, 21%)",
     status: true,
@@ -243,7 +239,7 @@ export const jobs = [
     company_website: "https://example.com/creative",
   },
   {
-    user_id: process.env.Pomodoro,
+    user_id: "Pomodoro",
     logo: "../assets/logos/pomodoro.svg",
     logo_background: "hsl(254, 71%, 45%)",
     status: true,
@@ -269,7 +265,7 @@ export const jobs = [
     company_website: "https://example.com/pomodoro",
   },
   {
-    user_id: process.env.Maker,
+    user_id: "Maker",
     logo: "../assets/logos/maker.svg",
     logo_background: "hsl(218, 58%, 31%)",
     status: true,
@@ -295,7 +291,7 @@ export const jobs = [
     company_website: "https://example.com/maker",
   },
   {
-    user_id: process.env.Coffeeroasters,
+    user_id: "Coffeeroasters",
     logo: "../assets/logos/coffeeroasters.svg",
     logo_background: "hsl(29, 60%, 87%)",
     status: true,
@@ -321,7 +317,7 @@ export const jobs = [
     company_website: "https://example.com/coffeeroasters",
   },
   {
-    user_id: process.env.Mastercraft,
+    user_id: "Mastercraft",
     logo: "../assets/logos/mastercraft.svg",
     logo_background: "hsl(0, 0%, 12%)",
     status: true,
@@ -348,7 +344,7 @@ export const jobs = [
     company_website: "https://example.com/mastercraft",
   },
   {
-    user_id: process.env.Crowdfund,
+    user_id: "Crowdfund",
     logo: "../assets/logos/crowdfund.svg",
     logo_background: "hsl(157, 57%, 50%)",
     status: true,
@@ -376,7 +372,7 @@ export const jobs = [
     company_website: "https://example.com/crowdfund",
   },
   {
-    user_id: process.env.Typemaster,
+    user_id: "Typemaster",
     logo: "../assets/logos/typemaster.svg",
     logo_background: "hsl(22, 89%, 52%)",
     status: true,
@@ -403,7 +399,7 @@ export const jobs = [
     company_website: "https://example.com/typemaster",
   },
   {
-    user_id: process.env.Crowdfund,
+    user_id: "Crowdfund",
     logo: "../assets/logos/crowdfund.svg",
     logo_background: "hsl(157, 57%, 50%)",
     status: true,
@@ -430,7 +426,7 @@ export const jobs = [
     company_website: "https://example.com/crowdfund",
   },
   {
-    user_id: process.env.Coffeeroasters,
+    user_id: "Coffeeroasters",
     logo: "../assets/logos/coffeeroasters.svg",
     logo_background: "hsl(29, 60%, 87%)",
     status: true,
@@ -458,7 +454,7 @@ export const jobs = [
       Write/maintain documentation for the client and other team members.`,
   },
   {
-    user_id: process.env.Blogr,
+    user_id: "Blogr",
     logo: "../assets/logos/blogr.svg",
     logo_background: "hsl(12, 79%, 52%)",
     status: true,

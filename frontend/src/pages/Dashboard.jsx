@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import EditProfile from "../components/EditProfile";
 import EditJob from "../components/EditJob";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import axios from "axios";
+import { setUser } from "../slices/userSlice";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -13,24 +14,18 @@ const Dashboard = () => {
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const callApi = async () => {
       try {
-        if (!location.search) {
-          const token = await getAccessTokenSilently();
-          const response = await axios.get("http://localhost:3000/test", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          console.log(response.data);
-        } else {
-          const response = await axios.get(
-            `http://localhost:3000/test/${location.search}`
-          );
-          console.log(response.data);
-        }
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(setUser({ payload: response.data[0] }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -60,18 +55,20 @@ const Dashboard = () => {
   if (isAuthenticated && user) {
     return (
       <>
-        {isEditProfile && <EditProfile setIsEditProfile={setIsEditProfile} />}
+        {isEditProfile && (
+          <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
+        )}
         {isEditJob && <EditJob setIsEditJob={setIsEditJob} />}
         <main>
           <section className="flex justify-around items-center mt-10">
             <img
               className="w-[10rem] h-[10rem] rounded-full"
               src={user?.picture}
-              alt={user?.nickname}
+              alt={user?.fullname}
             />
             <h1>
-              Hello, <span className="font-bold">{user?.name}</span>. Welcome to
-              Devjobs!
+              Hello, <span className="font-bold">{user?.fullname}</span>.
+              Welcome to Devjobs!
             </h1>
             <button onClick={handleEditProfile} className="btn">
               Edit Profile

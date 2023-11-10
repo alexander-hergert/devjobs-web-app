@@ -2,21 +2,7 @@ import express from "express";
 import cors from "cors";
 import pkg from "pg";
 import bodyParser from "body-parser";
-import bcrypt from "bcrypt";
 import { authorize } from "./auth/oauth.js";
-
-// Generate a salt
-const salt = bcrypt.genSaltSync(10);
-const password = "Typemaster";
-// Hash the password
-const hashedPassword = bcrypt.hashSync(password, salt);
-// Compare the stored hashed password with the input password
-const isMatch = bcrypt.compareSync(password, hashedPassword);
-if (isMatch) {
-  //console.log("Login successful");
-} else {
-  console.log("Invalid password");
-}
 
 const { Pool } = pkg;
 const app = express();
@@ -84,6 +70,28 @@ app.get("/jobs", async (req, res) => {
   }
 });
 
+//fetch user data
+app.get("/user", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      const result = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 // fetch single job for InnerJobPage
 app.get("/:jobId", async (req, res) => {
   try {
@@ -100,23 +108,29 @@ app.get("/:jobId", async (req, res) => {
   }
 });
 
-// app.post("/users", async (req, res) => {
-//   console.log(req.body);
-//   const { user_id, nickname, name } = req.body;
-//   try {
-//     // Logic for writing user data to the database
-//     const client = await pool.connect();
-//     await client.query(
-//       "INSERT INTO users (user_id, nickname, name) VALUES ($1, $2, $3)",
-//       [user_id, nickname, name]
-//     );
-//     client.release();
-//     res.status(200).json({ message: "User created successfully!" });
-//   } catch (error) {
-//     console.error("Error creating user:", error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
+app.put("/user", async (req, res) => {
+  console.log(req.body);
+  const { email, fullname, address, location, skills, user_website } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      await client.query(
+        "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",
+        [user_id, email, fullname, address, location, skills, user_website]
+      );
+      const result = await client.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+      res.json(result.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

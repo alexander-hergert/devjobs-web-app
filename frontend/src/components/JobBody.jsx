@@ -10,7 +10,6 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   const roleArray = roleString?.split("##");
 
   const user = useSelector((state) => state.user.user);
-  console.log(user);
 
   const handleClick = () => {
     if (user) {

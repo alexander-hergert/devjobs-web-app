@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 const JobFooter = ({ job, isApplication, setIsApplication }) => {
   const user = useSelector((state) => state.user.user);
-  console.log(user);
 
   const handleClick = () => {
     if (user) {

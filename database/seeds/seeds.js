@@ -34,7 +34,7 @@ const deleteTableUsers = async (client) => {
 const createTableUsers = async (client) => {
   try {
     await client.query(
-      `CREATE TABLE IF NOT EXISTS users (user_id VARCHAR(255) PRIMARY KEY, 
+      `CREATE TABLE IF NOT EXISTS users (user_id VARCHAR(100) PRIMARY KEY, 
       role VARCHAR(20) NOT NULL, 
       email VARCHAR(100) NOT NULL, 
       fullname VARCHAR(100) NOT NULL,

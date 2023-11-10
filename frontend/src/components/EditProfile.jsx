@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
   position: absolute;
@@ -11,11 +15,13 @@ const Style = styled.section`
 
   input,
   textarea {
-    width: 25vw;
+    width: 30vw;
   }
 `;
 
-const EditProfile = ({ setIsEditProfile }) => {
+const EditProfile = ({ setIsEditProfile, user }) => {
+  const { fullname, email, address, location, skills, user_website } = user;
+  const { getAccessTokenSilently } = useAuth0();
   const {
     register,
     handleSubmit,
@@ -23,7 +29,24 @@ const EditProfile = ({ setIsEditProfile }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data); //Post request to backend
+  const dispatch = useDispatch();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.put("http://localhost:3000/user", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      dispatch(setUser({ payload: response.data[0] }));
+      setIsEditProfile(false);
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
 
   return (
     <Style>
@@ -42,27 +65,57 @@ const EditProfile = ({ setIsEditProfile }) => {
         <h2 className="text-center">Edit Profile</h2>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="fullname">Fullname</label>
-          <input type="text" id="fullname" {...register("fullname")} />
+          <input
+            type="text"
+            id="fullname"
+            {...register("fullname")}
+            defaultValue={fullname}
+          />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" {...register("email")} />
+          <input
+            type="email"
+            id="email"
+            {...register("email")}
+            defaultValue={email}
+          />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="address">Address</label>
-          <input type="text" id="address" {...register("address")} />
+          <input
+            type="text"
+            id="address"
+            {...register("address")}
+            defaultValue={address}
+          />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="location">Location</label>
-          <input type="text" id="location" {...register("location")} />
+          <input
+            type="text"
+            id="location"
+            {...register("location")}
+            defaultValue={location}
+          />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="skills">Skills</label>
-          <input type="text" id="skills" {...register("skills")} />
+          <input
+            type="text"
+            id="skills"
+            {...register("skills")}
+            defaultValue={skills}
+          />
         </div>
         <div className="flex gap-4 justify-between my-4">
           <label htmlFor="website">Website</label>
-          <input type="text" id="website" {...register("website")} />
+          <input
+            type="text"
+            id="user_website"
+            {...register("user_website")}
+            defaultValue={user_website}
+          />
         </div>
         <input type="submit" value="Save Changes" className="self-center btn" />
       </form>

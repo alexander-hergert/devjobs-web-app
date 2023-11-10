@@ -13,8 +13,7 @@ createRoot(document.getElementById("root")).render(
       <Auth0Provider
         domain="dev-8xdmup6cvgzbmjkw.us.auth0.com"
         clientId="mjN11zl0Oqw4J0UdG6I15fv90tCGb9aA"
-        // audience="http://localhost:3000/"
-        authorizationParams={{
+           authorizationParams={{
           redirect_uri: window.location.origin,
         }}
       >
