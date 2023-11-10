@@ -3,6 +3,7 @@ import cors from "cors";
 import pkg from "pg";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
+import { authorize } from "./auth/oauth.js";
 
 // Generate a salt
 const salt = bcrypt.genSaltSync(10);
@@ -24,6 +25,11 @@ const port = 3000;
 //middlewares
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get("/test", async (req, res) => {
+  const userInfo = await authorize(req);
+  res.json(userInfo);
+});
 
 // Configure the PostgreSQL connection
 const pool = new Pool({

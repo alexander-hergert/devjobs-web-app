@@ -4,6 +4,7 @@ import Job from "./Job";
 import { useDispatch, useSelector } from "react-redux";
 import { getJobs } from "../slices/jobsSlice";
 import { useLocation } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Jobs = () => {
   useEffect(() => {
     try {
       if (!location.search) {
-        axios.get("http://localhost:3000/").then((response) => {
+        axios.get("http://localhost:3000/jobs").then((response) => {
           dispatch(getJobs({ payload: response.data }));
           console.log(response.data);
         });
