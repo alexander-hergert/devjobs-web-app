@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "./ThemeSwitcher";
-import LoginButton from "../components/Login";
-import LogoutButton from "../components/Logout";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/userSlice";
+import SignUpButton from "./SignUpButton";
 
 const StyledMenubar = styled.nav`
   background-image: url("../assets/desktop/bg-pattern-header.svg");
@@ -50,6 +51,7 @@ const Menubar = () => {
         </Link>
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-4">
+            {!isAuthenticated && <SignUpButton />}
             {!isAuthenticated && <LoginButton />}
             {isAuthenticated && (
               <>

@@ -108,6 +108,45 @@ app.get("/:jobId", async (req, res) => {
   }
 });
 
+app.post("/createuser", async (req, res) => {
+  console.log(req.body);
+  const { email, role, fullname, address, location, skills, user_website } =
+    req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    const picture = userInfo.picture;
+    try {
+      const client = await pool.connect();
+      await client.query(
+        "INSERT INTO users (user_id, role, email, fullname, picture, address, location, skills, user_website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+        [
+          user_id,
+          role,
+          email,
+          fullname,
+          picture,
+          address,
+          location,
+          skills,
+          user_website,
+        ]
+      );
+      const result = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 app.put("/user", async (req, res) => {
   console.log(req.body);
   const { email, fullname, address, location, skills, user_website } = req.body;
@@ -120,7 +159,10 @@ app.put("/user", async (req, res) => {
         "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",
         [user_id, email, fullname, address, location, skills, user_website]
       );
-      const result = await client.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
+      const result = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
       res.json(result.rows);
       client.release();
     } catch (error) {

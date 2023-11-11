@@ -51,17 +51,17 @@ const createTableUsers = async (client) => {
 };
 
 const fillUsersTable = async (client) => {
-  await addUser(
-    client,
-    user_id,
-    role,
-    email,
-    fullname,
-    picture,
-    null,
-    null,
-    null
-  );
+  // await addUser(
+  //   client,
+  //   user_id,
+  //   role,
+  //   email,
+  //   fullname,
+  //   picture,
+  //   null,
+  //   null,
+  //   null
+  // );
   for (let i = 0; i < companies.length; i++) {
     const company = companies[i];
     await addUser(
