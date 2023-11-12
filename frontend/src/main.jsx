@@ -8,7 +8,7 @@ import { apiSlice } from "./api/apiSlice.js";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <ApiProvider api={apiSlice}>
       <Auth0Provider
         domain="dev-8xdmup6cvgzbmjkw.us.auth0.com"
@@ -20,5 +20,5 @@ createRoot(document.getElementById("root")).render(
         <App />
       </Auth0Provider>
     </ApiProvider>
-  </React.StrictMode>
+  </>
 );

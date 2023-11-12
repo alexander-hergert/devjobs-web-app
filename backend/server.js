@@ -92,6 +92,33 @@ app.get("/user", async (req, res) => {
   }
 });
 
+// fetch users applied jobs
+app.get("/appliedJobs", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      const jobsIds = resultApps.rows.map((row) => row.job_id);
+      const resultJobs = await client.query(
+        //find jobs with all jobsIds
+        `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
+      );
+      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 // fetch single job for InnerJobPage
 app.get("/:jobId", async (req, res) => {
   try {

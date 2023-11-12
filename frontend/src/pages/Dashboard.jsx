@@ -15,6 +15,8 @@ const Dashboard = () => {
   const [isEditJob, setIsEditJob] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
+  //dispatch later
+  const [appliedData, setAppliedData] = useState({});
 
   useEffect(() => {
     const callApi = async () => {
@@ -26,6 +28,24 @@ const Dashboard = () => {
           },
         });
         dispatch(setUser({ payload: response.data[0] }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    };
+    callApi();
+  }, []);
+
+  useEffect(() => {
+    const callApi = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3000/appliedJobs", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data);
+        setAppliedData(response.data);
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -77,16 +97,32 @@ const Dashboard = () => {
           <h2 className="my-5 text-center font-bold">Jobs</h2>
           <section className="flex justify-around items-center">
             <ul>
-              <li className="flex items-center gap-2">
-                <h3>Job Title</h3>
-                <p>Company Name</p>
+              <li className="grid gap-2 grid-cols-7" key={0}>
+                <h3>Position</h3>
+                <p>Company</p>
                 <p>Location</p>
-                <p>Status</p>
-                <button className="btn">View Details (Link to Job)</button>
+                <p>Job Status</p>
+                <p>App Status</p>
+                <button className="btn">View Details</button>
                 <button onClick={handleEditJob} className="btn">
                   Edit Job
                 </button>
               </li>
+              {appliedData?.appliedJobs?.map((job, i) => {
+                return (
+                  <li className="grid gap-2 grid-cols-7 my-2" key={job.job_id}>
+                    <h3>{job.position}</h3>
+                    <p>{job.company}</p>
+                    <p>{job.location}</p>
+                    <p>{job.status ? "open" : ""}</p>
+                    <p>{appliedData?.applications[i].app_status}</p>
+                    <button className="btn">View Details</button>
+                    <button onClick={handleEditJob} className="btn">
+                      Edit Job
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         </main>
