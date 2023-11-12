@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
 
 const Style = styled.section`
   position: absolute;
@@ -33,7 +36,25 @@ const ApplicationForm = ({ setIsApplication }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data); //Post request to backend
+  const { getAccessTokenSilently } = useAuth0();
+  const param = useParams();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      data.job_id = param.jobId;
+      const token = await getAccessTokenSilently();
+      const response = await axios.post("http://localhost:3000/apply", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error calling API:", error);
+      console.log(error.response.data);
+    }
+  };
 
   return (
     <Style>
@@ -50,10 +71,9 @@ const ApplicationForm = ({ setIsApplication }) => {
         className="flex flex-col bg-neutral w-[50vw] m-auto p-10"
       >
         <h2 className="text-center">Write Application</h2>
-
         <div className="flex gap-4 justify-between my-4">
-          <label htmlFor="website">Website</label>
-          <textarea type="text" id="website" {...register("website")} />
+          <label htmlFor="content">Application</label>
+          <textarea type="text" id="content" {...register("content")} />
         </div>
         <input type="submit" value="Save Changes" className="self-center btn" />
       </form>

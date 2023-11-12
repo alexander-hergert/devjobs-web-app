@@ -147,6 +147,38 @@ app.post("/createuser", async (req, res) => {
   }
 });
 
+//send application
+app.post("/apply", async (req, res) => {
+  console.log(req.body);
+  const { job_id, content } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //test if use ralready applied
+      const result = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1 AND job_id = $2",
+        [user_id, Number(job_id)]
+      );
+      if (result.rows.length > 0) {
+        res.status(400).json({ error: "Already applied" });
+        return;
+      }
+      await client.query(
+        "INSERT INTO applications (user_id, job_id, content) VALUES ($1, $2, $3)",
+        [user_id, Number(job_id), content]
+      );
+      client.release();
+    } catch (error) {
+      console.error("Error sending application:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 app.put("/user", async (req, res) => {
   console.log(req.body);
   const { email, fullname, address, location, skills, user_website } = req.body;
