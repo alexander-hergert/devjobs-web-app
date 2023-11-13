@@ -2,12 +2,18 @@ import React from "react";
 import { timeSince } from "../utils";
 import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
+import { useParams } from "react-router-dom";
 
 const JobBody = ({ job, isApplication, setIsApplication }) => {
   const requirementsString = job?.requirements_list;
   const requirementsArray = requirementsString?.split("##");
   const roleString = job?.job_role_list;
   const roleArray = roleString?.split("##");
+  const job_id = useParams().jobId;
+  const apps = useSelector((state) => state.apps.apps);
+  console.log(apps);
+  const isApplied = apps.applications?.some((app) => app.job_id === Number(job_id));
+  console.log(isApplied);
 
   const user = useSelector((state) => state.user.user);
 
@@ -31,9 +37,9 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
             <h1>{job?.position}</h1>
             <p>{job?.location}</p>
           </div>
-          <button onClick={handleClick} className="btn">
+          {!isApplied ? <button onClick={handleClick} className="btn bg-green-500">
             Apply Now
-          </button>
+          </button> : <button className="btn bg-red-600">Already Applied</button>}
         </div>
         <p className="my-5">{job?.description}</p>
         <h2 className="my-10">Requirements</h2>

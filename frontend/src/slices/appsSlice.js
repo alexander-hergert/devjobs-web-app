@@ -8,7 +8,6 @@ const appsSlice = createSlice({
   },
   reducers: {
     getApps: (state, action) => {
-      console.log(action.payload.payload);
       state.apps = action.payload.payload;
     },
     //Async operations

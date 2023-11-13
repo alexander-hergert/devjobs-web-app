@@ -12,6 +12,7 @@ import ViewAppDetails from "../components/ViewAppDetails";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
+
   const apps = useSelector((state) => state.apps.apps);
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
@@ -23,40 +24,40 @@ const Dashboard = () => {
     isViewDetails: false,
   });
 
-  useEffect(() => {
-    const callApi = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        dispatch(setUser({ payload: response.data[0] }));
-      } catch (error) {
-        console.error("Error calling API:", error);
-      }
-    };
-    callApi();
-  }, []);
+  // useEffect(() => {
+  //   const callApi = async () => {
+  //     try {
+  //       const token = await getAccessTokenSilently();
+  //       const response = await axios.get("http://localhost:3000/user", {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       dispatch(setUser({ payload: response.data[0] }));
+  //     } catch (error) {
+  //       console.error("Error calling API:", error);
+  //     }
+  //   };
+  //   callApi();
+  // }, []);
 
-  useEffect(() => {
-    const callApi = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/appliedJobs", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response.data);
-        dispatch(getApps({ payload: response.data }));
-      } catch (error) {
-        console.error("Error calling API:", error);
-      }
-    };
-    callApi();
-  }, []);
+  // useEffect(() => {
+  //   const callApi = async () => {
+  //     try {
+  //       const token = await getAccessTokenSilently();
+  //       const response = await axios.get("http://localhost:3000/appliedJobs", {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       console.log(response.data);
+  //       dispatch(getApps({ payload: response.data }));
+  //     } catch (error) {
+  //       console.error("Error calling API:", error);
+  //     }
+  //   };
+  //   callApi();
+  // }, []);
 
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);

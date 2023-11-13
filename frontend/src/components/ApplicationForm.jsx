@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getApps } from "../slices/appsSlice";
+import { useNavigate } from "react-router-dom";
 
 const Style = styled.section`
   position: absolute;
@@ -38,6 +41,8 @@ const ApplicationForm = ({ setIsApplication }) => {
 
   const { getAccessTokenSilently } = useAuth0();
   const param = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -50,6 +55,8 @@ const ApplicationForm = ({ setIsApplication }) => {
         },
       });
       console.log(response.data);
+      dispatch(getApps({ payload: response.data }));
+      navigate(`/dashboard`);
     } catch (error) {
       console.error("Error calling API:", error);
       console.log(error.response.data);

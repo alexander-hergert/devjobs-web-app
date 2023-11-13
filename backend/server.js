@@ -183,7 +183,7 @@ app.post("/apply", async (req, res) => {
     const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
-      //test if use ralready applied
+      //test if user already applied
       const result = await client.query(
         "SELECT * FROM applications WHERE user_id = $1 AND job_id = $2",
         [user_id, Number(job_id)]
@@ -196,6 +196,18 @@ app.post("/apply", async (req, res) => {
         "INSERT INTO applications (user_id, job_id, content) VALUES ($1, $2, $3)",
         [user_id, Number(job_id), content]
       );
+      //Take the data and send back to client
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      const jobsIds = resultApps.rows.map((row) => row.job_id);
+      console.log(jobsIds);
+      const resultJobs = await client.query(
+        //find jobs with all jobsIds
+        `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
+      );
+      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
     } catch (error) {
       console.error("Error sending application:", error);
