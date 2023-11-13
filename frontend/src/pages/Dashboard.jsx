@@ -7,17 +7,17 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import axios from "axios";
 import { setUser } from "../slices/userSlice";
+import { getApps } from "../slices/appsSlice";
 import ViewAppDetails from "../components/ViewAppDetails";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
+  const apps = useSelector((state) => state.apps.apps);
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  //dispatch later
-  const [appliedData, setAppliedData] = useState({});
   const [viewDetails, setViewDetails] = useState({
     data: 0,
     isViewDetails: false,
@@ -50,7 +50,7 @@ const Dashboard = () => {
           },
         });
         console.log(response.data);
-        setAppliedData(response.data);
+        dispatch(getApps({ payload: response.data }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -70,21 +70,25 @@ const Dashboard = () => {
     setViewDetails({ data: i, isViewDetails: true });
   };
 
-  const handleCancel = async () => {
+  const handleCancel = async (i) => {
+    //get application id
+    const data = {
+      app_id: apps?.applications[i].app_id,
+    };
+    console.log(data);
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.delete(
-        "http://localhost:3000/application",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios({
+        method: "delete",
+        url: "http://localhost:3000/application",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //update apps state
+      dispatch(getApps({ payload: response.data }));
       console.log(response.data);
-      dispatch(setUser({ payload: response.data[0] }));
-      setIsEditProfile(false);
     } catch (error) {
       console.error("Error calling API:", error);
     }
@@ -112,7 +116,7 @@ const Dashboard = () => {
           <ViewAppDetails
             viewDetails={viewDetails}
             setViewDetails={setViewDetails}
-            appliedData={appliedData}
+            apps={apps}
           />
         )}
         <main>
@@ -143,14 +147,14 @@ const Dashboard = () => {
                 <p>Cancel Job</p>
                 {user.role === "company" && <p>Edit Job</p>}
               </li>
-              {appliedData?.appliedJobs?.map((job, i) => {
+              {apps?.appliedJobs?.map((job, i) => {
                 return (
                   <li className="grid gap-2 grid-cols-7 my-2" key={job.job_id}>
                     <h3>{job.position}</h3>
                     <p>{job.company}</p>
                     <p>{job.location}</p>
                     <p>{job.status ? "open" : ""}</p>
-                    <p>{appliedData?.applications[i].app_status}</p>
+                    <p>{apps?.applications[i].app_status}</p>
                     <button
                       className="btn"
                       onClick={() => handleViewDetails(i)}
@@ -162,7 +166,7 @@ const Dashboard = () => {
                         Edit Job
                       </button>
                     )} */}
-                    <button className="btn" onClick={handleCancel}>
+                    <button className="btn" onClick={() => handleCancel(i)}>
                       Cancel App
                     </button>
                   </li>

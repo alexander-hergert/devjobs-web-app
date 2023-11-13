@@ -234,9 +234,37 @@ app.put("/user", async (req, res) => {
 });
 
 app.delete("/application", async (req, res) => {
-
+  console.log(req.body);
+  const { app_id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    console.log(user_id, app_id);
+    try {
+      const client = await pool.connect();
+      await client.query(
+        "DELETE FROM applications WHERE user_id = $1 AND app_id = $2",
+        [user_id, app_id]
+      );
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      const jobsIds = resultApps.rows.map((row) => row.job_id);
+      const resultJobs = await client.query(
+        //find jobs with all jobsIds
+        `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
+      );
+      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
+      client.release();
+    } catch (error) {
+      console.error("Error deleting application:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
 });
-
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);

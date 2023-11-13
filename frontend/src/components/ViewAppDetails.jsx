@@ -15,8 +15,8 @@ const Style = styled.section`
   }
 `;
 
-const ViewAppDetails = ({ viewDetails, setViewDetails, appliedData }) => {
-  const { applications, appliedJobs } = appliedData;
+const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
+  const { applications, appliedJobs } = apps;
   const { data, isViewDetails } = viewDetails;
   return (
     <Style>

@@ -13,25 +13,11 @@ const jobsSlice = createSlice({
     getSingleJob: (state, action) => {
       state.jobs = action.payload.payload;
     },
-    updateTodo: (state, action) => {
-      state.todos.forEach((todo) => {
-        if (todo.id === action.payload.id) {
-          todo.text = action.payload.text;
-        }
-      });
-    },
-    clearTodos: (state, action) => {
-      state.todos = [];
-    },
-    getTodos: (state, action) => {
-      state = action.payload;
-      return state;
-    },
     //Async operations
   },
 });
 
-export const { getJobs, getSingleJob, updateTodo, clearTodos, getTodos } =
+export const { getJobs, getSingleJob } =
   jobsSlice.actions;
 
 export default jobsSlice;

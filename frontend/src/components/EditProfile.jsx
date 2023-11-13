@@ -35,10 +35,11 @@ const EditProfile = ({ setIsEditProfile, user }) => {
     console.log(data);
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.put("http://localhost:3000/user", data, {
+      const response = await axios.delete("http://localhost:3000/application", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        data: data,
       });
       console.log(response.data);
       dispatch(setUser({ payload: response.data[0] }));
