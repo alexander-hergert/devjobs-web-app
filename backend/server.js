@@ -12,11 +12,6 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/test", async (req, res) => {
-  const userInfo = await authorize(req);
-  res.json(userInfo);
-});
-
 // Configure the PostgreSQL connection
 const pool = new Pool({
   user: "alexanderhergert",

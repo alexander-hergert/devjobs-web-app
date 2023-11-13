@@ -31,23 +31,22 @@ const EditProfile = ({ setIsEditProfile, user }) => {
 
   const dispatch = useDispatch();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      const token = await getAccessTokenSilently();
-      const response = await axios.delete("http://localhost:3000/application", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: data,
-      });
-      console.log(response.data);
-      dispatch(setUser({ payload: response.data[0] }));
-      setIsEditProfile(false);
-    } catch (error) {
-      console.error("Error calling API:", error);
-    }
-  };
+ const onSubmit = async (data) => {
+   console.log(data);
+   try {
+     const token = await getAccessTokenSilently();
+     const response = await axios.put("http://localhost:3000/user", data, {
+       headers: {
+         Authorization: `Bearer ${token}`,
+       },
+     });
+     console.log(response.data);
+     dispatch(setUser({ payload: response.data[0] }));
+     setIsEditProfile(false);
+   } catch (error) {
+     console.error("Error calling API:", error);
+   }
+ };
 
   return (
     <Style>
