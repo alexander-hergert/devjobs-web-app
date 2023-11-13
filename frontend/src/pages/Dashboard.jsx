@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import axios from "axios";
 import { setUser } from "../slices/userSlice";
+import ViewAppDetails from "../components/ViewAppDetails";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -17,6 +18,10 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   //dispatch later
   const [appliedData, setAppliedData] = useState({});
+  const [viewDetails, setViewDetails] = useState({
+    data: 0,
+    isViewDetails: false,
+  });
 
   useEffect(() => {
     const callApi = async () => {
@@ -61,6 +66,30 @@ const Dashboard = () => {
     setIsEditJob(!isEditJob);
   };
 
+  const handleViewDetails = (i) => {
+    setViewDetails({ data: i, isViewDetails: true });
+  };
+
+  const handleCancel = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.delete(
+        "http://localhost:3000/application",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      dispatch(setUser({ payload: response.data[0] }));
+      setIsEditProfile(false);
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
+
   //Route Protection
   useEffect(() => {
     if (!user && !isLoading && !isAuthenticated) {
@@ -79,6 +108,13 @@ const Dashboard = () => {
           <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
         )}
         {isEditJob && <EditJob setIsEditJob={setIsEditJob} />}
+        {viewDetails.isViewDetails && (
+          <ViewAppDetails
+            viewDetails={viewDetails}
+            setViewDetails={setViewDetails}
+            appliedData={appliedData}
+          />
+        )}
         <main>
           <section className="flex justify-around items-center mt-10">
             <img
@@ -103,10 +139,9 @@ const Dashboard = () => {
                 <p>Location</p>
                 <p>Job Status</p>
                 <p>App Status</p>
-                <button className="btn">View Details</button>
-                <button onClick={handleEditJob} className="btn">
-                  Edit Job
-                </button>
+                <p>Job Details</p>
+                <p>Cancel Job</p>
+                {user.role === "company" && <p>Edit Job</p>}
               </li>
               {appliedData?.appliedJobs?.map((job, i) => {
                 return (
@@ -116,9 +151,19 @@ const Dashboard = () => {
                     <p>{job.location}</p>
                     <p>{job.status ? "open" : ""}</p>
                     <p>{appliedData?.applications[i].app_status}</p>
-                    <button className="btn">View Details</button>
-                    <button onClick={handleEditJob} className="btn">
-                      Edit Job
+                    <button
+                      className="btn"
+                      onClick={() => handleViewDetails(i)}
+                    >
+                      View Details
+                    </button>
+                    {/* {user.role === "company" && (
+                      <button onClick={handleEditJob} className="btn">
+                        Edit Job
+                      </button>
+                    )} */}
+                    <button className="btn" onClick={handleCancel}>
+                      Cancel App
                     </button>
                   </li>
                 );

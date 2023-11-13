@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
