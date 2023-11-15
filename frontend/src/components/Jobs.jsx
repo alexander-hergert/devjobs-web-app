@@ -39,12 +39,14 @@ const Jobs = () => {
 
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[25px] w-[1100px]">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] gap-y-[60px] w-[1100px] mt-[60px]">
         {jobs?.map((job) => (
           <Job key={job.job_id} job={job} />
         ))}
       </section>
-      <button className="btn m-auto block">Load More</button>
+      <button className="btn m-auto my-12 block w-[121px] capitalize text-white bg-[#5762e0] hover:bg-info">
+        Load More
+      </button>
     </>
   );
 };

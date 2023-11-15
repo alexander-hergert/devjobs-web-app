@@ -21,22 +21,22 @@ const Job = ({ job }) => {
   return (
     <Link to={`/${job_id}`}>
       <div
-        className={`min-w-[350px] h-[228px] border bg-neutral ${
+        className={`min-w-[350px] h-[228px] bg-neutral rounded-lg pl-8 shadow ${
           isApplied ? "border-black" : ""
         }`}
       >
         <div
           style={{ backgroundColor: logo_background }}
-          className="w-[2rem] h-[2rem] grid place-items-center rounded m-4"
+          className="w-[50px] h-[50px] grid place-items-center rounded-2xl relative bottom-[25px]"
         >
           <img src={logo} alt={company} />
         </div>
-        <p>
+        <p className="text-slate-500">
           {timeSince(new Date(posted_at))} • {contract}
         </p>
-        <h2>{position}</h2>
-        <p>{company}</p>
-        <p>{location}</p>
+        <h2 className="font-bold text-primary text-xl my-2">{position}</h2>
+        <p className="text-slate-500">{company}</p>
+        <p className="mt-8 text-[#5762e0] font-bold">{location}</p>
       </div>
     </Link>
   );
