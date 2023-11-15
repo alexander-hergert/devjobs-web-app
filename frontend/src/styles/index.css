@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -11,23 +11,30 @@
   }
 }
 
-:root {
-  --red: red;
-}
-
-/* Example class */
-.red {
-  color: var(--red);
-}
-
 * {
   box-sizing: border-box;
 }
 
 body {
   min-height: 100vh;
-  font-family: "Rubik", sans-serif;
-  font-size: 18px;
+  font-family: 'Kumbh Sans', sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 14px;
 }
 
 .attribution {

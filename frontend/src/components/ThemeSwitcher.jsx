@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "../slices/themeSlice";
 
 const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState("light");
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme);
 
   const handleClick = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+     dispatch(setTheme({ payload: theme }));
   };
 
   useEffect(() => {
@@ -12,10 +15,18 @@ const ThemeSwitcher = () => {
   }, [theme]);
 
   return (
-    <div className="flex items-center gap-2">
-      <input type="image" src="../assets/desktop/icon-sun.svg" alt="" />
+    <div className="flex items-center gap-2 ">
+      <input
+        type="image"
+        src="../assets/desktop/icon-sun.svg"
+        alt="light-theme-icon-sun"
+      />
       <input type="checkbox" className="toggle" onChange={handleClick} />
-      <input type="image" src="../assets/desktop/icon-moon.svg" alt="" />
+      <input
+        type="image"
+        src="../assets/desktop/icon-moon.svg"
+        alt="dark-theme-icon-moon"
+      />
     </div>
   );
 };

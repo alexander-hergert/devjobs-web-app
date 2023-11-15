@@ -45,9 +45,9 @@ const Menubar = () => {
 
   return (
     <StyledMenubar>
-      <div className="w-[90vw] flex justify-between items-center">
+      <div className="w-[1100px] flex justify-between items-center">
         <Link to="/">
-          <img src="../assets/desktop/logo.svg" alt="logo" />
+          <img src="../assets/desktop/logo.svg" alt="logo-devjobs" />
         </Link>
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-4">

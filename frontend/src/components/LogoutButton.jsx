@@ -6,7 +6,7 @@ const LogoutButton = () => {
 
   return (
     <button
-      className="border p-2 bg-slate-500 rounded-xl"
+      className="border p-2 bg-white text-slate-900  rounded-xl"
       onClick={() => {
         logout({ logoutParams: { returnTo: window.location.origin } });
         localStorage.setItem("user", JSON.stringify(false));

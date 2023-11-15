@@ -10,14 +10,18 @@ export default {
           neutral: "#ffffff", //element
           primary: "#141516", //text
           secondary: "#b7b7b7", //input
-          accent: "#ffffff", //borders
+          accent: "#5964e0",
+          info: "#939bf4",
+          warning: "#e2e6ea", //border
         },
         dark: {
           "base-100": "#121721", //background
           neutral: "#19202d", //element
           primary: "#ffffff", //text
           secondary: "#ffffff", //input
-          accent: "#000000", //borders
+          accent: "#5964e0",
+          info: "#939bf4",
+          warning: "#2a3342",
         },
       },
     ],

@@ -52,7 +52,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <main className="w-[90vw] m-auto">
+    <main className="w-[1100px] m-auto">
       <Filter />
       <Jobs />
     </main>
