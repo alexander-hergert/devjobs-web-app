@@ -44,7 +44,7 @@ const Jobs = () => {
           <Job key={job.job_id} job={job} />
         ))}
       </section>
-      <button className="btn m-auto my-12 block w-[121px] capitalize text-white bg-[#5762e0] hover:bg-info">
+      <button className="btn m-auto border-none my-12 block w-[121px] capitalize text-white bg-[#5762e0] hover:bg-info">
         Load More
       </button>
     </>

@@ -110,6 +110,7 @@ const Filter = () => {
               $backgroundColor={theme === "light" ? "#f4f6f8" : "#313643"}
               className="w-[24px] h-[24px] "
               type="checkbox"
+              id="contract"
               {...register("contract")}
               defaultChecked={query.get("contract") === "true"}
             />
