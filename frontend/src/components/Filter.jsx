@@ -32,6 +32,16 @@ const CheckBox = styled.input`
   }
 `;
 
+const Image = styled.input`
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
+    hue-rotate(50deg) brightness(107%) contrast(101%);
+`;
+
+const ImageSearch = styled.img`
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
+    hue-rotate(50deg) brightness(107%) contrast(101%);
+`;
+
 const Filter = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
@@ -64,21 +74,21 @@ const Filter = () => {
   };
 
   return (
-    <section className="flex w-[1100] h-[80px] relative bottom-[40px]">
+    <section className="flex max-sm:w-[327px] md:w-[690px] lg:w-[1100] h-[80px] relative bottom-[40px]">
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
-        className="flex justify-center items-center bg-neutral rounded-xl"
+        className="shadow flex justify-center items-center bg-neutral rounded-lg"
       >
-        <div className="flex items-center w-[463px] h-[80px] rounded-l-xl">
-          <div className="pl-[32px] flex items-center w-[312px] h-[24px] gap-[16px]">
+        <div className="flex items-center max-sm:hidden md:w-[222px] lg:w-[463px] h-[80px] rounded-l-xl">
+          <div className="md:pl-[23px] lg:pl-[32px] flex items-center md:w-[147px] lg:w-[312px] h-[24px] gap-[16px]">
             <img
               className="w-[24px] h-[24px] self-center"
               src="../assets/desktop/icon-search.svg"
               alt="search icon"
             />
             <input
-              className="bg-neutral outline-none w-[271px] h-[16px]"
+              className="bg-neutral outline-none md:w-[105px] lg:w-[271px] h-[16px] overflow-ellipsis"
               aria-label="search field"
               type="text"
               placeholder="Filter by title, companies, expertise..."
@@ -87,15 +97,15 @@ const Filter = () => {
             />
           </div>
         </div>
-        <div className="flex items-center w-[301px] border-x border-warning h-[80px]">
-          <div className="flex items-center pl-[24px] w-[169px] h-[24px] gap-[16px]">
+        <div className="flex items-center max-sm:hidden md:w-[215px] lg:w-[301px] border-x border-warning h-[80px]">
+          <div className="flex items-center pl-[24px] md:w-[169px] h-[24px] gap-[16px]">
             <img
               className="w-[17px] h-[24px] self-center"
               src="../assets/desktop/icon-location.svg"
               alt="location icon"
             />
             <input
-              className="bg-neutral outline-none w-[135px] h-[16px]"
+              className="bg-neutral outline-none md:w-[135px] h-[16px]"
               aria-label="location filter"
               type="text"
               placeholder="Filter by location..."
@@ -104,8 +114,8 @@ const Filter = () => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-between w-[336px] h-[80px] rounded-r-xl">
-          <div className="flex items-center pl-[24px] w-[190px] h-[24px] gap-[16px]">
+        <div className="flex items-center justify-between max-sm:hidden md:w-[253px] lg:w-[336px] h-[80px] rounded-r-xl">
+          <div className="flex items-center pl-[24px] md:w-[130px] lg:w-[190px] h-[24px] gap-[16px]">
             <CheckBox
               $backgroundColor={theme === "light" ? "#f4f6f8" : "#313643"}
               className="w-[24px] h-[24px] "
@@ -118,12 +128,56 @@ const Filter = () => {
               className="font-bold w-[120px] h-[24px] text-primary"
               htmlFor="contract"
             >
-              Full Time Only
+              Full Time
+              <span className="hidden lg:inline-block">&nbsp; Only</span>
             </label>
           </div>
-          <button className="text-lg w-[123px] h-[48px] btn duration-0 capitalize mr-4 text-white bg-accent hover:bg-info border-none">
+          <button
+            className="md:w-[80px] lg:w-[123px] h-[48px] btn duration-0 capitalize mr-4
+           text-white bg-accent hover:bg-info border-none rounded-lg"
+          >
             Search
           </button>
+        </div>
+        {/* mobile view */}
+        <div className="flex items-center md:hidden w-[327px] h-[80px] rounded-l-xl">
+          <div className="pl-4 flex justify-between items-center h-[24px] gap-[16px] w-full">
+            <input
+              className="bg-neutral outline-none w-[105px] h-[16px] overflow-ellipsis"
+              aria-label="search field"
+              type="text"
+              placeholder="Filter by title, companies, expertise..."
+              defaultValue={query.get("searchTerm" || watch("searchTerm"))}
+              {...register("searchTerm")}
+            />
+            <div className="flex items-center gap-[16px]">
+              {theme === "light" ? (
+                <input
+                  type="image"
+                  className="w-[24px] h-[24px] self-center cursor-pointer"
+                  src="../assets/mobile/icon-filter.svg"
+                  alt="filter icon"
+                />
+              ) : (
+                <Image
+                  type="image"
+                  className="w-[24px] h-[24px] self-center cursor-pointer"
+                  src="../assets/mobile/icon-filter.svg"
+                  alt="filter icon"
+                />
+              )}
+              <button
+                className="w-[48px] h-[48px] btn duration-0 mr-4
+            bg-accent hover:bg-info border-none rounded-lg p-0"
+              >
+                <ImageSearch
+                  className="w-[20px]"
+                  src="../assets/desktop/icon-search.svg"
+                  alt="search icon"
+                />
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </section>

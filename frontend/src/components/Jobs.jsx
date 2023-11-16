@@ -39,12 +39,13 @@ const Jobs = () => {
 
   return (
     <>
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[25px] gap-y-[60px] w-[1100px] mt-[60px]">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-x-[10px]
+       lg:gap-x-[25px] gap-y-[60px] md:w-[690px] lg:w-[1100px] md:mt-[30px] lg:mt-[66px]">
         {jobs?.map((job) => (
           <Job key={job.job_id} job={job} />
         ))}
       </section>
-      <button className="btn m-auto border-none my-12 block w-[121px] capitalize text-white bg-[#5762e0] hover:bg-info">
+      <button className="btn m-auto border-none my-12 block max-sm:w-[141px] md:w-[121px] capitalize text-white bg-[#5762e0] hover:bg-info">
         Load More
       </button>
     </>

@@ -52,7 +52,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <main className="w-[1100px] m-auto">
+    <main className="max-sm:w-[327px] md:w-[690px] lg:w-[1100px] m-auto">
       <Filter />
       <Jobs />
     </main>
