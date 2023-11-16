@@ -21,7 +21,7 @@ const Job = ({ job }) => {
   return (
     <Link to={`/${job_id}`}>
       <div
-        className={`lg:w-[350px] md:w-[339px] h-[228px] bg-neutral rounded-lg pl-8 shadow ${
+        className={`xl:w-[350px] md:w-[339px] h-[228px] bg-neutral rounded-xl pl-8 shadow ${
           isApplied ? "border-black" : ""
         }`}
       >

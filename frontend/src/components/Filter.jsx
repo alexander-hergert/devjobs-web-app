@@ -42,7 +42,7 @@ const ImageSearch = styled.img`
     hue-rotate(50deg) brightness(107%) contrast(101%);
 `;
 
-const Filter = () => {
+const Filter = ({ handleToggleFilter }) => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
 
@@ -74,21 +74,21 @@ const Filter = () => {
   };
 
   return (
-    <section className="flex max-sm:w-[327px] md:w-[690px] lg:w-[1100] h-[80px] relative bottom-[40px]">
+    <section className="flex max-md:w-[327px] md:w-[690px] xl:w-[1100] h-[80px] relative bottom-[40px]">
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
         className="shadow flex justify-center items-center bg-neutral rounded-lg"
       >
-        <div className="flex items-center max-sm:hidden md:w-[222px] lg:w-[463px] h-[80px] rounded-l-xl">
-          <div className="md:pl-[23px] lg:pl-[32px] flex items-center md:w-[147px] lg:w-[312px] h-[24px] gap-[16px]">
+        <div className="flex items-center max-md:hidden md:w-[222px] xl:w-[463px] h-[80px] rounded-l-xl">
+          <div className="md:pl-[23px] xl:pl-[32px] flex items-center md:w-[147px] xl:w-[312px] h-[24px] gap-[16px]">
             <img
               className="w-[24px] h-[24px] self-center"
               src="../assets/desktop/icon-search.svg"
               alt="search icon"
             />
             <input
-              className="bg-neutral outline-none md:w-[105px] lg:w-[271px] h-[16px] overflow-ellipsis"
+              className="bg-neutral outline-none md:w-[105px] xl:w-[271px] h-[16px] overflow-ellipsis"
               aria-label="search field"
               type="text"
               placeholder="Filter by title, companies, expertise..."
@@ -97,7 +97,7 @@ const Filter = () => {
             />
           </div>
         </div>
-        <div className="flex items-center max-sm:hidden md:w-[215px] lg:w-[301px] border-x border-warning h-[80px]">
+        <div className="flex items-center max-md:hidden md:w-[215px] xl:w-[301px] border-x border-warning h-[80px]">
           <div className="flex items-center pl-[24px] md:w-[169px] h-[24px] gap-[16px]">
             <img
               className="w-[17px] h-[24px] self-center"
@@ -114,8 +114,8 @@ const Filter = () => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-between max-sm:hidden md:w-[253px] lg:w-[336px] h-[80px] rounded-r-xl">
-          <div className="flex items-center pl-[24px] md:w-[130px] lg:w-[190px] h-[24px] gap-[16px]">
+        <div className="flex items-center justify-between max-md:hidden md:w-[253px] xl:w-[336px] h-[80px] rounded-r-xl">
+          <div className="flex items-center pl-[24px] md:w-[130px] xl:w-[190px] h-[24px] gap-[16px]">
             <CheckBox
               $backgroundColor={theme === "light" ? "#f4f6f8" : "#313643"}
               className="w-[24px] h-[24px] "
@@ -129,12 +129,12 @@ const Filter = () => {
               htmlFor="contract"
             >
               Full Time
-              <span className="hidden lg:inline-block">&nbsp; Only</span>
+              <span className="hidden xl:inline-block">&nbsp; Only</span>
             </label>
           </div>
           <button
-            className="md:w-[80px] lg:w-[123px] h-[48px] btn duration-0 capitalize mr-4
-           text-white bg-accent hover:bg-info border-none rounded-lg"
+            className="md:w-[80px] xl:w-[123px] h-[48px] btn duration-0 capitalize mr-4
+           text-white bg-accent hover:bg-info border-none rounded-xl"
           >
             Search
           </button>
@@ -147,7 +147,7 @@ const Filter = () => {
               aria-label="search field"
               type="text"
               placeholder="Filter by title, companies, expertise..."
-              defaultValue={query.get("searchTerm" || watch("searchTerm"))}
+              defaultValue={query.get("searchTerm")}
               {...register("searchTerm")}
             />
             <div className="flex items-center gap-[16px]">
@@ -157,6 +157,7 @@ const Filter = () => {
                   className="w-[24px] h-[24px] self-center cursor-pointer"
                   src="../assets/mobile/icon-filter.svg"
                   alt="filter icon"
+                  onClick={(e) => handleToggleFilter(e)}
                 />
               ) : (
                 <Image
@@ -164,11 +165,12 @@ const Filter = () => {
                   className="w-[24px] h-[24px] self-center cursor-pointer"
                   src="../assets/mobile/icon-filter.svg"
                   alt="filter icon"
+                  onClick={(e) => handleToggleFilter(e)}
                 />
               )}
               <button
                 className="w-[48px] h-[48px] btn duration-0 mr-4
-            bg-accent hover:bg-info border-none rounded-lg p-0"
+            bg-accent hover:bg-info border-none rounded-xl p-0"
               >
                 <ImageSearch
                   className="w-[20px]"

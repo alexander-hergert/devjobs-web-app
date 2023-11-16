@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "../components/Filter";
 import Jobs from "../components/Jobs";
 import axios from "axios";
@@ -6,11 +6,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
+import MobileFilter from "../components/MobileFilter";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const user = useSelector((state) => state.user.user);
+
+  const [isToggleFilter, setIsToggleFilter] = useState(false);
+
+  const handleToggleFilter = (e) => {
+    e.preventDefault();
+    setIsToggleFilter(!isToggleFilter);
+  };
+
   console.log(user);
   useEffect(() => {
     const callApi = async () => {
@@ -52,8 +61,11 @@ const HomePage = () => {
   }, []);
 
   return (
-    <main className="max-sm:w-[327px] md:w-[690px] lg:w-[1100px] m-auto">
-      <Filter />
+    <main className="max-md:w-[327px] md:w-[690px] xl:w-[1100px] m-auto">
+      {isToggleFilter && (
+        <MobileFilter handleToggleFilter={handleToggleFilter} />
+      )}
+      <Filter handleToggleFilter={handleToggleFilter} />
       <Jobs />
     </main>
   );
