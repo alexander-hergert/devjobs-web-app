@@ -24,21 +24,21 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
   return (
     <>
       {isApplication && <ApplicationForm setIsApplication={setIsApplication} />}
-      <section className="self-center flex justify-center bg-neutral w-[100vw] py-4 rounded-t-lg">
-        <div className=" flex justify-between items-center max-sm:w-[327px] md:w-[689px] lg:w-[730px]">
-          <div className="max-sm:hidden">
+      <section className="self-center flex justify-center bg-neutral w-full py-4 rounded-t-lg">
+        <div className=" flex justify-between items-center max-md:w-[327px] md:w-[689px] xl:w-[730px]">
+          <div className="max-md:hidden">
             <p className="text-primary text-xl font-bold">{job?.position}</p>
             <p className="text-slate-500 mt-2">So Digital Inc.</p>
           </div>
           {!isApplied ? (
             <button
               onClick={handleClick}
-              className="btn text-white capitalize bg-[#5964e0] max-sm:w-full"
+              className="btn text-white capitalize bg-[#5964e0] max-md:w-full"
             >
               Apply Now
             </button>
           ) : (
-            <button className="btn bg-red-600 max-sm:w-full">
+            <button className="btn bg-red-600 max-md:w-full">
               Already Applied
             </button>
           )}

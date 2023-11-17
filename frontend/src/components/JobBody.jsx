@@ -61,21 +61,21 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   return (
     <>
       {isApplication && <ApplicationForm setIsApplication={setIsApplication} />}
-      <section className="self-center max-sm:w-[327px] md:w-[689px] lg:w-[730px] px-10 bg-neutral rounded-lg py-[48px] mb-[82px]">
-        <div className="flex justify-between items-center max-sm:flex-col">
+      <section className="self-center max-md:w-[327px] md:w-[689px] xl:w-[730px] px-10 bg-neutral rounded-lg py-[48px] mb-[82px]">
+        <div className="flex justify-between items-center max-md:flex-col">
           <div className="w-full">
             <p className="text-slate-500">
               {timeSince(new Date(job?.posted_at))} • {job?.contract}
             </p>
-            <h1 className="text-primary my-2 max-sm:text-lg max-sm:font-bold">
+            <h1 className="text-primary my-2 max-md:text-lg max-md:font-bold">
               {job?.position}
             </h1>
-            <p className="text-[#5964e0] text-sm font-bold">{job?.location}</p>
+            <p className="text-[#5964e0] text-md font-bold">{job?.location}</p>
           </div>
           {!isApplied ? (
             <button
               onClick={handleClick}
-              className="btn text-white capitalize bg-[#5964e0] max-sm:w-full max-sm:mt-8"
+              className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8"
             >
               Apply Now
             </button>
@@ -84,7 +84,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
           )}
         </div>
         <p className="my-10 text-slate-400">{job?.description}</p>
-        <h2 className="my-10 text-primary max-sm:font-bold max-sm:text-lg">
+        <h2 className="my-10 text-primary max-md:font-bold max-md:text-lg">
           Requirements
         </h2>
         <p className="my-10 text-slate-400">{job?.requirements}</p>
@@ -95,7 +95,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
             </LiUl>
           ))}
         </ul>
-        <h2 className="my-10 text-primary max-sm:font-bold max-sm:text-lg">
+        <h2 className="my-10 text-primary max-md:font-bold max-md:text-lg">
           What You Will Do
         </h2>
         <p className="text-slate-400">{job?.job_role}</p>
