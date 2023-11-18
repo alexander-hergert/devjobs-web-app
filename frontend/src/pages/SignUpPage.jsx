@@ -5,11 +5,18 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/userSlice";
+import { IoMdBusiness } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { register, handleSubmit, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
   const {
     user,
     isAuthenticated,
@@ -17,6 +24,7 @@ const SignUpPage = () => {
     loginWithPopup,
     getAccessTokenSilently,
   } = useAuth0();
+
   const onSubmit = (data) => {
     console.log(data);
     loginWithPopup();
@@ -50,56 +58,94 @@ const SignUpPage = () => {
   }, [isAuthenticated]);
 
   return (
-    <>
+    <section className="p-4">
       <h1 className="text-center">
         Welcome to Webdevjobs! Please sign up to benefit from our service.
       </h1>
       <form
         action=""
-        className="flex flex-col justify-center items-center m-auto"
+        className="flex flex-col justify-center items-center m-auto bg-neutral 
+        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
-          <label htmlFor="private">Private</label>
-          <input
-            type="radio"
-            name="role"
-            id="private"
-            value="private"
-            {...register("role")}
-          />
-          <label htmlFor="company">Company</label>
-          <input
-            type="radio"
-            name="role"
-            id="company"
-            value="company"
-            {...register("role")}
-          />
+        <h2 className="text-2xl">Choose Profile Type</h2>
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-2" htmlFor="private">
+              <FaRegUser />
+              Private
+            </label>
+            <input
+              aria-label="private"
+              type="radio"
+              name="role"
+              id="private"
+              value="private"
+              {...register("role")}
+              defaultChecked
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="flex items-center gap-2" htmlFor="company">
+              <IoMdBusiness />
+              Company
+            </label>
+            <input
+              aria-label="company"
+              type="radio"
+              name="role"
+              id="company"
+              value="company"
+              {...register("role")}
+            />
+          </div>
         </div>
-        <div className="w-[30rem] flex justify-between">
-          <label htmlFor="email">Email</label>
+        <h2 className="max-md:text-center text-2xl mt-4">
+          Profile personal informations
+        </h2>
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
+          <label htmlFor="email">Email *</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="email"
             name="email"
             id="email"
             placeholder="testmail@gmail.com"
-            {...register("email")}
+            {...register("email", { required: true })}
+            aria-invalid={errors.email ? "true" : "false"}
           />
         </div>
-        <div className="w-[30rem] flex justify-between">
-          <label htmlFor="fullname">Full Name</label>
+        {errors.email?.type === "required" && (
+          <p className="text-red-500" role="alert">
+            Email is required
+          </p>
+        )}
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
+          <label htmlFor="fullname">Full Name *</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="text"
             name="fullname"
             id="fullname"
             placeholder="John Doe"
-            {...register("fullname")}
+            {...register("fullname", { required: true, minLength: 3 })}
+            aria-invalid={errors.fullname ? "true" : "false"}
           />
         </div>
-        <div className="w-[30rem] flex justify-between">
+        {errors.fullname?.type === "required" && (
+          <p className="text-red-500" role="alert">
+            Name is required
+          </p>
+        )}
+        {errors.fullname?.type === "minLength" && (
+          <p className="text-red-500" role="alert">
+            Name has to be at least 3 characters long
+          </p>
+        )}
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="address">Address</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="text"
             name="address"
             id="address"
@@ -107,19 +153,21 @@ const SignUpPage = () => {
             {...register("address")}
           />
         </div>
-        <div className="w-[30rem] flex justify-between">
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="location">location</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="text"
             name="location"
             id="location"
-            placeholder="New York"
+            placeholder="New York, USA"
             {...register("location")}
           />
         </div>
-        <div className="w-[30rem] flex justify-between">
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="skills">Skills</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="text"
             name="skills"
             id="skills"
@@ -127,9 +175,10 @@ const SignUpPage = () => {
             {...register("skills")}
           />
         </div>
-        <div className="w-[30rem] flex justify-between">
+        <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="user_website">Website</label>
           <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
             type="text"
             name="user_website"
             id="user_website"
@@ -137,11 +186,14 @@ const SignUpPage = () => {
             {...register("user_website")}
           />
         </div>
-        <button className="btn" onSubmit={handleSubmit(onSubmit)}>
+        <button
+          className="btn my-4 duration-0 capitalize text-white bg-accent"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           Sign Up
         </button>
       </form>
-    </>
+    </section>
   );
 };
 
