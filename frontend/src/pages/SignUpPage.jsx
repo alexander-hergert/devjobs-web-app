@@ -65,7 +65,7 @@ const SignUpPage = () => {
       <form
         action=""
         className="flex flex-col justify-center items-center m-auto bg-neutral 
-        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
+        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h2 className="text-2xl">Choose Profile Type</h2>
@@ -106,7 +106,7 @@ const SignUpPage = () => {
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="email">Email *</label>
           <input
-            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="email"
             name="email"
             id="email"
@@ -123,7 +123,7 @@ const SignUpPage = () => {
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="fullname">Full Name *</label>
           <input
-            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             name="fullname"
             id="fullname"
@@ -145,7 +145,7 @@ const SignUpPage = () => {
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="address">Address</label>
           <input
-            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             name="address"
             id="address"
@@ -167,7 +167,7 @@ const SignUpPage = () => {
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="skills">Skills</label>
           <input
-            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             name="skills"
             id="skills"
@@ -178,7 +178,7 @@ const SignUpPage = () => {
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="user_website">Website</label>
           <input
-            className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             name="user_website"
             id="user_website"
