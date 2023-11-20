@@ -153,7 +153,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         <input
           type="submit"
           value="Save Changes"
-          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full"
+          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
         />
       </form>
     </Style>

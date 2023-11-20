@@ -33,7 +33,7 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
           {!isApplied ? (
             <button
               onClick={handleClick}
-              className="btn text-white capitalize bg-[#5964e0] max-md:w-full"
+              className="btn text-white capitalize bg-[#5964e0] max-md:w-full hover:bg-info"
             >
               Apply Now
             </button>

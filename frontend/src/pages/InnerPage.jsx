@@ -8,6 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleJob } from "../slices/jobsSlice";
 
 const InnerPage = () => {
+  //scroll window to top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const params = useParams();
   const jobId = params.jobId;
 

@@ -75,7 +75,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
           {!isApplied ? (
             <button
               onClick={handleClick}
-              className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8"
+              className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8 hover:bg-info"
             >
               Apply Now
             </button>

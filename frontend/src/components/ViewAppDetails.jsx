@@ -82,7 +82,7 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
         </div>
         <Link
           to={`/${appliedJobs[data].job_id}`}
-          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full"
+          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
         >
           To Jobpage
         </Link>

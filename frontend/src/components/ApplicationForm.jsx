@@ -9,25 +9,34 @@ import { getApps } from "../slices/appsSlice";
 import { useNavigate } from "react-router-dom";
 
 const Style = styled.section`
-  position: absolute;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   padding-top: 5rem;
 
   input,
   textarea {
-    width: 30vw;
+    width: 100%;
+    border-radius: 5px;
   }
 
   textarea {
-    height: 50vh;
+    height: 30vh;
+    min-height: 20vh;
+    max-height: 40vh;
+    padding: 1rem;
+    border: 1px solid #ccc;
   }
 
   ul {
     margin-left: 2rem;
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-top: 2rem;
   }
 `;
 
@@ -66,7 +75,7 @@ const ApplicationForm = ({ setIsApplication }) => {
   return (
     <Style>
       <button
-        className="btn block m-auto bg-neutral"
+        className="btn block m-auto bg-neutral text-primary capitalize my-4"
         onClick={() => setIsApplication(false)}
       >
         CLOSE
@@ -75,14 +84,46 @@ const ApplicationForm = ({ setIsApplication }) => {
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
-        className="flex flex-col bg-neutral w-[50vw] m-auto p-10"
+        className="flex flex-col bg-neutral m-auto p-10 max-md:w-[327px] 
+        max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
       >
-        <h2 className="text-center">Write Application</h2>
-        <div className="flex gap-4 justify-between my-4">
-          <label htmlFor="content">Application</label>
-          <textarea type="text" id="content" {...register("content")} />
+        <h2 className="text-center font-bold">Write Application</h2>
+        <div className="flex flex-col gap-4 justify-center items-center my-4">
+          <label htmlFor="content">Application Text</label>
+          <textarea
+            className="bg-neutral text-primary"
+            type="text"
+            id="content"
+            {...register("content", {
+              required: true,
+              minLength: 50,
+              maxLength: 500,
+            })}
+            placeholder="Write your application here (min 50 and max 500 characters)"
+            aria-invalid={errors.content ? "true" : "false"}
+          />
+          {errors.content?.type === "required" && (
+            <p className="text-red-500" role="alert">
+              Text is required
+            </p>
+          )}
+          {errors.content?.type === "minLength" && (
+            <p className="text-red-500" role="alert">
+              Please add least 50 characters
+            </p>
+          )}
+          {errors.content?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              You can't type more than 500 characters
+            </p>
+          )}
         </div>
-        <input type="submit" value="Save Changes" className="self-center btn" />
+        <input
+          type="submit"
+          value="submit application"
+          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:max-w-full 
+          max-w-[10rem] self-center hover:bg-info border-none"
+        />
       </form>
     </Style>
   );
