@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 const SignUpButton = () => {
   return (
-    <Link className="border p-2 bg-neutral text-primary rounded-xl" to="/signup">
+    <Link className="p-2 text-center max-md:bg-accent bg-neutral max-md:text-white 
+    text-primary rounded-xl" to="/signup">
       Sign Up
     </Link>
   );

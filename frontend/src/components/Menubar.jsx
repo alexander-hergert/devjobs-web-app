@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "./ThemeSwitcher";
 import LoginButton from "./LoginButton";
@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/userSlice";
 import SignUpButton from "./SignUpButton";
+import { TfiMenu } from "react-icons/tfi";
+import MobileMenu from "./MobileMenu";
 
 const StyledMenubar = styled.nav`
   background-image: url("../assets/desktop/bg-pattern-header.svg");
@@ -36,6 +38,7 @@ const StyledMenubar = styled.nav`
 const Menubar = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const dispatch = useDispatch();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -43,12 +46,21 @@ const Menubar = () => {
     }
   }, [user]);
 
+  const handleMenuclick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <StyledMenubar>
+      {isMenuOpen && <MobileMenu handleMenuclick={handleMenuclick} isAuthenticated={isAuthenticated}/>}
       <div className="max-md:w-[327px] md:w-[690px] xl:w-[1100px] flex justify-between items-center">
         <Link to="/">
           <img src="../assets/desktop/logo.svg" alt="logo-devjobs" />
         </Link>
+        <TfiMenu
+          onClick={handleMenuclick}
+          className=" cursor-pointer text-white w-[2rem] h-[2rem] md:hidden"
+        />
         <div className="flex items-center gap-8">
           <div className="max-md:hidden flex items-center gap-4">
             {!isAuthenticated && <SignUpButton />}

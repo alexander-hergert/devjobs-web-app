@@ -6,7 +6,7 @@ const LoginButton = () => {
 
   return (
     <button
-      className="border p-2 bg-neutral text-primary rounded-xl"
+      className="border p-2 max-md:bg-accent bg-neutral max-md:text-white text-primary rounded-xl"
       onClick={() => loginWithRedirect()}
     >
       Log In
