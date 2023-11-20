@@ -121,13 +121,18 @@ const Dashboard = () => {
           />
         )}
         <main>
-          <section className="flex justify-around items-center mt-10">
-            <img
-              className="w-[10rem] h-[10rem] rounded-full"
-              src={user?.picture}
-              alt={user?.fullname}
-            />
-            <h1>
+          <section className="flex justify-center gap-12 items-center mt-10">
+            <div className="max-lg:flex max-md:block items-center gap-12">
+              <img
+                className="w-[10rem] h-[10rem] rounded-full"
+                src={user?.picture}
+                alt={user?.fullname}
+              />
+              <h1 className="lg:hidden">
+                <span className="font-bold text-lg">{user?.fullname}</span>
+              </h1>
+            </div>
+            <h1 className="max-lg:hidden">
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
@@ -135,29 +140,37 @@ const Dashboard = () => {
               Edit Profile
             </button>
           </section>
-          <h2 className="my-5 text-center font-bold">Jobs</h2>
-          <section className="flex justify-around items-center">
+          <h2 className="mt-5 mb-10 text-center font-bold">Applications</h2>
+          <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
             <ul>
-              <li className="grid gap-2 grid-cols-7" key={0}>
-                <h3>Position</h3>
-                <p>Company</p>
-                <p>Location</p>
-                <p>Job Status</p>
-                <p>App Status</p>
-                <p>Job Details</p>
-                <p>Cancel Job</p>
-                {user.role === "company" && <p>Edit Job</p>}
+              <li
+                className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8"
+                key={0}
+              >
+                <h3 className="font-bold max-md:text-lg">Position</h3>
+                <h3 className="font-bold max-md:text-lg">Company</h3>
+                <h3 className="font-bold max-lg:hidden">Location</h3>
+                <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                <h3 className="font-bold max-lg:hidden">App Status</h3>
+                <h3 className="font-bold max-md:text-lg">Details</h3>
+                <h3 className="font-bold max-md:text-lg">Cancel</h3>
+                {user.role === "company" && <p>Edit</p>}
               </li>
               {apps?.appliedJobs?.map((job, i) => {
                 return (
-                  <li className="grid gap-2 grid-cols-7 my-2" key={job.job_id}>
-                    <h3>{job.position}</h3>
+                  <li
+                    className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4"
+                    key={job.job_id}
+                  >
+                    <p>{job.position}</p>
                     <p>{job.company}</p>
-                    <p>{job.location}</p>
-                    <p>{job.status ? "open" : ""}</p>
-                    <p>{apps?.applications[i].app_status}</p>
+                    <p className="max-lg:hidden">{job.location}</p>
+                    <p className="max-lg:hidden">{job.status ? "open" : "closed"}</p>
+                    <p className="max-lg:hidden">
+                      {apps?.applications[i].app_status}
+                    </p>
                     <button
-                      className="btn duration-0"
+                      className="btn duration-0 capitalize min-w-[4rem]"
                       onClick={() => handleViewDetails(i)}
                     >
                       View Details
@@ -168,7 +181,7 @@ const Dashboard = () => {
                       </button>
                     )} */}
                     <button
-                      className="btn duration-0"
+                      className="btn duration-0 capitalize min-w-[4rem]"
                       onClick={() => handleCancel(i)}
                     >
                       Cancel App

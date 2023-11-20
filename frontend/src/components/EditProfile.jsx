@@ -14,6 +14,14 @@ const Style = styled.section`
   z-index: 10;
   width: 100vw;
   height: 100vh;
+
+  label,
+  p {
+    //moblie query
+    @media screen and (max-width: 767px) {
+      align-self: start;
+    }
+  }
 `;
 
 const EditProfile = ({ setIsEditProfile, user }) => {
@@ -64,9 +72,9 @@ const EditProfile = ({ setIsEditProfile, user }) => {
           <label htmlFor="email">Email *</label>
           <input
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
-            type="email"
+            type="text"
             id="email"
-            {...register("email", { required: true })}
+            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
             aria-invalid={errors.email ? "true" : "false"}
             defaultValue={email}
           />
@@ -74,6 +82,11 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         {errors.email?.type === "required" && (
           <p className="text-red-500" role="alert">
             Email is required
+          </p>
+        )}
+        {errors.email?.type === "pattern" && (
+          <p className="text-red-500" role="alert">
+            This is not an Email
           </p>
         )}
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
