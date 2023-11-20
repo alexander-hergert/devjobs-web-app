@@ -131,7 +131,7 @@ const Dashboard = () => {
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
-            <button onClick={handleEditProfile} className="btn">
+            <button onClick={handleEditProfile} className="btn duration-0">
               Edit Profile
             </button>
           </section>
@@ -157,7 +157,7 @@ const Dashboard = () => {
                     <p>{job.status ? "open" : ""}</p>
                     <p>{apps?.applications[i].app_status}</p>
                     <button
-                      className="btn"
+                      className="btn duration-0"
                       onClick={() => handleViewDetails(i)}
                     >
                       View Details
@@ -167,7 +167,10 @@ const Dashboard = () => {
                         Edit Job
                       </button>
                     )} */}
-                    <button className="btn" onClick={() => handleCancel(i)}>
+                    <button
+                      className="btn duration-0"
+                      onClick={() => handleCancel(i)}
+                    >
                       Cancel App
                     </button>
                   </li>

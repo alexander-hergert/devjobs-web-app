@@ -4,14 +4,36 @@ import { Link } from "react-router-dom";
 
 const Style = styled.section`
   position: absolute;
+  top: 0;
+  padding-top: 5rem;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
 
-  input,
-  textarea {
-    width: 30vw;
+  h2 {
+    width: 15rem;
+    text-align: left;
+    margin: 0 auto;
+  }
+
+  p {
+    width: 30rem;
+    text-align: left;
+
+    //media qeury from 768px
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 20rem;
+    }
+
+    //media query from max 768px
+    @media screen and (max-width: 767px) {
+      width: 15rem;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-top: 2rem;
   }
 `;
 
@@ -21,33 +43,41 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
   return (
     <Style>
       <button
-        className="btn block m-auto bg-neutral"
+        className="btn block m-auto bg-neutral text-primary capitalize my-4"
         onClick={() => setViewDetails({ data: null, isViewDetails: false })}
       >
         CLOSE
       </button>
-      <div className="grid grid-col-2 justify-center">
-        <div className="flex gap-8">
-          <h2 className="w-[10rem]">Job Position</h2>
-          <p className="w-[30rem]">{appliedJobs[data].position}</p>
+      <div
+        className="flex flex-col justify-center items-center m-auto bg-neutral 
+        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary py-4"
+      >
+        <div className="flex items-center gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2>Job Position</h2>
+          <p>{appliedJobs[data].position}</p>
         </div>
-        <div className="flex gap-8">
-          <h2 className="w-[10rem]">Company</h2>
-          <p className="w-[30rem]">{appliedJobs[data].company}</p>
+        <div className="flex items-center gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2>Company</h2>
+          <p>{appliedJobs[data].company}</p>
         </div>
-        <div className="flex gap-8">
-          <h2 className="w-[10rem]">Location</h2>
-          <p className="w-[30rem]">{appliedJobs[data].location}</p>
+        <div className="flex items-center gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2>Location</h2>
+          <p>{appliedJobs[data].location}</p>
         </div>
-        <div className="flex gap-8">
-          <h2 className="w-[10rem]">Job Description</h2>
-          <p className="w-[30rem]">{appliedJobs[data].description}</p>
+        <div className="flex items-start gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2>Job Description</h2>
+          <p>{appliedJobs[data].description}</p>
         </div>
-        <div className="flex gap-8">
-          <h2 className="w-[10rem]">Application Text</h2>
-          <p className="w-[30rem]">{applications[data].content}</p>
+        <div className="flex items-center gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2>Application Text</h2>
+          <p>{applications[data].content}</p>
         </div>
-        <Link to={`/${appliedJobs[data].job_id}`} className="btn">To Jobpage</Link>
+        <Link
+          to={`/${appliedJobs[data].job_id}`}
+          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full"
+        >
+          To Jobpage
+        </Link>
       </div>
     </Style>
   );

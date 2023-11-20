@@ -8,6 +8,8 @@ import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
   position: fixed;
+  top: 0;
+  padding-top: 10rem;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
   width: 100vw;
@@ -138,7 +140,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         <input
           type="submit"
           value="Save Changes"
-          className="btn my-4 duration-0 capitalize text-white bg-accent"
+          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full"
         />
       </form>
     </Style>
