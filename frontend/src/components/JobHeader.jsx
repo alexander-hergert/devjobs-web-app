@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const JobHeader = ({ job }) => {
   const theme = useSelector((state) => state.theme);
@@ -22,15 +23,27 @@ const JobHeader = ({ job }) => {
             <p className="text-slate-500">{job?.company_website}</p>
           </div>
         </div>
-        <button
-          className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
-            theme === "light"
-              ? "bg-[#eeeffc] text-[#5964e0]"
-              : "bg-[#303642] text-white"
-          }`}
-        >
-          Company Site
-        </button>
+        <div className="flex flex-col gap-4">
+          <button
+            className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
+              theme === "light"
+                ? "bg-[#eeeffc] text-[#5964e0]"
+                : "bg-[#303642] text-white"
+            }`}
+          >
+            Company Site
+          </button>
+          <Link
+            to="/"
+            className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
+              theme === "light"
+                ? "bg-[#eeeffc] text-[#5964e0]"
+                : "bg-[#303642] text-white"
+            }`}
+          >
+            Back to all Jobs
+          </Link>
+        </div>
       </div>
     </section>
   );

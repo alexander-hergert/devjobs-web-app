@@ -3,6 +3,7 @@ import jobsSlice from "./slices/jobsSlice";
 import userSlice from "./slices/userSlice";
 import appsSlice from "./slices/appsSlice";
 import themeSlice from "./slices/themeSlice";
+import paginationSlice from "./slices/paginationSlice";
 //import { apiSlice } from "./api/apiSlice";
 
 //Example store and slices
@@ -12,6 +13,7 @@ const store = configureStore({
     user: userSlice.reducer,
     apps: appsSlice.reducer,
     theme: themeSlice.reducer,
+    pagination: paginationSlice.reducer,
     //[apiSlice.reducerPath]: apiSlice.reducer,
   },
   // middleware: (getDefaultMiddleware) =>

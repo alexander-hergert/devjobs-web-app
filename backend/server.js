@@ -23,9 +23,15 @@ const pool = new Pool({
 
 // fetch all jobs for Homepage
 app.get("/", async (req, res) => {
+  const page = req.query.page || 1;
+  const pageSize = 12;
+  const limit = pageSize * page;
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM jobs");
+    const result = await client.query(
+      "SELECT * FROM jobs ORDER BY job_id LIMIT $1",
+      [limit]
+    );
     res.json(result.rows);
     client.release();
   } catch (err) {
