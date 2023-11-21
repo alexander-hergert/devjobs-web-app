@@ -31,7 +31,7 @@ const Jobs = () => {
           });
       }
     } catch (error) {}
-  }, [location.search]);
+  }, [page]);
 
   if (jobs.length === 0) {
     return (

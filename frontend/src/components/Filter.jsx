@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,6 +45,7 @@ const ImageSearch = styled.img`
 const Filter = ({ handleToggleFilter }) => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
+  const [width, setWidth] = useState(window.innerWidth);
 
   const {
     register,
@@ -58,20 +59,26 @@ const Filter = ({ handleToggleFilter }) => {
   const query = new URLSearchParams(location.search);
 
   const onSubmit = (data) => {
-    console.log("form", data);
+    console.log(data);
     try {
       axios
         .get(`http://localhost:3000/jobs`, { params: data })
         .then((response) => {
           dispatch(getJobs({ payload: response.data }));
-          console.log(response.data);
-          console.log(data);
           navigate(
             `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
           );
         });
     } catch {}
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [window.innerWidth]);
 
   return (
     <section className="flex max-md:w-[327px] md:w-[690px] xl:w-[1100] h-[80px] relative bottom-[40px]">
@@ -140,47 +147,49 @@ const Filter = ({ handleToggleFilter }) => {
           </button>
         </div>
         {/* mobile view */}
-        <div className="flex items-center md:hidden w-[327px] h-[80px] rounded-l-xl">
-          <div className="pl-4 flex justify-between items-center h-[24px] gap-[16px] w-full">
-            <input
-              className="bg-neutral outline-none w-[105px] h-[16px] overflow-ellipsis"
-              aria-label="search field"
-              type="text"
-              placeholder="Filter by title, companies, expertise..."
-              defaultValue={query.get("searchTerm")}
-              {...register("searchTerm")}
-            />
-            <div className="flex items-center gap-[16px]">
-              {theme === "light" ? (
-                <input
-                  type="image"
-                  className="w-[24px] h-[24px] self-center cursor-pointer"
-                  src="../assets/mobile/icon-filter.svg"
-                  alt="filter icon"
-                  onClick={(e) => handleToggleFilter(e)}
-                />
-              ) : (
-                <Image
-                  type="image"
-                  className="w-[24px] h-[24px] self-center cursor-pointer"
-                  src="../assets/mobile/icon-filter.svg"
-                  alt="filter icon"
-                  onClick={(e) => handleToggleFilter(e)}
-                />
-              )}
-              <button
-                className="w-[48px] h-[48px] btn duration-0 mr-4
+        {width < 768 && (
+          <div className="flex items-center md:hidden w-[327px] h-[80px] rounded-l-xl">
+            <div className="pl-4 flex justify-between items-center h-[24px] gap-[16px] w-full">
+              <input
+                className="bg-neutral outline-none w-[105px] h-[16px] overflow-ellipsis"
+                aria-label="search field"
+                type="text"
+                placeholder="Filter by title, companies, expertise..."
+                defaultValue={query.get("searchTerm")}
+                {...register("searchTerm")}
+              />
+              <div className="flex items-center gap-[16px]">
+                {theme === "light" ? (
+                  <input
+                    type="image"
+                    className="w-[24px] h-[24px] self-center cursor-pointer"
+                    src="../assets/mobile/icon-filter.svg"
+                    alt="filter icon"
+                    onClick={(e) => handleToggleFilter(e)}
+                  />
+                ) : (
+                  <Image
+                    type="image"
+                    className="w-[24px] h-[24px] self-center cursor-pointer"
+                    src="../assets/mobile/icon-filter.svg"
+                    alt="filter icon"
+                    onClick={(e) => handleToggleFilter(e)}
+                  />
+                )}
+                <button
+                  className="w-[48px] h-[48px] btn duration-0 mr-4
             bg-accent hover:bg-info border-none rounded-xl p-0"
-              >
-                <ImageSearch
-                  className="w-[20px]"
-                  src="../assets/desktop/icon-search.svg"
-                  alt="search icon"
-                />
-              </button>
+                >
+                  <ImageSearch
+                    className="w-[20px]"
+                    src="../assets/desktop/icon-search.svg"
+                    alt="search icon"
+                  />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </form>
     </section>
   );
