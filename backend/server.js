@@ -21,28 +21,12 @@ const pool = new Pool({
   port: 5432, // or your PostgreSQL port
 });
 
-// fetch all jobs for Homepage
-app.get("/", async (req, res) => {
-  const page = req.query.page || 1;
-  const pageSize = 12;
-  const limit = pageSize * page;
-  try {
-    const client = await pool.connect();
-    const result = await client.query(
-      "SELECT * FROM jobs ORDER BY job_id LIMIT $1",
-      [limit]
-    );
-    res.json(result.rows);
-    client.release();
-  } catch (err) {
-    console.error("Error executing query", err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 // fetch filtered jobs for Homepage
 app.get("/jobs", async (req, res) => {
   console.log(req.query);
+  const page = req.query.page || 1;
+  const pageSize = 12;
+  const limit = pageSize * page;
   try {
     const { searchTerm, location, contract } = req.query;
     const client = await pool.connect();
@@ -60,6 +44,14 @@ app.get("/jobs", async (req, res) => {
     if (contract === "true") {
       query += " AND contract = $3";
       queryParams.push("Full Time");
+    }
+
+    if (contract === "true") {
+      query += " ORDER BY job_id LIMIT $4";
+      queryParams.push(limit);
+    } else {
+      query += " ORDER BY job_id LIMIT $3";
+      queryParams.push(limit);
     }
 
     const result = await client.query(query, queryParams);
