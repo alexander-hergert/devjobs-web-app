@@ -21,7 +21,6 @@ const HomePage = () => {
     setIsToggleFilter(!isToggleFilter);
   };
 
-  console.log(user);
   useEffect(() => {
     const callApi = async () => {
       try {
@@ -66,7 +65,7 @@ const HomePage = () => {
   //     try {
   //       const response = await axios.get(`http://localhost:3000/?page=${page}`);
   //       console.log(response.data);
-        
+
   //     } catch (error) {
   //       console.error("Error calling API:", error);
   //     }

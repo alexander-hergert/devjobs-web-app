@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getJobs } from "../slices/jobsSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { setPage } from "../slices/paginationSlice";
 
 const CheckBox = styled.input`
   appearance: none;
@@ -57,8 +58,10 @@ const Filter = ({ handleToggleFilter }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
+  const page = useSelector((state) => state.pagination.page);
 
   const onSubmit = (data) => {
+    data.page = 1;
     console.log(data);
     try {
       axios
@@ -66,8 +69,11 @@ const Filter = ({ handleToggleFilter }) => {
         .then((response) => {
           dispatch(getJobs({ payload: response.data }));
           navigate(
-            `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
+            `/?searchTerm=${data.searchTerm}&location=${
+              data.location
+            }&contract=${data.contract}&page=${1}`
           );
+          dispatch(setPage({ payload: 1 }));
         });
     } catch {}
   };

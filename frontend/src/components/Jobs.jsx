@@ -17,21 +17,21 @@ const Jobs = () => {
   useEffect(() => {
     try {
       if (!location.search) {
-        axios.get("http://localhost:3000/").then((response) => {
+        axios.get("http://localhost:3000/jobs").then((response) => {
           dispatch(getJobs({ payload: response.data }));
           console.log(response.data);
         });
       } else {
         //Query string is present
         axios
-          .get(`http://localhost:3000/${location.search}`)
+          .get(`http://localhost:3000/jobs${location.search}`)
           .then((response) => {
             dispatch(getJobs({ payload: response.data }));
             console.log(response.data);
           });
       }
     } catch (error) {}
-  }, [page]);
+  }, [location.search]);
 
   if (jobs.length === 0) {
     return (
@@ -42,9 +42,14 @@ const Jobs = () => {
   }
 
   const handleLoadMore = () => {
-    const number = Number(location.search.slice(6)) || 1;
+    const query = new URLSearchParams(location.search);
+    const number = parseInt(query.get("page") || 1);
     dispatch(setPage({ payload: number + 1 }));
-    navigate(`/?page=${number + 1}`);
+    navigate(
+      `/?searchTerm=${query.get("searchTerm") || ""}&location=${
+        query.get("location") || ""
+      }&contract=${query.get("contract") || ""}&page=${number + 1}`
+    );
   };
 
   return (

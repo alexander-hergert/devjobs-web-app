@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { addUser } from "./user_seeds.js";
 import { addJob } from "./job_seeds.js";
 import { companies, jobs } from "./data.js";
+import { createRandomJobs } from "./randomJobs.js";
 
 dotenv.config({ path: "../../.env" });
 
@@ -115,6 +116,28 @@ const createTableJobs = async (client) => {
 const fillJobsTable = async (client) => {
   for (let i = 0; i < jobs.length; i++) {
     const job = jobs[i];
+    await addJob(
+      client,
+      job.user_id,
+      job.logo,
+      job.logo_background,
+      job.status,
+      job.company,
+      job.position,
+      job.posted_at,
+      job.contract,
+      job.location,
+      job.description,
+      job.requirements,
+      job.requirements_list,
+      job.job_role,
+      job.job_role_list,
+      job.company_website
+    );
+  }
+  const randomJobs = createRandomJobs();
+  for (let i = 0; i < randomJobs.length; i++) {
+    const job = randomJobs[i];
     await addJob(
       client,
       job.user_id,
