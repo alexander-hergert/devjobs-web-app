@@ -67,7 +67,7 @@ const Filter = ({ handleToggleFilter }) => {
       axios
         .get(`http://localhost:3000/jobs`, { params: data })
         .then((response) => {
-          dispatch(getJobs({ payload: response.data }));
+          dispatch(getJobs({ payload: response.data[0] }));
           navigate(
             `/?searchTerm=${data.searchTerm}&location=${
               data.location

@@ -31,19 +31,32 @@ app.get("/jobs", async (req, res) => {
     const { searchTerm, location, contract } = req.query;
     const client = await pool.connect();
 
+    //two queries one does fetch the limited amount depending o page and one all hits
     let query = "SELECT * FROM jobs WHERE 1 = 1";
+    let queryAll = "SELECT * FROM jobs WHERE 1 = 1";
     const queryParams = [];
+    const queryParamsAll = [];
 
     query +=
       " AND (position ILIKE '%' || $1 || '%' OR company ILIKE '%' || $1 || '%' OR description ILIKE '%' || $1 || '%' OR requirements ILIKE '%' || $1 || '%' OR job_role ILIKE '%' || $1 || '%' OR requirements_list ILIKE '%' || $1 || '%' OR job_role_list ILIKE '%' || $1 || '%')";
     queryParams.push(searchTerm || "");
 
+    queryAll +=
+      " AND (position ILIKE '%' || $1 || '%' OR company ILIKE '%' || $1 || '%' OR description ILIKE '%' || $1 || '%' OR requirements ILIKE '%' || $1 || '%' OR job_role ILIKE '%' || $1 || '%' OR requirements_list ILIKE '%' || $1 || '%' OR job_role_list ILIKE '%' || $1 || '%')";
+    queryParamsAll.push(searchTerm || "");
+
     query += " AND location ILIKE '%' || $2 || '%'";
     queryParams.push(location || "");
+
+    queryAll += " AND location ILIKE '%' || $2 || '%'";
+    queryParamsAll.push(location || "");
 
     if (contract === "true") {
       query += " AND contract = $3";
       queryParams.push("Full Time");
+
+      queryAll += " AND contract = $3";
+      queryParamsAll.push("Full Time");
     }
 
     if (contract === "true") {
@@ -55,7 +68,9 @@ app.get("/jobs", async (req, res) => {
     }
 
     const result = await client.query(query, queryParams);
-    res.json(result.rows);
+    const resultAll = await client.query(queryAll, queryParamsAll);
+    const jobs = [result.rows, resultAll.rows.length];
+    res.json(jobs);
     client.release();
   } catch (err) {
     console.error("Error executing query", err);

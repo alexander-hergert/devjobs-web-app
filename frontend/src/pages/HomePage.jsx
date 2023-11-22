@@ -7,13 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
 import MobileFilter from "../components/MobileFilter";
-import { setPage } from "../slices/paginationSlice";
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const user = useSelector((state) => state.user.user);
-  const page = useSelector((state) => state.pagination.page);
   const [isToggleFilter, setIsToggleFilter] = useState(false);
 
   const handleToggleFilter = (e) => {
@@ -59,19 +57,6 @@ const HomePage = () => {
       callApi();
     }
   }, []);
-
-  // useEffect(() => {
-  //   const callApi = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:3000/?page=${page}`);
-  //       console.log(response.data);
-
-  //     } catch (error) {
-  //       console.error("Error calling API:", error);
-  //     }
-  //   };
-  //   callApi();
-  // }, [page]);
 
   return (
     <main className="max-md:w-[327px] md:w-[690px] xl:w-[1100px] m-auto">
