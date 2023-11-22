@@ -7,6 +7,7 @@ import { getTotalJobs } from "../slices/totalJobsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setPage } from "../slices/paginationSlice";
+import JobLoader from "./JobLoader";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -56,9 +57,14 @@ const Jobs = () => {
 
   if (jobs.length === 0) {
     return (
-      <div className="flex justify-center items-center">
-        <h1>Loading...</h1>
-      </div>
+      <section
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[10px]
+       xl:gap-x-[25px] gap-y-[60px] md:w-[690px] xl:w-[1100px] md:mt-[30px] xl:mt-[66px]"
+      >
+        {[...Array(12)].map((_, i) => (
+          <JobLoader key={i} />
+        ))}
+      </section>
     );
   }
 
