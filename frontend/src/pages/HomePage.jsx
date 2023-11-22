@@ -28,6 +28,7 @@ const HomePage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log(response.data);
         dispatch(setUser({ payload: response.data[0] }));
       } catch (error) {
         console.error("Error calling API:", error);

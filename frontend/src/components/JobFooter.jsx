@@ -2,6 +2,7 @@ import React from "react";
 import ApplicationForm from "./ApplicationForm";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const JobFooter = ({ job, isApplication, setIsApplication }) => {
   const user = useSelector((state) => state.user.user);
@@ -12,15 +13,22 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
   );
 
   const handleClick = () => {
-    if (user) {
+    if (user?.role === "private") {
       setIsApplication(true);
+    } else if (user?.role === "company") {
+      toast.error("This feature is only for candidates", {
+        toastId: "applicationError",
+      });
     } else {
-      console.log("you must be logged in to apply");
+      toast.error("You must be logged in to apply", {
+        toastId: "applicationError",
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer />
       {isApplication && <ApplicationForm setIsApplication={setIsApplication} />}
       <section className="self-center flex justify-center bg-neutral w-full py-4 rounded-t-lg">
         <div className=" flex justify-between items-center max-md:w-[327px] md:w-[689px] xl:w-[730px]">

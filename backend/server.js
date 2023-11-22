@@ -112,10 +112,13 @@ app.get("/appliedJobs", async (req, res) => {
         [user_id]
       );
       const jobsIds = resultApps.rows.map((row) => row.job_id);
-      const resultJobs = await client.query(
-        //find jobs with all jobsIds
-        `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
-      );
+      const resultJobs =
+        jobsIds.length > 0
+          ? await client.query(
+              `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
+            )
+          : { rows: [] };
+
       res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
     } catch (err) {

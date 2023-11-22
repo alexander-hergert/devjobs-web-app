@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ToastContainer, toast } from "react-toastify";
 
 const LiUl = styled.li`
   display: flex;
@@ -47,17 +48,24 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   );
 
   const user = useSelector((state) => state.user.user);
-
+  
   const handleClick = () => {
-    if (user) {
+    if (user?.role === "private") {
       setIsApplication(true);
+    } else if (user?.role === "company") {
+      toast.error("This feature is only for candidates", {
+        toastId: "applicationError",
+      });
     } else {
-      console.log("you must be logged in to apply");
+      toast.error("You must be logged in to apply", {
+        toastId: "applicationError",
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer />
       {isApplication && <ApplicationForm setIsApplication={setIsApplication} />}
       <section className="self-center max-md:w-[327px] md:w-[689px] xl:w-[730px] px-10 bg-neutral rounded-lg py-[48px] mb-[82px]">
         <div className="flex justify-between items-center max-md:flex-col">
