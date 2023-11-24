@@ -8,6 +8,7 @@ import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
 import MobileFilter from "../components/MobileFilter";
 
+
 const HomePage = () => {
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -18,6 +19,8 @@ const HomePage = () => {
     e.preventDefault();
     setIsToggleFilter(!isToggleFilter);
   };
+
+
 
   useEffect(() => {
     const callApi = async () => {

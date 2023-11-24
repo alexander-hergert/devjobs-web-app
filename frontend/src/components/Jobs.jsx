@@ -49,7 +49,6 @@ const Jobs = () => {
               );
             } else {
               dispatch(setPage({ payload: number }));
-              console.log(number);
             }
           });
       }
