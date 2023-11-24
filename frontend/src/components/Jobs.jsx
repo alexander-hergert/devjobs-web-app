@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setPage } from "../slices/paginationSlice";
 import JobLoader from "./JobLoader";
+import ScrollUpButton from "./ScrollUpButton";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -100,6 +101,7 @@ const Jobs = () => {
         Load More
         <br />({page} / {Math.ceil(totalJobs / 12)})
       </button>
+      {page >= 2 && <ScrollUpButton />}
     </>
   );
 };
