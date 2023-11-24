@@ -1,20 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaPencilAlt } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 
-const SignUpButton = () => {
+const DashboardButton = () => {
   return (
     <Link
+      to="/dashboard"
       className="p-2 text-center max-md:bg-accent bg-neutral max-md:text-white 
     text-primary rounded-xl"
-      to="/signup"
     >
       <div className="flex gap-2 items-center">
-        Sign Up
-        <FaPencilAlt />
+        Dashboard
+        <CgProfile />
       </div>
     </Link>
   );
 };
 
-export default SignUpButton;
+export default DashboardButton;

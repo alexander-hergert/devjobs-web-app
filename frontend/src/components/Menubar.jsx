@@ -4,13 +4,13 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
-import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/userSlice";
 import SignUpButton from "./SignUpButton";
 import { TfiMenu } from "react-icons/tfi";
 import MobileMenu from "./MobileMenu";
+import DashboardButton from "./DashboardButton";
 
 const StyledMenubar = styled.nav`
   background-image: url("../assets/desktop/bg-pattern-header.svg");
@@ -52,7 +52,12 @@ const Menubar = () => {
 
   return (
     <StyledMenubar>
-      {isMenuOpen && <MobileMenu handleMenuclick={handleMenuclick} isAuthenticated={isAuthenticated}/>}
+      {isMenuOpen && (
+        <MobileMenu
+          handleMenuclick={handleMenuclick}
+          isAuthenticated={isAuthenticated}
+        />
+      )}
       <div className="max-md:w-[327px] md:w-[690px] xl:w-[1100px] flex justify-between items-center">
         <Link to="/">
           <img src="../assets/desktop/logo.svg" alt="logo-devjobs" />
@@ -67,12 +72,7 @@ const Menubar = () => {
             {!isAuthenticated && <LoginButton />}
             {isAuthenticated && (
               <>
-                <Link
-                  to="/dashboard"
-                  className="bg-neutral rounded cursor-pointer"
-                >
-                  <CgProfile style={{ width: "3rem", height: "3rem" }} />
-                </Link>
+                <DashboardButton />
                 <LogoutButton />
               </>
             )}

@@ -20,8 +20,6 @@ const HomePage = () => {
     setIsToggleFilter(!isToggleFilter);
   };
 
-
-
   useEffect(() => {
     const callApi = async () => {
       try {
