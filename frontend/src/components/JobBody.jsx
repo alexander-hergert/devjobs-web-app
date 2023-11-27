@@ -48,7 +48,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   );
 
   const user = useSelector((state) => state.user.user);
-  
+  console.log(user);
   const handleClick = () => {
     if (user?.role === "private") {
       setIsApplication(true);

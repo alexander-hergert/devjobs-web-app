@@ -256,6 +256,27 @@ app.put("/user", async (req, res) => {
   }
 });
 
+app.delete("/user", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      await client.query("DELETE FROM applications WHERE user_id = $1", [
+        user_id,
+      ]);
+      await client.query("DELETE FROM users WHERE user_id = $1", [user_id]);
+      res.json({ message: "User deleted" });
+      client.release();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 app.delete("/application", async (req, res) => {
   console.log(req.body);
   const { app_id } = req.body;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -9,15 +9,24 @@ import { setUser } from "../slices/userSlice";
 const Style = styled.section`
   position: fixed;
   top: 0;
-  padding-top: 10rem;
+  padding-top: 2rem;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
+
+  .danger-zone {
+    align-self: center;
+  }
+
+  @media screen and (max-width: 767px) {
+    padding-top: 0;
+    position: absolute;
+  }
 
   label,
   p {
-    //moblie query
+    //mobile query
     @media screen and (max-width: 767px) {
       align-self: start;
     }
@@ -26,7 +35,9 @@ const Style = styled.section`
 
 const EditProfile = ({ setIsEditProfile, user }) => {
   const { fullname, email, address, location, skills, user_website } = user;
-  const { getAccessTokenSilently } = useAuth0();
+  const [isDeleteProfile, setIsDeleteProfile] = useState(false);
+
+  const { getAccessTokenSilently, logout } = useAuth0();
   const {
     register,
     handleSubmit,
@@ -53,10 +64,33 @@ const EditProfile = ({ setIsEditProfile, user }) => {
     }
   };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    setIsDeleteProfile(!isDeleteProfile);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.delete("http://localhost:3000/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      dispatch(setUser({ payload: undefined }));
+      setIsEditProfile(false);
+      logout({ logoutParams: { returnTo: window.location.origin } });
+      localStorage.setItem("user", JSON.stringify(false));
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
+
   return (
     <Style>
       <button
-        className="btn block m-auto bg-neutral text-primary capitalize my-4"
+        className="btn block m-auto bg-neutral text-primary capitalize my-6"
         onClick={() => setIsEditProfile(false)}
       >
         close
@@ -153,8 +187,39 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         <input
           type="submit"
           value="Save Changes"
-          className="btn my-4 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
+          className="btn border-0 my-4 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
         />
+        <div className="border-2 p-4 mt-10 rounded-lg flex gap-8 items-center mb-2 border-red-700">
+          <p className="capitalize text-red-700 danger-zone">danger zone</p>
+          <button
+            onClick={(e) => handleClick(e)}
+            className="btn border-0 bg-red-700 capitalize text-white hover:bg-red-400"
+          >
+            {!isDeleteProfile ? "delete profile" : "don't delete profile"}
+          </button>
+        </div>
+        {isDeleteProfile && (
+          <div className="border-2 p-4 mt-5 rounded-lg flex gap-8 items-center mb-4 border-red-700">
+            <p className="capitalize text-red-700 danger-zone min-w-[10rem] max-w-[20rem]">
+              are you sure you want to delete your profile? This step can't be
+              unchanged! It will delete user and all applications.
+            </p>
+            <div className="flex max-md:flex-col gap-4">
+              <button
+                onClick={handleDelete}
+                className="btn border-0 bg-red-700 capitalize text-white hover:bg-red-400"
+              >
+                yes
+              </button>
+              <button
+                className="btn border-0 bg-red-700 capitalize text-white hover:bg-red-400"
+                onClick={() => setIsDeleteProfile(false)}
+              >
+                no
+              </button>
+            </div>
+          </div>
+        )}
       </form>
     </Style>
   );
