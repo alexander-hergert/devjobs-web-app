@@ -24,22 +24,25 @@ const Dashboard = () => {
     isViewDetails: false,
   });
 
-  // useEffect(() => {
-  //   const callApi = async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently();
-  //       const response = await axios.get("http://localhost:3000/user", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       dispatch(setUser({ payload: response.data[0] }));
-  //     } catch (error) {
-  //       console.error("Error calling API:", error);
-  //     }
-  //   };
-  //   callApi();
-  // }, []);
+  useEffect(() => {
+    const callApi = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3000/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(setUser({ payload: response.data[0] }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    };
+    if (!user?.user_id) {
+      callApi();
+    }
+  }, []);
 
   // useEffect(() => {
   //   const callApi = async () => {
@@ -165,7 +168,9 @@ const Dashboard = () => {
                     <p>{job.position}</p>
                     <p>{job.company}</p>
                     <p className="max-lg:hidden">{job.location}</p>
-                    <p className="max-lg:hidden">{job.status ? "open" : "closed"}</p>
+                    <p className="max-lg:hidden">
+                      {job.status ? "open" : "closed"}
+                    </p>
                     <p className="max-lg:hidden">
                       {apps?.applications[i].app_status}
                     </p>
