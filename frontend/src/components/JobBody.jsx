@@ -86,7 +86,9 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
               Apply Now
             </button>
           ) : (
-            <button className="btn bg-red-600">Already Applied</button>
+            <button className="btn max-md:mt-8 bg-slate-500 text-white">
+              Already Applied
+            </button>
           )}
         </div>
         <p className="my-10 text-slate-400">{job?.description}</p>

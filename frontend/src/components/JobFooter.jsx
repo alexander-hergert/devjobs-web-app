@@ -44,7 +44,7 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
               Apply Now
             </button>
           ) : (
-            <button className="btn bg-red-600 max-md:w-full">
+            <button className="btn bg-slate-500 text-white max-md:w-full">
               Already Applied
             </button>
           )}

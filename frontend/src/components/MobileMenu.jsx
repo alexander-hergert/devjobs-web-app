@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
-import { Link } from "react-router-dom";
 import SignUpButton from "./SignUpButton";
 import DashboardButton from "./DashboardButton";
 
@@ -17,6 +16,10 @@ const Overlay = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const MobileMenu = ({ handleMenuclick, isAuthenticated }) => {

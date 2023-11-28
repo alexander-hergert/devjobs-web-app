@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const JobHeader = ({ job }) => {
   const theme = useSelector((state) => state.theme);
   return (
-    <section className="self-center bg-neutral relative bottom-[40px] rounded-lg">
+    <section className="self-center bg-neutral relative bottom-[40px] rounded-lg max-md:mt-4">
       <div
         className="flex items-center justify-between max-md:flex-col max-md:w-[327px] md:w-[689px] 
       xl:w-[730px] max-md:h-[205px] md:h-[140px]"
@@ -23,7 +23,7 @@ const JobHeader = ({ job }) => {
             <p className="text-slate-500">{job?.company_website}</p>
           </div>
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="max-md:flex-row flex flex-col gap-4">
           <button
             className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
               theme === "light"
