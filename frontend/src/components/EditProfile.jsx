@@ -57,7 +57,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         },
       });
       console.log(response.data);
-      dispatch(setUser({ payload: response.data[0] }));
+      dispatch(setUser({ user: response.data[0], isLoading: false }));
       setIsEditProfile(false);
     } catch (error) {
       console.error("Error calling API:", error);

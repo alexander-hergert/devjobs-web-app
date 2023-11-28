@@ -5,7 +5,7 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../slices/userSlice";
 import SignUpButton from "./SignUpButton";
 import { TfiMenu } from "react-icons/tfi";
@@ -17,9 +17,7 @@ const StyledMenubar = styled.nav`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
   min-height: 160px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,15 +34,10 @@ const StyledMenubar = styled.nav`
 `;
 
 const Menubar = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  const dispatch = useDispatch();
+  const { isAuthenticated, isLoading } = useAuth0();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(setUser({ payload: user }));
-    }
-  }, [user]);
+  const user = useSelector((state) => state.user.user);
+  const isUserLoading = useSelector((state) => state.user.isLoading);
 
   const handleMenuclick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,12 +61,22 @@ const Menubar = () => {
         />
         <div className="flex items-center gap-8">
           <div className="max-md:hidden flex items-center gap-4">
-            {!isAuthenticated && <SignUpButton />}
-            {!isAuthenticated && <LoginButton />}
-            {isAuthenticated && (
+            {isUserLoading ? (
+              <p className="text-white">Loading...</p>
+            ) : (
               <>
-                <DashboardButton />
-                <LogoutButton />
+                {!user?.user_id && (
+                  <>
+                    <SignUpButton />
+                    <LoginButton />
+                  </>
+                )}
+                {user?.user_id && (
+                  <>
+                    <DashboardButton />
+                    <LogoutButton />
+                  </>
+                )}
               </>
             )}
           </div>

@@ -3,27 +3,32 @@ import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../slices/userSlice";
 import { IoMdBusiness } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+
   const {
-    user,
     isAuthenticated,
     isLoading,
     loginWithPopup,
     getAccessTokenSilently,
+    logout,
   } = useAuth0();
+
+  const user = useSelector((state) => state.user.user);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -31,15 +36,8 @@ const SignUpPage = () => {
   };
   const formData = watch();
 
-  //Route Protection
+  //Create User
   useEffect(() => {
-    if (user && isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, user]);
-
-  useEffect(() => {
-    console.log(formData);
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
@@ -53,17 +51,20 @@ const SignUpPage = () => {
           }
         );
         dispatch(setUser({ payload: response.data[0] }));
+        navigate("/dashboard");
       } catch (error) {
-        console.error("Error calling API:", error);
+        toast.error("Error creating user");
+        navigate("/dashboard");
       }
     };
-    if (user) {
+    if (!user?.user_id && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   return (
     <>
+      <ToastContainer />
       <section className="p-4">
         <h1 className="text-center">
           Welcome to Webdevjobs! Please sign up to benefit from our service.

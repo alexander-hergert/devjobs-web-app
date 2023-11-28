@@ -6,7 +6,6 @@ import EditJob from "../components/EditJob";
 import { useAuth0 } from "@auth0/auth0-react";
 import Loader from "../components/Loader";
 import axios from "axios";
-import { setUser } from "../slices/userSlice";
 import { getApps } from "../slices/appsSlice";
 import ViewAppDetails from "../components/ViewAppDetails";
 
@@ -23,44 +22,6 @@ const Dashboard = () => {
     data: 0,
     isViewDetails: false,
   });
-
-  useEffect(() => {
-    const callApi = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log(response.data);
-        dispatch(setUser({ payload: response.data[0] }));
-      } catch (error) {
-        console.error("Error calling API:", error);
-      }
-    };
-    if (!user?.user_id) {
-      callApi();
-    }
-  }, []);
-
-  // useEffect(() => {
-  //   const callApi = async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently();
-  //       const response = await axios.get("http://localhost:3000/appliedJobs", {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       console.log(response.data);
-  //       dispatch(getApps({ payload: response.data }));
-  //     } catch (error) {
-  //       console.error("Error calling API:", error);
-  //     }
-  //   };
-  //   callApi();
-  // }, []);
 
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);
@@ -100,10 +61,10 @@ const Dashboard = () => {
 
   //Route Protection
   useEffect(() => {
-    if (!user && !isLoading && !isAuthenticated) {
+    if (!isAuthenticated && !isLoading) {
       navigate("/");
     }
-  }, [user, isLoading, isAuthenticated]);
+  }, [isLoading, isAuthenticated]);
 
   if (isLoading) {
     return <Loader />;
