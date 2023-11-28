@@ -10,7 +10,7 @@ const LoginButton = () => {
       className="p-2 max-md:bg-accent bg-neutral max-md:text-white text-primary rounded-xl"
       onClick={() => loginWithRedirect()}
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 justify-center items-center">
         Log In
         <CiLogin />
       </div>

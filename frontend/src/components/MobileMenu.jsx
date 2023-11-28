@@ -3,9 +3,8 @@ import styled from "styled-components";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../slices/userSlice";
 import SignUpButton from "./SignUpButton";
+import DashboardButton from "./DashboardButton";
 
 const Overlay = styled.section`
   position: fixed;
@@ -36,12 +35,7 @@ const MobileMenu = ({ handleMenuclick, isAuthenticated }) => {
         )}
         {isAuthenticated && (
           <>
-            <Link
-              to="/dashboard"
-              className="cursor-pointer text-center bg-accent text-white p-2 rounded-xl"
-            >
-              Dashboard
-            </Link>
+            <DashboardButton />
             <LogoutButton />
           </>
         )}

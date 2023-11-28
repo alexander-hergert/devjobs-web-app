@@ -13,7 +13,7 @@ const LogoutButton = () => {
         localStorage.setItem("user", JSON.stringify(false));
       }}
     >
-      <div className="flex gap-2 items-center">
+      <div className="justify-center flex gap-2 items-center">
         Log Out
         <CiLogout />
       </div>

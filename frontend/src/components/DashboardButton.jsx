@@ -9,7 +9,7 @@ const DashboardButton = () => {
       className="p-2 text-center max-md:bg-accent bg-neutral max-md:text-white 
     text-primary rounded-xl"
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 justify-center items-center">
         Dashboard
         <CgProfile />
       </div>

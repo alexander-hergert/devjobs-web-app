@@ -22,7 +22,6 @@ const SignUpPage = () => {
 
   const {
     isAuthenticated,
-    isLoading,
     loginWithPopup,
     getAccessTokenSilently,
     logout,
@@ -50,11 +49,12 @@ const SignUpPage = () => {
             },
           }
         );
-        dispatch(setUser({ payload: response.data[0] }));
+        dispatch(setUser({ user: response.data[0], isLoading: false }));
         navigate("/dashboard");
       } catch (error) {
         toast.error("Error creating user");
-        navigate("/dashboard");
+        logout({ logoutParams: { returnTo: window.location.origin } });
+        localStorage.setItem("user", JSON.stringify(false));
       }
     };
     if (!user?.user_id && isAuthenticated) {

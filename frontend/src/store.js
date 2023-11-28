@@ -16,10 +16,7 @@ const store = configureStore({
     theme: themeSlice.reducer,
     pagination: paginationSlice.reducer,
     totalJobs: totalJobsSlice.reducer,
-    //[apiSlice.reducerPath]: apiSlice.reducer,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 store.subscribe(() => {

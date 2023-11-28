@@ -9,7 +9,7 @@ const SignUpButton = () => {
     text-primary rounded-xl"
       to="/signup"
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 justify-center items-center">
         Sign Up
         <FaPencilAlt />
       </div>
