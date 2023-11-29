@@ -1,5 +1,4 @@
 import axios from "axios";
-//import bcrypt from "bcrypt";
 
 export const authorize = async (req) => {
   const authHeader = req.headers["authorization"];
@@ -23,14 +22,3 @@ export const authorize = async (req) => {
     throw new Error("Unauthorized");
   }
 };
-
-// export const hashUser = (user) => {
-//   const salt = bcrypt.genSaltSync(10);
-//   const hashedUser = bcrypt.hashSync(user, salt);
-//   return hashedUser;
-// };
-
-// export const compareUserHash = (user, hashedUser) => {
-//   const isMatch = bcrypt.compareSync(user, hashedUser);
-//   return isMatch;
-// };
