@@ -8,6 +8,8 @@ import Loader from "../components/Loader";
 import axios from "axios";
 import { getApps } from "../slices/appsSlice";
 import ViewAppDetails from "../components/ViewAppDetails";
+import { FaPlus } from "react-icons/fa";
+import CreateJobs from "../components/CreateJobs";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -16,12 +18,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
+  const [isCreateJob, setIsCreateJob] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const [viewDetails, setViewDetails] = useState({
     data: 0,
     isViewDetails: false,
   });
+
+  const handleCreateJob = () => {
+    setIsCreateJob(!isCreateJob);
+  };
 
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);
@@ -77,6 +84,7 @@ const Dashboard = () => {
           <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
         )}
         {isEditJob && <EditJob setIsEditJob={setIsEditJob} />}
+        {isCreateJob && <CreateJobs setIsCreateJob={setIsCreateJob} />}
         {viewDetails.isViewDetails && (
           <ViewAppDetails
             viewDetails={viewDetails}
@@ -100,11 +108,26 @@ const Dashboard = () => {
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
-            <button onClick={handleEditProfile} className="btn duration-0">
+            <button
+              onClick={handleEditProfile}
+              className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+            >
               Edit Profile
             </button>
           </section>
-          <h2 className="mt-5 mb-10 text-center font-bold">Applications</h2>
+          {user?.role === "company" && (
+            <section className="flex justify-center gap-8 items-center mt-4">
+              <btn
+                onClick={handleCreateJob}
+                className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+              >
+                Create New Joboffer <FaPlus />
+              </btn>
+            </section>
+          )}
+          <h2 className="mt-5 mb-10 text-center font-bold">
+            {user.role === "private" ? "Applications" : "Jobs"}
+          </h2>
           <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
             <ul>
               <li
@@ -118,7 +141,6 @@ const Dashboard = () => {
                 <h3 className="font-bold max-lg:hidden">App Status</h3>
                 <h3 className="font-bold max-md:text-lg">Details</h3>
                 <h3 className="font-bold max-md:text-lg">Cancel</h3>
-                {user.role === "company" && <p>Edit</p>}
               </li>
               {apps?.appliedJobs?.map((job, i) => {
                 return (
@@ -141,11 +163,6 @@ const Dashboard = () => {
                     >
                       View Details
                     </button>
-                    {/* {user.role === "company" && (
-                      <button onClick={handleEditJob} className="btn">
-                        Edit Job
-                      </button>
-                    )} */}
                     <button
                       className="btn duration-0 capitalize min-w-[4rem]"
                       onClick={() => handleCancel(i)}
