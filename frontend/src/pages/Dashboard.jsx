@@ -13,7 +13,6 @@ import CreateJobs from "../components/CreateJobs";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
-
   const apps = useSelector((state) => state.apps.apps);
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
@@ -117,12 +116,12 @@ const Dashboard = () => {
           </section>
           {user?.role === "company" && (
             <section className="flex justify-center gap-8 items-center mt-4">
-              <btn
+              <button
                 onClick={handleCreateJob}
                 className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
               >
                 Create New Joboffer <FaPlus />
-              </btn>
+              </button>
             </section>
           )}
           <h2 className="mt-5 mb-10 text-center font-bold">
