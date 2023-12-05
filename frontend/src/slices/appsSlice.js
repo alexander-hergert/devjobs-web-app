@@ -10,7 +10,6 @@ const appsSlice = createSlice({
     getApps: (state, action) => {
       state.apps = action.payload.payload;
     },
-    //Async operations
   },
 });
 

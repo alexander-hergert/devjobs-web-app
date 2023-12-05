@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import jobsSlice from "./slices/jobsSlice";
+import companyJobsSlice from "./slices/companyJobsSlice";
 import userSlice from "./slices/userSlice";
 import appsSlice from "./slices/appsSlice";
 import themeSlice from "./slices/themeSlice";
@@ -16,6 +17,7 @@ const store = configureStore({
     theme: themeSlice.reducer,
     pagination: paginationSlice.reducer,
     totalJobs: totalJobsSlice.reducer,
+    companyJobs: companyJobsSlice.reducer,
   },
 });
 

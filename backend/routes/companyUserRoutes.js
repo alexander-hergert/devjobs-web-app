@@ -75,3 +75,25 @@ companyRouter.post("/createjob", async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+//fetch company jobs
+companyRouter.get("/getCompanyJobs", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      const result = await client.query(
+        "SELECT * FROM jobs WHERE user_id = $1",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});

@@ -14,6 +14,7 @@ import CreateJobs from "../components/CreateJobs";
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
   const apps = useSelector((state) => state.apps.apps);
+  const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
@@ -33,13 +34,15 @@ const Dashboard = () => {
     setIsEditProfile(!isEditProfile);
   };
 
-  const handleEditJob = () => {
+  const handleEditJob = (i) => {
     setIsEditJob(!isEditJob);
   };
 
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
   };
+
+  const handleViewApplications = async (i) => {};
 
   const handleCancel = async (i) => {
     //get application id
@@ -64,6 +67,10 @@ const Dashboard = () => {
       console.error("Error calling API:", error);
     }
   };
+
+  const handleCancelJob = async (i) => {};
+
+  const handleDeleteJob = async (i) => {};
 
   //Route Protection
   useEffect(() => {
@@ -127,52 +134,112 @@ const Dashboard = () => {
           <h2 className="mt-5 mb-10 text-center font-bold">
             {user.role === "private" ? "Applications" : "Jobs"}
           </h2>
-          <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-            <ul>
-              <li
-                className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8"
-                key={0}
-              >
-                <h3 className="font-bold max-md:text-lg">Position</h3>
-                <h3 className="font-bold max-md:text-lg">Company</h3>
-                <h3 className="font-bold max-lg:hidden">Location</h3>
-                <h3 className="font-bold max-lg:hidden">Job Status</h3>
-                <h3 className="font-bold max-lg:hidden">App Status</h3>
-                <h3 className="font-bold max-md:text-lg">Details</h3>
-                <h3 className="font-bold max-md:text-lg">Cancel</h3>
-              </li>
-              {apps?.appliedJobs?.map((job, i) => {
-                return (
-                  <li
-                    className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4"
-                    key={job.job_id}
-                  >
-                    <p>{job.position}</p>
-                    <p>{job.company}</p>
-                    <p className="max-lg:hidden">{job.location}</p>
-                    <p className="max-lg:hidden">
-                      {job.status ? "open" : "closed"}
-                    </p>
-                    <p className="max-lg:hidden">
-                      {apps?.applications[i].app_status}
-                    </p>
-                    <button
-                      className="btn duration-0 capitalize min-w-[4rem]"
-                      onClick={() => handleViewDetails(i)}
+          {/* Private User */}
+          {user?.role === "private" && (
+            <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+              <ul>
+                <li
+                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8"
+                  key={0}
+                >
+                  <h3 className="font-bold max-md:text-lg">Position</h3>
+                  <h3 className="font-bold max-md:text-lg">Company</h3>
+                  <h3 className="font-bold max-lg:hidden">Location</h3>
+                  <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                  <h3 className="font-bold max-lg:hidden">App Status</h3>
+                  <h3 className="font-bold max-md:text-lg">Details</h3>
+                  <h3 className="font-bold max-md:text-lg">Cancel</h3>
+                </li>
+                {apps?.appliedJobs?.map((job, i) => {
+                  return (
+                    <li
+                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4"
+                      key={job.job_id}
                     >
-                      View Details
-                    </button>
-                    <button
-                      className="btn duration-0 capitalize min-w-[4rem]"
-                      onClick={() => handleCancel(i)}
+                      <p>{job.position}</p>
+                      <p>{job.company}</p>
+                      <p className="max-lg:hidden">{job.location}</p>
+                      <p className="max-lg:hidden">
+                        {job.status ? "open" : "closed"}
+                      </p>
+                      <p className="max-lg:hidden">
+                        {apps?.applications[i].app_status}
+                      </p>
+                      <button
+                        className="btn duration-0 capitalize min-w-[4rem]"
+                        onClick={() => handleViewDetails(i)}
+                      >
+                        View Details
+                      </button>
+                      <button
+                        className="btn duration-0 capitalize min-w-[4rem]"
+                        onClick={() => handleCancel(i)}
+                      >
+                        Cancel App
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+          {/* Company User */}
+          {user?.role === "company" && (
+            <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+              <ul>
+                <li
+                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8"
+                  key={0}
+                >
+                  <h3 className="font-bold max-md:text-lg">Position</h3>
+                  <h3 className="font-bold max-lg:hidden">Location</h3>
+                  <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                  <h3 className="font-bold max-md:text-lg">Apps</h3>
+                  <h3 className="font-bold max-md:text-lg">Edit</h3>
+                  <h3 className="font-bold max-md:text-lg">Cancel</h3>
+                  <h3 className="font-bold max-md:text-lg">Delete</h3>
+                </li>
+                {companyJobs?.map((job, i) => {
+                  return (
+                    <li
+                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5"
+                      key={job.job_id}
                     >
-                      Cancel App
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
+                      <p>{job.position}</p>
+                      <p className="max-lg:hidden">{job.location}</p>
+                      <p className="max-lg:hidden">
+                        {job.status ? "open" : "closed"}
+                      </p>
+                      <button
+                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                        onClick={() => handleViewApplications(i)}
+                      >
+                        View Apps
+                      </button>
+                      <button
+                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                        onClick={() => handleEditJob(i)}
+                      >
+                        Edit Job
+                      </button>
+                      <button
+                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-info min-w-[4rem]"
+                        onClick={() => handleCancelJob(i)}
+                      >
+                        Close Job
+                      </button>
+                      <button
+                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-info min-w-[4rem]"
+                        onClick={() => handleDeleteJob(i)}
+                      >
+                        Delete Job
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
         </main>
       </>
     );

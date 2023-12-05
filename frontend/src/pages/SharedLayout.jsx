@@ -7,6 +7,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
+import { getCompanyJobs } from "../slices/companyJobsSlice";
 
 //shared code goes into jsx
 const SharedLayout = () => {
@@ -46,6 +47,29 @@ const SharedLayout = () => {
         });
         console.log(response.data);
         dispatch(getApps({ payload: response.data }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    };
+    if (!user?.user_id && isAuthenticated) {
+      callApi();
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    const callApi = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get(
+          "http://localhost:3000/getCompanyJobs",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        dispatch(getCompanyJobs({ payload: response.data }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
