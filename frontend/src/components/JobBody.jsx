@@ -97,8 +97,8 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
         </h2>
         <p className="my-10 text-slate-400">{job?.requirements}</p>
         <ul className="my-4">
-          {requirementsArray?.map((item) => (
-            <LiUl className="my-2 text-slate-400" key={item}>
+          {requirementsArray?.map((item, i) => (
+            <LiUl className="my-2 text-slate-400" key={`${item + i}`}>
               {item}
             </LiUl>
           ))}
@@ -109,7 +109,11 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
         <p className="text-slate-400">{job?.job_role}</p>
         <ul className="my-4">
           {roleArray?.map((item, i) => (
-            <LiOl $number={i + 1} className="my-2 text-slate-400" key={item}>
+            <LiOl
+              $number={i + 1}
+              className="my-2 text-slate-400"
+              key={`${item + i}`}
+            >
               {item}
             </LiOl>
           ))}

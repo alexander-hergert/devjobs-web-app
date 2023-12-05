@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Style = styled.section`
   position: absolute;
@@ -53,6 +55,7 @@ const CreateJobs = ({ setIsCreateJob }) => {
   //receive data from backend for requirementsItems and roleItems
   const [requirementsItems, setRequirementsItems] = useState([]);
   const [roleItems, setRoleItems] = useState([]);
+  const { getAccessTokenSilently } = useAuth0();
 
   const handleAddRequirementsItem = (e) => {
     e.preventDefault();
@@ -102,10 +105,28 @@ const CreateJobs = ({ setIsCreateJob }) => {
     setRoleItems(roleItems.filter((item, i) => i !== index));
   };
 
-  const onSubmit = (data) => {
-    //post data and requirementsItems and roleItems to backend
+  const onSubmit = async (data) => {
+    //send data to backend
+    //alternate the data
+    data.requirementsItems = requirementsItems.map((item) => item + "##");
+    data.roleItems = roleItems.map((item) => item + "##");
     console.log(data);
-  }; //Post request to backend
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3000/createjob",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setIsCreateJob(false);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
 
   return (
     <Style>
@@ -144,6 +165,16 @@ const CreateJobs = ({ setIsCreateJob }) => {
               Please use at least 3 characters!
             </p>
           )}
+        </div>
+        <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between my-4">
+          <label htmlFor="color">Symbol Color</label>
+          <input
+            className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
+            type="color"
+            id="color"
+            {...register("color")}
+            aria-label="color"
+          />
         </div>
         <h3>Contract Type</h3>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-center items-center my-4">
@@ -225,26 +256,26 @@ const CreateJobs = ({ setIsCreateJob }) => {
           )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          <label htmlFor="requirements-content">Requirements*</label>
+          <label htmlFor="requirementsContent">Requirements*</label>
           <textarea
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
-            id="requirements-content"
-            {...register("requirements-content", {
+            id="requirementsContent"
+            {...register("requirementsContent", {
               required: true,
               minLength: 50,
             })}
-            aria-label="requirements-content"
+            aria-label="requirementsContent"
             placeholder="e.g. 3+ years of experience as a Frontend Developer..."
           ></textarea>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          {errors["requirements-content"]?.type === "required" && (
+          {errors["requirementsContent"]?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
               Requirements is required!
             </p>
           )}
-          {errors["requirements-content"]?.type === "minLength" && (
+          {errors["requirementsContent"]?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
               Please use at least 50 characters!
             </p>
@@ -252,7 +283,7 @@ const CreateJobs = ({ setIsCreateJob }) => {
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="requirements-items">Other Requirements</label>
-          <div className="flex items-center gap-4 w-[25vw]">
+          <div className="flex items-center gap-4 w-full">
             <ul className="list-disc">
               {requirementsItems.map((item, index) => (
                 <div
@@ -304,23 +335,23 @@ const CreateJobs = ({ setIsCreateJob }) => {
           )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          <label htmlFor="role-content">Role*</label>
+          <label htmlFor="roleContent">Role*</label>
           <textarea
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
-            id="role-content"
-            {...register("role-content", { required: true, minLength: 50 })}
-            aria-label="role-content"
+            id="roleContent"
+            {...register("roleContent", { required: true, minLength: 50 })}
+            aria-label="roleContent"
             placeholder="e.g. You will be responsible for the development of our website..."
           ></textarea>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          {errors["role-content"]?.type === "required" && (
+          {errors["roleContent"]?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
               Role is required!
             </p>
           )}
-          {errors["role-content"]?.type === "minLength" && (
+          {errors["roleContent"]?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
               Please use at least 50 characters!
             </p>
@@ -328,7 +359,7 @@ const CreateJobs = ({ setIsCreateJob }) => {
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="role-items">Other Roles</label>
-          <div className="flex items-center gap-4 w-[25vw]">
+          <div className="flex items-center gap-4 w-full">
             <ul className="list-disc">
               {roleItems.map((item, index) => (
                 <div
