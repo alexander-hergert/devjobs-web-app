@@ -25,6 +25,7 @@ const Dashboard = () => {
     data: 0,
     isViewDetails: false,
   });
+  const [selectedJob, setSelectedJob] = useState(0);
 
   const handleCreateJob = () => {
     setIsCreateJob(!isCreateJob);
@@ -36,6 +37,7 @@ const Dashboard = () => {
 
   const handleEditJob = (i) => {
     setIsEditJob(!isEditJob);
+    setSelectedJob(i);
   };
 
   const handleViewDetails = (i) => {
@@ -89,7 +91,9 @@ const Dashboard = () => {
         {isEditProfile && (
           <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
         )}
-        {isEditJob && <EditJob setIsEditJob={setIsEditJob} />}
+        {isEditJob && (
+          <EditJob setIsEditJob={setIsEditJob} selectedJob={selectedJob} />
+        )}
         {isCreateJob && <CreateJobs setIsCreateJob={setIsCreateJob} />}
         {viewDetails.isViewDetails && (
           <ViewAppDetails

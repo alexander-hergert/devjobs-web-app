@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import { getCompanyJobs } from "../slices/companyJobsSlice";
 
 const Style = styled.section`
   position: absolute;
@@ -56,6 +58,7 @@ const CreateJobs = ({ setIsCreateJob }) => {
   const [requirementsItems, setRequirementsItems] = useState([]);
   const [roleItems, setRoleItems] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
 
   const handleAddRequirementsItem = (e) => {
     e.preventDefault();
@@ -122,6 +125,8 @@ const CreateJobs = ({ setIsCreateJob }) => {
         },
       });
       setIsCreateJob(false);
+      //update companyJobs state
+      dispatch(getCompanyJobs({ payload: response.data }));
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
