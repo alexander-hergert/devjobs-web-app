@@ -9,7 +9,7 @@ const Style = styled.section`
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
 
   h2 {
     width: 15rem;
@@ -43,7 +43,7 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
   return (
     <Style>
       <button
-        className="btn block m-auto bg-neutral text-primary capitalize my-4"
+        className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => setViewDetails({ data: null, isViewDetails: false })}
       >
         CLOSE

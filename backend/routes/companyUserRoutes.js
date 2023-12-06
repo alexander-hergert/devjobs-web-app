@@ -224,3 +224,32 @@ companyRouter.delete("/deletejob", async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+//fetch job applications
+companyRouter.get("/getJobApplications", async (req, res) => {
+  const { job_id } = req.query;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    try {
+      const client = await pool.connect();
+      const result = await client.query(
+        "SELECT * FROM applications WHERE job_id = $1",
+        [job_id]
+      );
+      // Get user ids from applications
+      const user_ids = result.rows.map((row) => row.user_id);
+      // Get users from user ids
+      const users = await client.query(
+        "SELECT * FROM users WHERE user_id = ANY($1)",
+        [user_ids]
+      );
+      res.status(200).json([{ apps: result.rows, users: users.rows }]);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});

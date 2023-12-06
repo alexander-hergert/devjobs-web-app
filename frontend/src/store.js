@@ -6,6 +6,7 @@ import appsSlice from "./slices/appsSlice";
 import themeSlice from "./slices/themeSlice";
 import totalJobsSlice from "./slices/totalJobsSlice";
 import paginationSlice from "./slices/paginationSlice";
+import jobAppSlice from "./slices/jobAppsSlice";
 //import { apiSlice } from "./api/apiSlice";
 
 //Example store and slices
@@ -18,6 +19,7 @@ const store = configureStore({
     pagination: paginationSlice.reducer,
     totalJobs: totalJobsSlice.reducer,
     companyJobs: companyJobsSlice.reducer,
+    jobApps: jobAppSlice.reducer,
   },
 });
 

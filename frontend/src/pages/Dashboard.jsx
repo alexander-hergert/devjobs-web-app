@@ -11,6 +11,8 @@ import ViewAppDetails from "../components/ViewAppDetails";
 import { FaPlus } from "react-icons/fa";
 import CreateJobs from "../components/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
+import ViewApplications from "../components/ViewApplications";
+import { set } from "react-hook-form";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -27,6 +29,7 @@ const Dashboard = () => {
     isViewDetails: false,
   });
   const [selectedJob, setSelectedJob] = useState(0);
+  const [viewApplications, setViewApplications] = useState(false);
 
   const handleCreateJob = () => {
     setIsCreateJob(!isCreateJob);
@@ -45,7 +48,10 @@ const Dashboard = () => {
     setViewDetails({ data: i, isViewDetails: true });
   };
 
-  const handleViewApplications = async (i) => {};
+  const handleViewApplications = async (i) => {
+    setViewApplications(!viewApplications);
+    setSelectedJob(i);
+  };
 
   const handleCancel = async (i) => {
     //get application id
@@ -147,6 +153,12 @@ const Dashboard = () => {
             apps={apps}
           />
         )}
+        {viewApplications && (
+          <ViewApplications
+            setViewApplications={setViewApplications}
+            selectedJob={selectedJob}
+          />
+        )}
         <main>
           <section className="flex justify-center gap-12 items-center mt-10">
             <div className="max-lg:flex max-md:block items-center gap-12">
@@ -188,7 +200,7 @@ const Dashboard = () => {
             <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
               <ul>
                 <li
-                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8"
+                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8 items-center"
                   key={0}
                 >
                   <h3 className="font-bold max-md:text-lg">Position</h3>
@@ -202,7 +214,7 @@ const Dashboard = () => {
                 {apps?.appliedJobs?.map((job, i) => {
                   return (
                     <li
-                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4"
+                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center"
                       key={job.job_id}
                     >
                       <p>{job.position}</p>
@@ -215,13 +227,13 @@ const Dashboard = () => {
                         {apps?.applications[i].app_status}
                       </p>
                       <button
-                        className="btn duration-0 capitalize min-w-[4rem]"
+                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                         onClick={() => handleViewDetails(i)}
                       >
                         View Details
                       </button>
                       <button
-                        className="btn duration-0 capitalize min-w-[4rem]"
+                        className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleCancel(i)}
                       >
                         Cancel App
@@ -237,7 +249,7 @@ const Dashboard = () => {
             <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
               <ul>
                 <li
-                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8"
+                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8 items-center"
                   key={0}
                 >
                   <h3 className="font-bold max-md:text-lg">Position</h3>
@@ -251,7 +263,7 @@ const Dashboard = () => {
                 {companyJobs?.map((job, i) => {
                   return (
                     <li
-                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5"
+                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center"
                       key={job.job_id}
                     >
                       <p>{job.position}</p>
