@@ -169,3 +169,58 @@ companyRouter.put("/editjob", async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+//cancel job
+companyRouter.put("/canceljob", async (req, res) => {
+  const { job_id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      await client.query("UPDATE jobs SET status = false WHERE job_id = $1", [
+        job_id,
+      ]);
+      const result = await client.query(
+        "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error cancelling job:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+//deletejobs
+companyRouter.delete("/deletejob", async (req, res) => {
+  const { job_id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //delete application related to job first
+      await client.query("DELETE FROM applications WHERE job_id = $1", [
+        job_id,
+      ]);
+      //delete job
+      await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
+      const result = await client.query(
+        "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error deleting job:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});

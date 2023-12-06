@@ -10,6 +10,7 @@ import { getApps } from "../slices/appsSlice";
 import ViewAppDetails from "../components/ViewAppDetails";
 import { FaPlus } from "react-icons/fa";
 import CreateJobs from "../components/CreateJobs";
+import { getCompanyJobs } from "../slices/companyJobsSlice";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -70,9 +71,53 @@ const Dashboard = () => {
     }
   };
 
-  const handleCancelJob = async (i) => {};
+  const handleCancelJob = async (i) => {
+    //get job id
+    const data = {
+      job_id: companyJobs[i].job_id,
+    };
+    console.log(data);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios({
+        method: "put",
+        url: "http://localhost:3000/canceljob",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //update companyJobs state
+      dispatch(getCompanyJobs({ payload: response.data }));
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
 
-  const handleDeleteJob = async (i) => {};
+  const handleDeleteJob = async (i) => {
+    //get job id
+    const data = {
+      job_id: companyJobs[i].job_id,
+    };
+    console.log(data);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios({
+        method: "delete",
+        url: "http://localhost:3000/deletejob",
+        data: data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      //update companyJobs state
+      dispatch(getCompanyJobs({ payload: response.data }));
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error calling API:", error);
+    }
+  };
 
   //Route Protection
   useEffect(() => {
@@ -227,13 +272,13 @@ const Dashboard = () => {
                         Edit Job
                       </button>
                       <button
-                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-info min-w-[4rem]"
+                        className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleCancelJob(i)}
                       >
                         Close Job
                       </button>
                       <button
-                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-info min-w-[4rem]"
+                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleDeleteJob(i)}
                       >
                         Delete Job
