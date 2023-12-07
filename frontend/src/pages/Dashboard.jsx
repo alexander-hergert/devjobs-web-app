@@ -12,7 +12,6 @@ import { FaPlus } from "react-icons/fa";
 import CreateJobs from "../components/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import ViewApplications from "../components/ViewApplications";
-import { set } from "react-hook-form";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -214,16 +213,58 @@ const Dashboard = () => {
                 {apps?.appliedJobs?.map((job, i) => {
                   return (
                     <li
-                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center"
+                      className={`grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center p-2 rounded ${
+                        apps?.applications[i].app_status === "Accepted"
+                          ? "bg-green-200"
+                          : apps?.applications[i].app_status === "Denied"
+                          ? "bg-red-200"
+                          : "bg-neutral"
+                      }`}
                       key={job.job_id}
                     >
-                      <p>{job.position}</p>
-                      <p>{job.company}</p>
-                      <p className="max-lg:hidden">{job.location}</p>
-                      <p className="max-lg:hidden">
+                      <p
+                        className={
+                          apps?.applications[i].app_status === "Pending"
+                            ? "text-primary"
+                            : "text-black"
+                        }
+                      >
+                        {job.position}
+                      </p>
+                      <p
+                        className={
+                          apps?.applications[i].app_status === "Pending"
+                            ? "text-primary"
+                            : "text-black"
+                        }
+                      >
+                        {job.company}
+                      </p>
+                      <p
+                        className={
+                          apps?.applications[i].app_status === "Pending"
+                            ? "text-primary max-lg:hidden"
+                            : "text-black max-lg:hidden"
+                        }
+                      >
+                        {job.location}
+                      </p>
+                      <p
+                        className={
+                          apps?.applications[i].app_status === "Pending"
+                            ? "text-primary max-lg:hidden"
+                            : "text-black max-lg:hidden"
+                        }
+                      >
                         {job.status ? "open" : "closed"}
                       </p>
-                      <p className="max-lg:hidden">
+                      <p
+                        className={
+                          apps?.applications[i].app_status === "Pending"
+                            ? "text-primary max-lg:hidden"
+                            : "text-black max-lg:hidden"
+                        }
+                      >
                         {apps?.applications[i].app_status}
                       </p>
                       <button

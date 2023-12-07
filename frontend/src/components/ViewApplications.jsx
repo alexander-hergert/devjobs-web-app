@@ -52,6 +52,31 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
     setEnlargedApp(i);
   };
 
+  const handleAccept = async (i, status) => {
+    const data = {
+      job_id: companyJobs[selectedJob]?.job_id,
+      user_id: companyApps[i]?.users[i]?.user_id,
+      status: status,
+    };
+    console.log(data);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.put(
+        `http://localhost:3000/updateJobApplication`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      dispatch(getCompanyApps({ payload: response.data }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     //on load fetch da of applicants
     const fetchApplicants = async () => {
@@ -108,6 +133,15 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   <h3 className=" max-md:self-start">
                     {app.users[i]?.fullname}
                   </h3>
+                  <h3
+                    className={
+                      app.apps[i]?.app_status === "Accepted"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }
+                  >
+                    {app.apps[i]?.app_status}
+                  </h3>
                 </div>
                 <div className="flex flex-col gap-2">
                   <h4>{app.users[i]?.email}</h4>
@@ -136,10 +170,16 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   <button className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]">
                     <TfiWrite />
                   </button>
-                  <button className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]">
+                  <button
+                    onClick={() => handleAccept(i, "Accepted")}
+                    className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                  >
                     ACCEPT
                   </button>
-                  <button className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]">
+                  <button
+                    onClick={() => handleAccept(i, "Denied")}
+                    className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
+                  >
                     DENY
                   </button>
                 </div>
