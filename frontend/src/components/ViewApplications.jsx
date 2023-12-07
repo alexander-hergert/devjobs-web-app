@@ -87,21 +87,29 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
       </button>
       <div
         className="grid grid-cols-4 justify-center justify-items-center items-center m-auto bg-neutral 
-        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary pt-4 border-b-4 border-accent"
+        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary p-4 border-b-4 border-accent"
       >
+        <div className="col-span-4">
+          <h2 className="pl-12 text-2xl font-bold">Applications</h2>
+        </div>
         {companyApps[0]?.users[0]?.fullname && (
-          <ul className="col-span-4 grid grid-cols-4 gap-4">
+          <ul className="col-span-4 mt-6 px-4">
             {companyApps?.map((app, i) => (
-              <div className="col-span-4 grid grid-cols-4 gap-4" key={i}>
-                <li className="flex flex-col items-center gap-2">
+              <li
+                className="col-span-4 grid xl:grid-cols-4 gap-4 md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1"
+                key={i}
+              >
+                <div className="flex flex-col items-center gap-2">
                   <img
-                    className="w-[5rem] h-[5rem]"
+                    className="w-[10rem] h-[10rem] max-md:self-start"
                     src={app.users[i]?.picture}
                     alt={app.users[i]?.fullname}
                   />
-                  <h4>{app.users[i]?.fullname}</h4>
-                </li>
-                <li className="flex flex-col items-center gap-2">
+                  <h3 className=" max-md:self-start">
+                    {app.users[i]?.fullname}
+                  </h3>
+                </div>
+                <div className="flex flex-col gap-2">
                   <h4>{app.users[i]?.email}</h4>
                   <h4>{app.users[i]?.location}</h4>
                   <h4>{app.users[i]?.address}</h4>
@@ -115,16 +123,16 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                       {app.users[i]?.user_website}
                     </a>
                   </h4>
-                </li>
-                <li
-                  onClick={() => console.log(i)}
-                  className={`flex flex-col items-center gap-2 ${
+                </div>
+                <div
+                  onClick={() => handleOpen(i)}
+                  className={`max-md:px-0 max-xl:px-4 flex flex-col items-center gap-2 ${
                     enlargedApp === i ? "" : "max-h-[5rem]"
                   }`}
                 >
                   {app.apps[i]?.content}
-                </li>
-                <li className="flex gap-4">
+                </div>
+                <div className="flex gap-4">
                   <button className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]">
                     <TfiWrite />
                   </button>
@@ -134,13 +142,15 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   <button className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]">
                     DENY
                   </button>
-                </li>
-              </div>
+                </div>
+              </li>
             ))}
           </ul>
         )}
         {!companyApps[0]?.users[0]?.fullname && (
-          <h3 className="col-span-4 text-center my-4">You have no Applications for this job.</h3>
+          <h3 className="col-span-4 text-center my-4">
+            You have no Applications for this job.
+          </h3>
         )}
       </div>
     </Style>
