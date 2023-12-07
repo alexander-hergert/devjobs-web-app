@@ -12,6 +12,7 @@ import { FaPlus } from "react-icons/fa";
 import CreateJobs from "../components/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import ViewApplications from "../components/ViewApplications";
+import { FiRefreshCw } from "react-icons/fi";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -29,6 +30,41 @@ const Dashboard = () => {
   });
   const [selectedJob, setSelectedJob] = useState(0);
   const [viewApplications, setViewApplications] = useState(false);
+
+  const handleRefresh = async () => {
+    //if user is private
+    if (user?.role === "private") {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3000/appliedJobs", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(getApps({ payload: response.data }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    } //if user is company
+    else if (user?.role === "company") {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get(
+          "http://localhost:3000/getCompanyJobs",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response.data);
+        dispatch(getCompanyJobs({ payload: response.data }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    }
+  };
 
   const handleCreateJob = () => {
     setIsCreateJob(!isCreateJob);
@@ -191,9 +227,19 @@ const Dashboard = () => {
               </button>
             </section>
           )}
-          <h2 className="mt-5 mb-10 text-center font-bold">
-            {user.role === "private" ? "Applications" : "Jobs"}
-          </h2>
+          <div className="flex gap-4 justify-center">
+            <h2 className="mt-5 mb-10 text-center font-bold">
+              {user.role === "private" ? "Applications" : "Jobs"}
+            </h2>
+            <button
+              onClick={handleRefresh}
+              className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+            >
+              Refresh
+              <FiRefreshCw />
+            </button>
+          </div>
+
           {/* Private User */}
           {user?.role === "private" && (
             <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">

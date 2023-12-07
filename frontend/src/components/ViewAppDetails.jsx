@@ -64,12 +64,12 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
           <h2>Location</h2>
           <p>{appliedJobs[data].location}</p>
         </div>
-        <div className="flex items-start max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
-          <h2>Job Description</h2>
+        <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
+          <h2 className="self-start">Job Description</h2>
           <p>{appliedJobs[data].description}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
-          <h2>Job Status</h2>
+          <h2 className="text-left">Job Status</h2>
           <p>{appliedJobs[data].status ? "open" : "closed"}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
