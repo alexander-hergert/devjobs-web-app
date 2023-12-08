@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { getMessages } from "../slices/messagesSlice";
+import { useDispatch } from "react-redux";
 
 const Style = styled.section`
   position: absolute;
@@ -30,7 +34,7 @@ const Style = styled.section`
   }
 `;
 
-const WriteMessage = ({ setIsMessageOpen }) => {
+const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
   const {
     register,
     handleSubmit,
@@ -38,23 +42,30 @@ const WriteMessage = ({ setIsMessageOpen }) => {
     formState: { errors },
   } = useForm();
 
+  const { getAccessTokenSilently } = useAuth0();
+  const dispatch = useDispatch();
+
   const onSubmit = async (data) => {
-    // console.log(data);
-    // try {
-    //   data.job_id = param.jobId;
-    //   const token = await getAccessTokenSilently();
-    //   const response = await axios.post("http://localhost:3000/apply", data, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    //   console.log(response.data);
-    //   dispatch(getApps({ payload: response.data }));
-    //   navigate(`/dashboard`);
-    // } catch (error) {
-    //   console.error("Error calling API:", error);
-    //   console.log(error.response.data);
-    // }
+    console.log(data);
+    try {
+      data.app_id = companyApps[selectedApp].apps[selectedApp]?.app_id;
+      const token = await getAccessTokenSilently();
+      const response = await axios.post(
+        "http://localhost:3000/createMessage",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      dispatch(getMessages({ payload: response.data }));
+      setIsMessageOpen(false);
+    } catch (error) {
+      console.error("Error calling API:", error);
+      console.log(error.response.data);
+    }
   };
 
   return (

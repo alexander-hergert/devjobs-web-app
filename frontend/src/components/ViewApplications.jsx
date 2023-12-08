@@ -45,10 +45,13 @@ const Style = styled.section`
 const ViewApplications = ({ setViewApplications, selectedJob }) => {
   const { getAccessTokenSilently } = useAuth0();
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
+  const messages = useSelector((state) => state.messages.messages);
+  console.log(messages);
   const dispatch = useDispatch();
   const companyApps = useSelector((state) => state.jobApps.jobApps);
   const [enlargedApp, setEnlargedApp] = useState(0);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [selectedApp, setSelectedApp] = useState(0);
 
   const handleOpen = (i) => {
     setEnlargedApp(i);
@@ -80,6 +83,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
   };
 
   const handleWriteMessage = async (i) => {
+    setSelectedApp(i);
     setIsMessageOpen(true);
   };
 
@@ -109,7 +113,13 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
 
   return (
     <>
-      {isMessageOpen && <WriteMessage setIsMessageOpen={setIsMessageOpen} />}
+      {isMessageOpen && (
+        <WriteMessage
+          setIsMessageOpen={setIsMessageOpen}
+          companyApps={companyApps}
+          selectedApp={selectedApp}
+        />
+      )}
       <Style>
         <button
           className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
@@ -179,6 +189,11 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                       onClick={() => handleWriteMessage(i)}
                       aria-label="write message"
                       className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                      disabled={
+                        messages[i]?.app_id === app.apps[i]?.app_id
+                          ? true
+                          : false
+                      }
                     >
                       <TfiWrite />
                     </button>

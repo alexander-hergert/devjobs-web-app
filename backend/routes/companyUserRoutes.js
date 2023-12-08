@@ -286,3 +286,40 @@ companyRouter.put("/updateJobApplication", async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+//create message
+
+companyRouter.post("/createMessage", async (req, res) => {
+  const { app_id, content } = req.body;
+
+  const userInfo = await authorize(req);
+
+  if (userInfo) {
+    try {
+      const client = await pool.connect();
+      //select jobid from applications
+      const job = await client.query(
+        "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
+        [app_id]
+      );
+      console.log(job.rows[0]);
+      const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location}`;
+      //insert message
+      await client.query(
+        "INSERT INTO messages (app_id, subject, content) VALUES ($1, $2, $3)",
+        [app_id, subject, content]
+      );
+      const result = await client.query(
+        "SELECT * FROM messages WHERE app_id = $1",
+        [app_id]
+      );
+      res.status(200).json(result.rows);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
