@@ -200,6 +200,59 @@ const fillApplicationsTable = async (client) => {
   }
 };
 
+//seed the messages table
+
+const deleteTableMessages = async (client) => {
+  try {
+    await client.query("DROP TABLE IF EXISTS messages CASCADE");
+  } catch (error) {
+    console.error("Error deleting messages table:", error);
+  }
+};
+
+const createTableMessages = async (client) => {
+  try {
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS messages (
+        message_id SERIAL PRIMARY KEY,
+        app_id INT NOT NULL REFERENCES applications(app_id),
+        subject VARCHAR(100) NOT NULL,
+        content TEXT NOT NULL
+        )
+      `
+    );
+    console.log("Table messages created successfully!");
+  } catch (error) {
+    console.error("Error creating messages table:", error);
+  }
+};
+
+// Seeds the replies table
+
+const deleteTableReplies = async (client) => {
+  try {
+    await client.query("DROP TABLE IF EXISTS replies CASCADE");
+  } catch (error) {
+    console.error("Error deleting replies table:", error);
+  }
+};
+
+const createTableReplies = async (client) => {
+  try {
+    await client.query(
+      `CREATE TABLE IF NOT EXISTS replies (
+        reply_id SERIAL PRIMARY KEY,
+        message_id INT NOT NULL REFERENCES messages(message_id),
+        content TEXT NOT NULL
+        )
+      `
+    );
+    console.log("Table replies created successfully!");
+  } catch (error) {
+    console.error("Error creating replies table:", error);
+  }
+};
+
 // Call the functions
 const callFunctions = async () => {
   const client = await pool.connect();
@@ -213,6 +266,10 @@ const callFunctions = async () => {
     await deleteTableApplications(client);
     await createTableApplications(client);
     await fillApplicationsTable(client);
+    await deleteTableMessages(client);
+    await createTableMessages(client);
+    await deleteTableReplies(client);
+    await createTableReplies(client);
   } finally {
     client.release();
   }
