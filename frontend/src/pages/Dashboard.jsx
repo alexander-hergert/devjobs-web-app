@@ -13,6 +13,8 @@ import CreateJobs from "../components/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import ViewApplications from "../components/ViewApplications";
 import { FiRefreshCw } from "react-icons/fi";
+import ReadMessages from "../components/ReadMessages";
+import { set } from "react-hook-form";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -22,6 +24,7 @@ const Dashboard = () => {
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
   const [isCreateJob, setIsCreateJob] = useState(false);
+  const [isReadingMessages, setIsReadingMessages] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const [viewDetails, setViewDetails] = useState({
@@ -72,6 +75,10 @@ const Dashboard = () => {
 
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);
+  };
+
+  const handleMessages = () => {
+    setIsReadingMessages(!isReadingMessages);
   };
 
   const handleEditJob = (i) => {
@@ -177,6 +184,9 @@ const Dashboard = () => {
         {isEditProfile && (
           <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
         )}
+        {isReadingMessages && (
+          <ReadMessages setIsReadingMessages={setIsReadingMessages} />
+        )}
         {isEditJob && (
           <EditJob setIsEditJob={setIsEditJob} selectedJob={selectedJob} />
         )}
@@ -210,12 +220,20 @@ const Dashboard = () => {
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
-            <button
-              onClick={handleEditProfile}
-              className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-            >
-              Edit Profile
-            </button>
+            <div className="flex flex-col">
+              <button
+                onClick={handleEditProfile}
+                className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+              >
+                Edit Profile
+              </button>
+              <button
+                onClick={handleMessages}
+                className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+              >
+                Read Messages
+              </button>
+            </div>
           </section>
           {user?.role === "company" && (
             <section className="flex justify-center gap-8 items-center mt-4">

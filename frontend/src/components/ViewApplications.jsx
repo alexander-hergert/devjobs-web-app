@@ -198,12 +198,14 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                       <TfiWrite />
                     </button>
                     <button
+                      aria-label="accept"
                       onClick={() => handleStatus(i, "Accepted")}
                       className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                     >
                       ACCEPT
                     </button>
                     <button
+                      aria-label="deny"
                       onClick={() => handleStatus(i, "Denied")}
                       className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
                     >

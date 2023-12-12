@@ -225,4 +225,32 @@ privateRouter.delete("/application", async (req, res) => {
   }
 });
 
+//fetch messages
+privateRouter.get("/messages", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //select from table messages, get related ap_ids fro muser id
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      //select all messages from table where ap_id is in resultApps
+      const app_ids = resultApps.rows.map((row) => row.app_id);
+      const messages = await client.query(
+        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+      );
+      res.json(messages.rows);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 export default privateRouter;
