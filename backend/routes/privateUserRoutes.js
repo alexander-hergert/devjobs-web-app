@@ -299,4 +299,46 @@ privateRouter.delete("/messages", async (req, res) => {
   }
 });
 
+//create reply
+privateRouter.post("/createReply", async (req, res) => {
+  console.log(req.body);
+  const { message_id, content } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //check if message_id is related to the user by using app_id
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      const app_ids = resultApps.rows.map((row) => row.app_id);
+      //fetch all messages with app_ids from related user
+      const resultMessages = await client.query(
+        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+      );
+      const message_ids = resultMessages.rows.map((row) => row.message_id);
+      //check if message_ids contains message_id
+      if (!message_ids.includes(message_id)) {
+        //if not, unauthorized
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      } else {
+        //if yes, create reply
+        await client.query(
+          "INSERT INTO replies (message_id, content) VALUES ($1, $2)",
+          [message_id, content]
+        );
+      }
+      res.status(200).json({ message: "Reply created" });
+    } catch (error) {
+      console.error("Error creating reply:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 export default privateRouter;
