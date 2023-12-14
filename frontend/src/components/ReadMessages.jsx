@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TfiWrite } from "react-icons/tfi";
 import { FaTrashAlt } from "react-icons/fa";
 import ReplyMessage from "./ReplyMessage";
-import { set } from "react-hook-form";
+import Loader from "./Loader";
 
 const Style = styled.section`
   position: absolute;
@@ -41,12 +41,15 @@ const ReadMessages = ({ setIsReadingMessages }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages.messages);
+  const isLoading = useSelector((state) => state.messages.isLoading);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   //load messages
   useEffect(() => {
     const loadMessages = async () => {
+      //dispatch isLoading
+      dispatch(getMessages({ messages: [], isLoading: true }));
       const token = await getAccessTokenSilently();
       const response = await axios.get("http://localhost:3000/messages", {
         headers: {
@@ -54,7 +57,7 @@ const ReadMessages = ({ setIsReadingMessages }) => {
         },
       });
       console.log(response.data);
-      dispatch(getMessages({ payload: response.data }));
+      dispatch(getMessages({ messages: response.data, isLoading: false }));
     };
     loadMessages();
   }, []);
@@ -75,6 +78,14 @@ const ReadMessages = ({ setIsReadingMessages }) => {
     console.log(response.data);
     dispatch(getMessages({ payload: response.data }));
   };
+
+  if (isLoading) {
+    return (
+      <Style>
+        <Loader />
+      </Style>
+    );
+  }
 
   return (
     <>
@@ -98,10 +109,10 @@ const ReadMessages = ({ setIsReadingMessages }) => {
         >
           <h2 className="text-center font-bold">Read Messages</h2>
           <div className="flex gap-4 items-center my-4">
-            {messages.map((message, i) => (
+            {messages?.map((message, i) => (
               <div
                 className="flex items-center gap-4 max-md:flex-col"
-                key={`${message.subject + i}`}
+                key={`${message?.subject + i}`}
               >
                 <div className="flex flex-col gap-4 my-4">
                   <h3 className="font-bold">

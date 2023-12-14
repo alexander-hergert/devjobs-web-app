@@ -8,7 +8,8 @@ const messagesSlice = createSlice({
   },
   reducers: {
     getMessages: (state, action) => {
-      state.messages = action.payload.payload;
+      state.messages = action.payload.messages;
+      state.isLoading = action.payload.isLoading;
     },
   },
 });

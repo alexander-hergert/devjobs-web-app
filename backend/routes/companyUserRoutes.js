@@ -3,8 +3,6 @@ const companyRouter = express.Router();
 import pool from "../config/configDB.js";
 import { authorize } from "../auth/oauth.js";
 
-export default companyRouter;
-
 //create job
 companyRouter.post("/createjob", async (req, res) => {
   console.log(req.body);
@@ -323,3 +321,53 @@ companyRouter.post("/createMessage", async (req, res) => {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
+
+//fetch replies
+companyRouter.get("/getReplies", async (req, res) => {
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    try {
+      const client = await pool.connect();
+      //get all jobs_ids from company user
+      const resultJobs = await client.query(
+        "SELECT * FROM jobs WHERE user_id = $1",
+        [userInfo.sub]
+      );
+      const job_ids = resultJobs.rows.map((row) => row.job_id);
+      //get all app_ids from jobs
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE job_id = ANY($1)",
+        [job_ids]
+      );
+      const app_ids = resultApps.rows.map((row) => row.app_id);
+      //get all messages from apps
+      const resultMessages = await client.query(
+        "SELECT * FROM messages WHERE app_id = ANY($1)",
+        [app_ids]
+      );
+      const messages = resultMessages.rows;
+      //get all replies from messages
+      const resultReplies = await client.query(
+        "SELECT * FROM replies WHERE message_id = ANY($1)",
+        [messages.map((row) => row.message_id)]
+      );
+      const replies = resultReplies.rows;
+      //add subject to replies
+      replies.forEach((reply) => {
+        const message = messages.find(
+          (message) => message.message_id === reply.message_id
+        );
+        reply.subject = message.subject;
+      });
+      res.status(200).json(replies);
+      client.release();
+    } catch (err) {
+      console.error("Error executing query", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
+export default companyRouter;

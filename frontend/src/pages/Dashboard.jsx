@@ -14,7 +14,7 @@ import { getCompanyJobs } from "../slices/companyJobsSlice";
 import ViewApplications from "../components/ViewApplications";
 import { FiRefreshCw } from "react-icons/fi";
 import ReadMessages from "../components/ReadMessages";
-import { set } from "react-hook-form";
+import ReadReplies from "../components/ReadReplies";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [isEditJob, setIsEditJob] = useState(false);
   const [isCreateJob, setIsCreateJob] = useState(false);
   const [isReadingMessages, setIsReadingMessages] = useState(false);
+  const [isReadingReplies, setIsReadingReplies] = useState(false);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const [viewDetails, setViewDetails] = useState({
@@ -79,6 +80,10 @@ const Dashboard = () => {
 
   const handleMessages = () => {
     setIsReadingMessages(!isReadingMessages);
+  };
+
+  const handleReplies = () => {
+    setIsReadingReplies(!isReadingReplies);
   };
 
   const handleEditJob = (i) => {
@@ -187,6 +192,9 @@ const Dashboard = () => {
         {isReadingMessages && (
           <ReadMessages setIsReadingMessages={setIsReadingMessages} />
         )}
+        {isReadingReplies && (
+          <ReadReplies setIsReadingReplies={setIsReadingReplies} />
+        )}
         {isEditJob && (
           <EditJob setIsEditJob={setIsEditJob} selectedJob={selectedJob} />
         )}
@@ -227,12 +235,22 @@ const Dashboard = () => {
               >
                 Edit Profile
               </button>
-              <button
-                onClick={handleMessages}
-                className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
-              >
-                Read Messages
-              </button>
+              {user.role === "private" && (
+                <button
+                  onClick={handleMessages}
+                  className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                >
+                  Read Messages
+                </button>
+              )}
+              {user.role === "company" && (
+                <button
+                  onClick={handleReplies}
+                  className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                >
+                  Read Replies
+                </button>
+              )}
             </div>
           </section>
           {user?.role === "company" && (

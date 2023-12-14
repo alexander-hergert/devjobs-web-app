@@ -60,7 +60,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
         }
       );
       console.log(response.data);
-      dispatch(getMessages({ payload: response.data }));
+      dispatch(getMessages({ messages: response.data, isLoading: false }));
       setIsMessageOpen(false);
     } catch (error) {
       console.error("Error calling API:", error);

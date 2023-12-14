@@ -279,6 +279,10 @@ privateRouter.delete("/messages", async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
         return;
       } else {
+        //if yes also delete all replies
+        await client.query("DELETE FROM replies WHERE message_id = $1", [
+          message_id,
+        ]);
         //if yes, delete message
         await client.query("DELETE FROM messages WHERE message_id = $1", [
           message_id,

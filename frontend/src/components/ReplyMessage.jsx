@@ -80,9 +80,9 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
         className="flex flex-col bg-neutral m-auto p-10 max-md:w-[327px] 
         max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
       >
-        <h2 className="text-center font-bold">Write Message</h2>
+        <h2 className="text-center font-bold">Write Reply</h2>
         <div className="flex flex-col gap-4 justify-center items-center my-4">
-          <label htmlFor="content">Message Text</label>
+          <label htmlFor="content">Reply Text</label>
           <textarea
             className="bg-neutral text-primary"
             type="text"
