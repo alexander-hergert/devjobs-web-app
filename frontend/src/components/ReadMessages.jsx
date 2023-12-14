@@ -55,6 +55,18 @@ const ReadMessages = ({ setIsReadingMessages }) => {
     loadMessages();
   }, []);
 
+  const handleDelete = async (message_id) => {
+    const token = await getAccessTokenSilently();
+    const response = await axios.delete(`http://localhost:3000/messages`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { message_id },
+    });
+    console.log(response.data);
+    dispatch(getMessages({ payload: response.data }));
+  };
+
   return (
     <Style>
       <button
@@ -90,6 +102,7 @@ const ReadMessages = ({ setIsReadingMessages }) => {
                   <TfiWrite />
                 </button>
                 <button
+                  onClick={() => handleDelete(message?.message_id)}
                   className="flex gap-4 items-center p-2 rounded-lg text-white capitalize bg-red-500 md:my-2 hover:bg-red-200 min-w-[4rem]"
                   aria-label="delete message"
                 >

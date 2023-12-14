@@ -253,4 +253,50 @@ privateRouter.get("/messages", async (req, res) => {
   }
 });
 
+//delete message
+privateRouter.delete("/messages", async (req, res) => {
+  console.log(req.body);
+  const { message_id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //check if the id is part of users applications
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE user_id = $1",
+        [user_id]
+      );
+      const app_ids = resultApps.rows.map((row) => row.app_id);
+      //get all message ids with app_ids
+      const resultMessages = await client.query(
+        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+      );
+      const message_ids = resultMessages.rows.map((row) => row.message_id);
+      //check if messages_ids contains message_id
+      if (!message_ids.includes(message_id)) {
+        //if not, unauthorized
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      } else {
+        //if yes, delete message
+        await client.query("DELETE FROM messages WHERE message_id = $1", [
+          message_id,
+        ]);
+      }
+      //select all messages from table where app_id is in resultApps
+      const messages = await client.query(
+        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+      );
+      res.json(messages.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 export default privateRouter;
