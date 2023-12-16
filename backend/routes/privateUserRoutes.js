@@ -93,6 +93,34 @@ privateRouter.put("/user", async (req, res) => {
   }
 });
 
+//update user url picture
+privateRouter.put("/userprofile", async (req, res) => {
+  console.log(req.body);
+  const { url } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      await client.query("UPDATE users SET picture = $2 WHERE user_id = $1", [
+        user_id,
+        url,
+      ]);
+      const result = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      res.json(result.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 //delete user
 privateRouter.delete("/user", async (req, res) => {
   const userInfo = await authorize(req);

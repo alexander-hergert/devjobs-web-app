@@ -16,6 +16,7 @@ import { FiRefreshCw } from "react-icons/fi";
 import ReadMessages from "../components/ReadMessages";
 import ReadReplies from "../components/ReadReplies";
 import styled from "styled-components";
+import UploadWidget from "../components/UploadWidget";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -23,9 +24,9 @@ const ProfileImage = styled.div`
   height: 10rem;
   border: 0.25rem solid var(--accent);
   border-radius: 50%;
-  cursor: pointer;
   overflow: hidden;
   transition: all 0.2s ease-in-out;
+  border: 0.1rem solid black;
 
   &:hover {
     //darken background with pseudo element
@@ -268,7 +269,9 @@ const Dashboard = () => {
             <div className="max-lg:flex max-md:block items-center gap-12">
               <ProfileImage>
                 <input type="image" src={user?.picture} alt={user?.fullname} />
-                <div>Edit</div>
+                <div>
+                  <UploadWidget />
+                </div>
               </ProfileImage>
               <h1 className="lg:hidden">
                 <span className="font-bold text-lg">{user?.fullname}</span>
