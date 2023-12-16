@@ -15,6 +15,57 @@ import ViewApplications from "../components/ViewApplications";
 import { FiRefreshCw } from "react-icons/fi";
 import ReadMessages from "../components/ReadMessages";
 import ReadReplies from "../components/ReadReplies";
+import styled from "styled-components";
+
+const ProfileImage = styled.div`
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  border: 0.25rem solid var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    //darken background with pseudo element
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  &:hover div {
+    opacity: 1;
+  }
+`;
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
@@ -215,11 +266,10 @@ const Dashboard = () => {
         <main>
           <section className="flex justify-center gap-12 items-center mt-10">
             <div className="max-lg:flex max-md:block items-center gap-12">
-              <img
-                className="w-[10rem] h-[10rem] rounded-full"
-                src={user?.picture}
-                alt={user?.fullname}
-              />
+              <ProfileImage>
+                <input type="image" src={user?.picture} alt={user?.fullname} />
+                <div>Edit</div>
+              </ProfileImage>
               <h1 className="lg:hidden">
                 <span className="font-bold text-lg">{user?.fullname}</span>
               </h1>

@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.1",
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.14.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.6.0",
     "bcrypt": "^5.1.1",
