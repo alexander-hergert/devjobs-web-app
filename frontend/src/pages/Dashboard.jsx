@@ -17,6 +17,7 @@ import ReadMessages from "../components/ReadMessages";
 import ReadReplies from "../components/ReadReplies";
 import styled from "styled-components";
 import UploadWidget from "../components/UploadWidget";
+import DashboardFilter from "../components/DashboardFilter";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -316,8 +317,8 @@ const Dashboard = () => {
               </button>
             </section>
           )}
-          <div className="flex gap-4 justify-center">
-            <h2 className="mt-5 mb-10 text-center font-bold">
+          <div className="flex gap-4 justify-center items-center mb-10">
+            <h2 className="mt-5 text-center font-bold">
               {user.role === "private" ? "Applications" : "Jobs"}
             </h2>
             <button
@@ -327,8 +328,8 @@ const Dashboard = () => {
               Refresh
               <FiRefreshCw />
             </button>
+            {user?.role === "private" && <DashboardFilter />}
           </div>
-
           {/* Private User */}
           {user?.role === "private" && (
             <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
