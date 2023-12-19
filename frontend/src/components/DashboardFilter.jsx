@@ -53,7 +53,18 @@ const DashboardFilter = () => {
       }
     });
     console.log(filteredJobs);
-    dispatch(getApps({ payload: { applications, appliedJobs: filteredJobs } }));
+    const filteredJobdIds = filteredJobs.map((job) => job.job_id);
+    console.log(filteredJobdIds);
+    //filter applications
+    const filteredApplications = allApps?.applications?.filter((app) => {
+      return filteredJobdIds.includes(app.job_id);
+    });
+    console.log(filteredApplications);
+    //sort filtered applications by job_id
+    filteredApplications?.sort((a, b) => {
+      return filteredJobdIds.indexOf(a.job_id) - filteredJobdIds.indexOf(b.job_id);
+    });
+    dispatch(getApps({ payload: { applications: filteredApplications, appliedJobs: filteredJobs } }));
   };
 
   return (

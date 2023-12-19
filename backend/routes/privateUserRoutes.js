@@ -151,7 +151,7 @@ privateRouter.get("/appliedJobs", async (req, res) => {
     try {
       const client = await pool.connect();
       const resultApps = await client.query(
-        "SELECT * FROM applications WHERE user_id = $1",
+        "SELECT * FROM applications WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
       );
       const jobsIds = resultApps.rows.map((row) => row.job_id);
