@@ -82,7 +82,7 @@ companyRouter.get("/getCompanyJobs", async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "SELECT * FROM jobs WHERE user_id = $1",
+        "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
       );
       res.json(result.rows);

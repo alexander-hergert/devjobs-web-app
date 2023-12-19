@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import { getApps } from "../slices/appsSlice";
+import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const DashboardFilter = () => {
+const CompanyFilter = () => {
   const dispatch = useDispatch();
-  const apps = useSelector((state) => state.apps.apps);
-  const [allApps, setAllApps] = useState(apps);
+  const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
+  const [allJobs, setAllJobs] = useState(companyJobs);
+  console.log(allJobs);
 
   const {
     register,
@@ -26,8 +27,8 @@ const DashboardFilter = () => {
       contract = "Part Time";
     }
 
-    //filter apps
-    const filteredJobs = allApps?.appliedJobs?.filter((job) => {
+    //filter jobs
+    const filteredJobs = allJobs?.filter((job) => {
       if (search && contract === "Full Time") {
         return (
           (job.position.toLowerCase().includes(search.toLowerCase()) ||
@@ -52,18 +53,11 @@ const DashboardFilter = () => {
       }
     });
     console.log(filteredJobs);
-    const filteredJobdIds = filteredJobs.map((job) => job.job_id);
-    console.log(filteredJobdIds);
-    //filter applications
-    const filteredApplications = allApps?.applications?.filter((app) => {
-      return filteredJobdIds.includes(app.job_id);
-    });
-    console.log(filteredApplications);
-    //sort filtered applications by job_id
-    filteredApplications?.sort((a, b) => {
-      return filteredJobdIds.indexOf(a.job_id) - filteredJobdIds.indexOf(b.job_id);
-    });
-    dispatch(getApps({ payload: { applications: filteredApplications, appliedJobs: filteredJobs } }));
+    dispatch(
+      getCompanyJobs({
+        payload: filteredJobs,
+      })
+    );
   };
 
   return (
@@ -100,4 +94,4 @@ const DashboardFilter = () => {
   );
 };
 
-export default DashboardFilter;
+export default CompanyFilter;
