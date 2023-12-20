@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CompanyFilter = () => {
   const dispatch = useDispatch();
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
+  const isLoading = useSelector((state) => state.companyJobs.isLoading);
   const [allJobs, setAllJobs] = useState(companyJobs);
   console.log(allJobs);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setAllJobs(companyJobs);
+  }, [isLoading]);
 
   const {
     register,
@@ -17,16 +24,31 @@ const CompanyFilter = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  //execute submit with queryparams on load
+  const params = new URLSearchParams(window.location.search);
+  const search = params.get("search");
+  const contract = params.get("contract");
+
+  useEffect(() => {
+    const data = { search, contract };
+    if (allJobs.length !== 0 && (search || contract)) {
+      onSubmit(data);
+    }
+  }, [allJobs]);
+
+  const onSubmit = (data) => {
     console.log(data);
     let { search, contract } = data || { search: "", contract: true };
-    console.log(search, contract);
+
     if (contract === true) {
       contract = "Full Time";
-    } else {
+    } else if (contract === false) {
       contract = "Part Time";
+    } else {
+      contract = contract;
     }
 
+    console.log(search, contract);
     //filter jobs
     const filteredJobs = allJobs?.filter((job) => {
       if (search && contract === "Full Time") {
@@ -40,12 +62,12 @@ const CompanyFilter = () => {
         );
       } else if (search && contract === "Part Time") {
         return (
-          job.position.toLowerCase().includes(search.toLowerCase()) ||
-          job.company.toLowerCase().includes(search.toLowerCase()) ||
-          job.location.toLowerCase().includes(search.toLowerCase()) ||
-          job.description.toLowerCase().includes(search.toLowerCase()) ||
-          (job.requirements.toLowerCase().includes(search.toLowerCase()) &&
-            job.contract === "Part Time")
+          (job.position.toLowerCase().includes(search.toLowerCase()) ||
+            job.company.toLowerCase().includes(search.toLowerCase()) ||
+            job.location.toLowerCase().includes(search.toLowerCase()) ||
+            job.description.toLowerCase().includes(search.toLowerCase()) ||
+            job.requirements.toLowerCase().includes(search.toLowerCase())) &&
+          job.contract === "Part Time"
         );
       } else if (contract) {
         console.log(contract);
@@ -55,9 +77,12 @@ const CompanyFilter = () => {
     console.log(filteredJobs);
     dispatch(
       getCompanyJobs({
-        payload: filteredJobs,
+        companyJobs: filteredJobs,
+        isLoading: false,
       })
     );
+    //navigate user to query
+    navigate(`?search=${search}&contract=${contract}`);
   };
 
   return (
@@ -72,6 +97,7 @@ const CompanyFilter = () => {
             id="filter"
             {...register("search")}
             className="bg-neutral outline-none"
+            defaultValue={search}
           />
         </div>
         <div className="flex gap-4 items-center">
@@ -83,6 +109,7 @@ const CompanyFilter = () => {
             id="contract"
             {...register("contract")}
             className="bg-neutral outline-none"
+            defaultChecked={contract === "Full Time"}
           />
         </div>
         <button className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info">

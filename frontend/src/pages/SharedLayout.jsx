@@ -46,7 +46,7 @@ const SharedLayout = () => {
           },
         });
         console.log(response.data);
-        dispatch(getApps({ payload: response.data }));
+        dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -69,7 +69,9 @@ const SharedLayout = () => {
           }
         );
         console.log(response.data);
-        dispatch(getCompanyJobs({ payload: response.data }));
+        dispatch(
+          getCompanyJobs({ companyJobs: response.data, isLoading: false })
+        );
       } catch (error) {
         console.error("Error calling API:", error);
       }

@@ -4,11 +4,12 @@ const companyJobsSlice = createSlice({
   name: "companyJobs",
   initialState: {
     companyJobs: [],
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {
     getCompanyJobs: (state, action) => {
-      state.companyJobs = action.payload.payload;
+      state.companyJobs = action.payload.companyJobs;
+      state.isLoading = false;
     },
   },
 });

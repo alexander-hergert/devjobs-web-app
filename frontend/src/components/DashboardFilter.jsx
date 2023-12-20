@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { getApps } from "../slices/appsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const DashboardFilter = () => {
   const dispatch = useDispatch();
   const apps = useSelector((state) => state.apps.apps);
   const [allApps, setAllApps] = useState(apps);
+  const isLoading = useSelector((state) => state.apps.isLoading);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setAllApps(apps);
+  }, [isLoading]);
 
   const {
     register,
@@ -16,14 +23,29 @@ const DashboardFilter = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  //execute submit with queryparams on load
+  const params = new URLSearchParams(window.location.search);
+  const search = params.get("search");
+  const contract = params.get("contract");
+
+  useEffect(() => {
+    const data = { search, contract };
+    console.log(allApps);
+    if (Object.keys(allApps).length !== 0 && (search || contract)) {
+      onSubmit(data);
+    }
+  }, [allApps]);
+
+  const onSubmit = (data) => {
     console.log(data);
     let { search, contract } = data || { search: "", contract: true };
     console.log(search, contract);
     if (contract === true) {
       contract = "Full Time";
-    } else {
+    } else if (contract === false) {
       contract = "Part Time";
+    } else {
+      contract = contract;
     }
 
     //filter apps
@@ -39,12 +61,12 @@ const DashboardFilter = () => {
         );
       } else if (search && contract === "Part Time") {
         return (
-          job.position.toLowerCase().includes(search.toLowerCase()) ||
-          job.company.toLowerCase().includes(search.toLowerCase()) ||
-          job.location.toLowerCase().includes(search.toLowerCase()) ||
-          job.description.toLowerCase().includes(search.toLowerCase()) ||
-          (job.requirements.toLowerCase().includes(search.toLowerCase()) &&
-            job.contract === "Part Time")
+          (job.position.toLowerCase().includes(search.toLowerCase()) ||
+            job.company.toLowerCase().includes(search.toLowerCase()) ||
+            job.location.toLowerCase().includes(search.toLowerCase()) ||
+            job.description.toLowerCase().includes(search.toLowerCase()) ||
+            job.requirements.toLowerCase().includes(search.toLowerCase())) &&
+          job.contract === "Part Time"
         );
       } else if (contract) {
         console.log(contract);
@@ -61,9 +83,21 @@ const DashboardFilter = () => {
     console.log(filteredApplications);
     //sort filtered applications by job_id
     filteredApplications?.sort((a, b) => {
-      return filteredJobdIds.indexOf(a.job_id) - filteredJobdIds.indexOf(b.job_id);
+      return (
+        filteredJobdIds.indexOf(a.job_id) - filteredJobdIds.indexOf(b.job_id)
+      );
     });
-    dispatch(getApps({ payload: { applications: filteredApplications, appliedJobs: filteredJobs } }));
+    dispatch(
+      getApps({
+        apps: {
+          applications: filteredApplications,
+          appliedJobs: filteredJobs,
+        },
+        isLoading: false,
+      })
+    );
+    //navigate user to query
+    navigate(`?search=${search}&contract=${contract}`);
   };
 
   return (
@@ -78,6 +112,7 @@ const DashboardFilter = () => {
             id="filter"
             {...register("search")}
             className="bg-neutral outline-none"
+            defaultValue={search}
           />
         </div>
         <div className="flex gap-4 items-center">
@@ -89,6 +124,7 @@ const DashboardFilter = () => {
             id="contract"
             {...register("contract")}
             className="bg-neutral outline-none"
+            defaultChecked={contract === "Full Time"}
           />
         </div>
         <button className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info">

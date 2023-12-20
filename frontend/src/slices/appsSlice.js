@@ -4,11 +4,12 @@ const appsSlice = createSlice({
   name: "apps",
   initialState: {
     apps: {},
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {
     getApps: (state, action) => {
-      state.apps = action.payload.payload;
+      state.apps = action.payload.apps;
+      state.isLoading = false;
     },
   },
 });
