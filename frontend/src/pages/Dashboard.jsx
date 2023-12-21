@@ -19,6 +19,7 @@ import styled from "styled-components";
 import UploadWidget from "../components/UploadWidget";
 import DashboardFilter from "../components/DashboardFilter";
 import CompanyFilter from "../components/CompanyFilter";
+import DashboardSort from "../components/DashboardSort";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -88,7 +89,6 @@ const Dashboard = () => {
   });
   const [selectedJob, setSelectedJob] = useState(0);
   const [viewApplications, setViewApplications] = useState(false);
-
 
   const handleRefresh = async () => {
     //if user is private
@@ -332,6 +332,7 @@ const Dashboard = () => {
             </button>
             {user?.role === "private" && <DashboardFilter />}
             {user?.role === "company" && <CompanyFilter />}
+            {user?.role === "private" && <DashboardSort />}
           </div>
           {/* Private User */}
           {user?.role === "private" && (
