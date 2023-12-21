@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { getApps } from "../slices/appsSlice";
+import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const DashboardSort = () => {
+const CompanySort = () => {
   const {
     register,
     handleSubmit,
@@ -13,14 +13,12 @@ const DashboardSort = () => {
 
   const dispatch = useDispatch();
 
-  const apps = useSelector((state) => state.apps.apps);
+  const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
 
   const onSubmit = (data) => {
     console.log(data);
     const { typesort, rowsort } = data;
-    const sortedApps = [...apps?.applications];
-    const sortedJobs = [...apps?.appliedJobs];
-    console.log(sortedApps);
+    const sortedJobs = [...companyJobs];
     console.log(sortedJobs);
 
     if (typesort === "position") {
@@ -29,14 +27,6 @@ const DashboardSort = () => {
           return a.position.localeCompare(b.position);
         } else {
           return b.position.localeCompare(a.position);
-        }
-      });
-    } else if (typesort === "company") {
-      sortedJobs?.sort((a, b) => {
-        if (rowsort === "asc") {
-          return a.company.localeCompare(b.company);
-        } else {
-          return b.company.localeCompare(a.company);
         }
       });
     } else if (typesort === "location") {
@@ -51,22 +41,9 @@ const DashboardSort = () => {
 
     console.log(sortedJobs);
 
-    const sortedJobsIds = sortedJobs?.map((job) => job.job_id);
-    console.log(sortedJobsIds);
-
-    //sort apps by job ids
-    sortedApps?.sort((a, b) => {
-      return sortedJobsIds.indexOf(a.job_id) - sortedJobsIds.indexOf(b.job_id);
-    });
-
-    console.log(sortedApps);
-
     dispatch(
-      getApps({
-        apps: {
-          applications: sortedApps,
-          appliedJobs: sortedJobs,
-        },
+      getCompanyJobs({
+        companyJobs: sortedJobs,
         isLoading: false,
       })
     );
@@ -74,7 +51,11 @@ const DashboardSort = () => {
 
   return (
     <div>
-      <form action="" onSubmit={handleSubmit(onSubmit)} className="flex gap-4 items-center">
+      <form
+        action=""
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex gap-4 items-center"
+      >
         <label className="font-bold text-2xl" htmlFor="typesort">
           Sort
         </label>
@@ -86,7 +67,6 @@ const DashboardSort = () => {
           <option defaultChecked value="position">
             Position
           </option>
-          <option value="company">Company</option>
           <option value="location">Location</option>
         </select>
         <select id="rowsort" {...register("rowsort")}>
@@ -106,4 +86,4 @@ const DashboardSort = () => {
   );
 };
 
-export default DashboardSort;
+export default CompanySort;

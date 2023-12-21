@@ -20,6 +20,7 @@ import UploadWidget from "../components/UploadWidget";
 import DashboardFilter from "../components/DashboardFilter";
 import CompanyFilter from "../components/CompanyFilter";
 import DashboardSort from "../components/DashboardSort";
+import CompanySort from "../components/CompanySort";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -333,6 +334,7 @@ const Dashboard = () => {
             {user?.role === "private" && <DashboardFilter />}
             {user?.role === "company" && <CompanyFilter />}
             {user?.role === "private" && <DashboardSort />}
+            {user?.role === "company" && <CompanySort />}
           </div>
           {/* Private User */}
           {user?.role === "private" && (
