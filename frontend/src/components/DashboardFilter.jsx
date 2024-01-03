@@ -101,8 +101,12 @@ const DashboardFilter = () => {
   };
 
   return (
-    <div>
-      <form className="flex gap-4" action="" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex gap-4 max-md:flex-col"
+      action=""
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <div className="flex gap-4 items-center">
         <div className="flex gap-4 items-center">
           <label className="font-bold text-2xl" htmlFor="filter">
             Filter
@@ -127,12 +131,12 @@ const DashboardFilter = () => {
             defaultChecked={contract === "Full Time"}
           />
         </div>
-        <button className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info">
-          Search
-          <FaSearch />
-        </button>
-      </form>
-    </div>
+      </div>
+      <button className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info">
+        Search
+        <FaSearch />
+      </button>
+    </form>
   );
 };
 

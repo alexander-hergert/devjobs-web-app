@@ -277,25 +277,27 @@ const Dashboard = () => {
                   <UploadWidget />
                 </div>
               </ProfileImage>
-              <h1 className="lg:hidden">
-                <span className="font-bold text-lg">{user?.fullname}</span>
-              </h1>
+              <h2 className="lg:hidden text-center">
+                <span className="font-bold text-lg">
+                  {user?.fullname}
+                </span>
+              </h2>
             </div>
             <h1 className="max-lg:hidden">
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
-            <div className="flex flex-col">
+            <div className="flex gap-4 max-xl:flex-col">
               <button
                 onClick={handleEditProfile}
-                className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
               >
                 Edit Profile
               </button>
               {user.role === "private" && (
                 <button
                   onClick={handleMessages}
-                  className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                  className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
                   Read Messages
                 </button>
@@ -310,27 +312,29 @@ const Dashboard = () => {
               )}
             </div>
           </section>
-          {user?.role === "company" && (
-            <section className="flex justify-center gap-8 items-center mt-4">
+          <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+            <div className="flex gap-4 items-center">
+              <h2 className="mt-5 text-center font-bold">
+                {user.role === "private" ? "Applications" : "Jobs"}
+              </h2>
+              <button
+                onClick={handleRefresh}
+                className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+              >
+                Refresh
+                <FiRefreshCw />
+              </button>
+            </div>
+            {user?.role === "company" && (
               <button
                 onClick={handleCreateJob}
                 className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
               >
                 Create New Joboffer <FaPlus />
               </button>
-            </section>
-          )}
-          <div className="flex gap-4 justify-center items-center mb-10">
-            <h2 className="mt-5 text-center font-bold">
-              {user.role === "private" ? "Applications" : "Jobs"}
-            </h2>
-            <button
-              onClick={handleRefresh}
-              className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-            >
-              Refresh
-              <FiRefreshCw />
-            </button>
+            )}
+          </section>
+          <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
             {user?.role === "private" && <DashboardFilter />}
             {user?.role === "company" && <CompanyFilter />}
             {user?.role === "private" && <DashboardSort />}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { getApps } from "../slices/appsSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,8 +73,12 @@ const DashboardSort = () => {
   };
 
   return (
-    <div>
-      <form action="" onSubmit={handleSubmit(onSubmit)} className="flex gap-4 items-center">
+    <form
+      action=""
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex gap-4 max-md:flex-col"
+    >
+      <div className="flex gap-4 items-center">
         <label className="font-bold text-2xl" htmlFor="typesort">
           Sort
         </label>
@@ -95,14 +99,14 @@ const DashboardSort = () => {
           </option>
           <option value="desc">Descending</option>
         </select>
-        <button
-          className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-          type="submit"
-        >
-          Sort
-        </button>
-      </form>
-    </div>
+      </div>
+      <button
+        className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+        type="submit"
+      >
+        Sort
+      </button>
+    </form>
   );
 };
 

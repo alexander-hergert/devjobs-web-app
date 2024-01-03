@@ -54,27 +54,29 @@ const CompanySort = () => {
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-4 items-center"
+        className="flex gap-4 max-md:flex-col"
       >
-        <label className="font-bold text-2xl" htmlFor="typesort">
-          Sort
-        </label>
-        <select
-          className="border-2 border-gray-500 rounded-md"
-          id="typesort"
-          {...register("typesort")}
-        >
-          <option defaultChecked value="position">
-            Position
-          </option>
-          <option value="location">Location</option>
-        </select>
-        <select id="rowsort" {...register("rowsort")}>
-          <option defaultChecked value="asc">
-            Ascending
-          </option>
-          <option value="desc">Descending</option>
-        </select>
+        <div className="flex gap-4 items-center">
+          <label className="font-bold text-2xl" htmlFor="typesort">
+            Sort
+          </label>
+          <select
+            className="border-2 border-gray-500 rounded-md"
+            id="typesort"
+            {...register("typesort")}
+          >
+            <option defaultChecked value="position">
+              Position
+            </option>
+            <option value="location">Location</option>
+          </select>
+          <select id="rowsort" {...register("rowsort")}>
+            <option defaultChecked value="asc">
+              Ascending
+            </option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
         <button
           className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
           type="submit"
