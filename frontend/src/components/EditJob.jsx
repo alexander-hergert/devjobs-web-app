@@ -5,6 +5,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
+import CharactersUsed from "./CharactersUsed";
 
 const Style = styled.section`
   position: absolute;
@@ -276,6 +277,10 @@ const EditJob = ({ setIsEditJob, selectedJob }) => {
             defaultValue={companyJobs[selectedJob]?.description}
           ></textarea>
         </div>
+        <CharactersUsed
+          charactersUsed={watch("description")?.length}
+          maxCharacters={500}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors.description?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
