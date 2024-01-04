@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { TfiWrite } from "react-icons/tfi";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCompanyApps } from "../slices/jobAppsSlice";
@@ -23,8 +22,9 @@ const Style = styled.section`
   }
 
   p {
-    width: 30rem;
+    width: 15rem;
     text-align: left;
+  
 
     //media qeury from 768px
     @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -33,7 +33,8 @@ const Style = styled.section`
 
     //media query from max 768px
     @media screen and (max-width: 767px) {
-      width: 15rem;
+
+      font-size: 0.8rem;
     }
   }
 
@@ -144,13 +145,11 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                 >
                   <div className="flex flex-col items-center gap-2">
                     <img
-                      className="w-[10rem] h-[10rem] max-md:self-start"
+                      className="w-[10rem] h-[10rem]"
                       src={app.users[i]?.picture}
                       alt={app.users[i]?.fullname}
                     />
-                    <h3 className=" max-md:self-start">
-                      {app.users[i]?.fullname}
-                    </h3>
+                    <h3>{app.users[i]?.fullname}</h3>
                     <h3
                       className={
                         app.apps[i]?.app_status === "Accepted"
@@ -178,13 +177,13 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   </div>
                   <div
                     onClick={() => handleOpen(i)}
-                    className={`max-md:px-0 max-xl:px-4 flex flex-col items-center gap-2 ${
+                    className={`cursor-pointer max-md:px-0 max-xl:px-4 flex flex-col items-center gap-2 ${
                       enlargedApp === i ? "" : "max-h-[5rem]"
                     }`}
                   >
-                    {app.apps[i]?.content}
+                    <p className="hyphens-auto">{app.apps[i]?.content}</p>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex flex-col gap-4 md:w-[10rem] md:justify-self-center xl:justify-self-end">
                     <button
                       onClick={() => handleWriteMessage(i)}
                       aria-label="write message"
@@ -195,7 +194,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                           : false
                       }
                     >
-                      <TfiWrite />
+                      ANSWER
                     </button>
                     <button
                       aria-label="accept"
