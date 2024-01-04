@@ -21,6 +21,12 @@ import DashboardFilter from "../components/DashboardFilter";
 import CompanyFilter from "../components/CompanyFilter";
 import DashboardSort from "../components/DashboardSort";
 import CompanySort from "../components/CompanySort";
+import { FaEdit } from "react-icons/fa";
+import { SlEnvolopeLetter } from "react-icons/sl";
+import { TbListDetails } from "react-icons/tb";
+import { GiCancel } from "react-icons/gi";
+import { MdDelete } from "react-icons/md";
+import { FaDoorClosed } from "react-icons/fa";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -278,28 +284,32 @@ const Dashboard = () => {
                 </div>
               </ProfileImage>
               <h2 className="lg:hidden text-center">
-                <span className="font-bold text-lg">
-                  {user?.fullname}
-                </span>
+                <span className="font-bold text-lg">{user?.fullname}</span>
               </h2>
             </div>
             <h1 className="max-lg:hidden">
               Hello, <span className="font-bold">{user?.fullname}</span>.
               Welcome to Devjobs!
             </h1>
-            <div className="flex gap-4 max-xl:flex-col">
+            <div className="flex gap-4 items-center max-xl:flex-col">
               <button
                 onClick={handleEditProfile}
                 className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
               >
-                Edit Profile
+                <div className="flex gap-2 items-center">
+                  Edit Profile
+                  <FaEdit />
+                </div>
               </button>
               {user.role === "private" && (
                 <button
                   onClick={handleMessages}
                   className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
-                  Read Messages
+                  <div className="flex gap-2 items-center">
+                    Read Messages
+                    <SlEnvolopeLetter />
+                  </div>
                 </button>
               )}
               {user.role === "company" && (
@@ -307,7 +317,10 @@ const Dashboard = () => {
                   onClick={handleReplies}
                   className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
-                  Read Replies
+                  <div className="flex gap-2 items-center">
+                    Read Replies
+                    <SlEnvolopeLetter />
+                  </div>
                 </button>
               )}
             </div>
@@ -417,13 +430,19 @@ const Dashboard = () => {
                         className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                         onClick={() => handleViewDetails(i)}
                       >
-                        View Details
+                        <div className="flex gap-2 items-center">
+                          Details
+                          <TbListDetails className="text-xl" />
+                        </div>
                       </button>
                       <button
                         className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleCancel(i)}
                       >
-                        Cancel App
+                        <div className="flex gap-2 items-center">
+                          Cancel
+                          <GiCancel className="text-xl" />
+                        </div>
                       </button>
                     </li>
                   );
@@ -462,25 +481,34 @@ const Dashboard = () => {
                         className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                         onClick={() => handleViewApplications(i)}
                       >
-                        View Apps
+                        Applications
                       </button>
                       <button
                         className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                         onClick={() => handleEditJob(i)}
                       >
-                        Edit Job
+                        <div className="flex gap-2 items-center">
+                          Edit Job
+                          <FaEdit />
+                        </div>
                       </button>
                       <button
                         className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleCancelJob(i)}
                       >
-                        Close Job
+                        <div className="flex gap-2 items-center">
+                          Close
+                          <FaDoorClosed />
+                        </div>
                       </button>
                       <button
                         className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
                         onClick={() => handleDeleteJob(i)}
                       >
-                        Delete Job
+                        <div className="flex gap-2 items-center">
+                          Delete
+                          <MdDelete className="text-xl" />
+                        </div>
                       </button>
                     </li>
                   );

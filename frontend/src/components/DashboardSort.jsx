@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { getApps } from "../slices/appsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { FaSortAlphaDown } from "react-icons/fa";
 
 const DashboardSort = () => {
   const {
@@ -104,7 +105,10 @@ const DashboardSort = () => {
         className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
         type="submit"
       >
-        Sort
+        <div className="flex gap-2 items-center">
+          Sort
+          <FaSortAlphaDown />
+        </div>
       </button>
     </form>
   );

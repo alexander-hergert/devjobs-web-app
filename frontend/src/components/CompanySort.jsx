@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { FaSortAlphaDown } from "react-icons/fa";
 
 const CompanySort = () => {
   const {
@@ -81,7 +82,10 @@ const CompanySort = () => {
           className="flex gap-2 btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
           type="submit"
         >
-          Sort
+          <div className="flex gap-2 items-center">
+            Sort
+            <FaSortAlphaDown />
+          </div>
         </button>
       </form>
     </div>
