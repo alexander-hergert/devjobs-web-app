@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getJobs } from "../slices/jobsSlice";
 import { getTotalJobs } from "../slices/totalJobsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { setPage } from "../slices/paginationSlice";
 import JobLoader from "./JobLoader";
 import ScrollUpButton from "./ScrollUpButton";
@@ -13,6 +12,7 @@ import ScrollUpButton from "./ScrollUpButton";
 const Jobs = () => {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.jobs);
+  const isLoading = useSelector((state) => state.jobs.isLoading);
   const totalJobs = useSelector((state) => state.totalJobs.totalJobs);
   const location = useLocation();
   const page = useSelector((state) => state.pagination.page);
@@ -22,7 +22,7 @@ const Jobs = () => {
     try {
       if (!location.search) {
         axios.get("http://localhost:3000/jobs").then((response) => {
-          dispatch(getJobs({ payload: response.data[0] }));
+          dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
           dispatch(getTotalJobs({ payload: response.data[1] }));
           console.log(response.data);
         });
@@ -31,7 +31,7 @@ const Jobs = () => {
         axios
           .get(`http://localhost:3000/jobs${location.search}`)
           .then((response) => {
-            dispatch(getJobs({ payload: response.data[0] }));
+            dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
             dispatch(getTotalJobs({ payload: response.data[1] }));
             console.log(response.data);
             //set the page number
@@ -55,7 +55,7 @@ const Jobs = () => {
     } catch (error) {}
   }, [location.search]);
 
-  if (jobs.length === 0) {
+  if (isLoading) {
     return (
       <section
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-x-[10px]

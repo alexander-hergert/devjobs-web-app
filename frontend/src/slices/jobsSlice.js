@@ -4,20 +4,20 @@ const jobsSlice = createSlice({
   name: "jobs",
   initialState: {
     jobs: [],
-    isLoading: false,
+    isLoading: true,
   },
   reducers: {
     getJobs: (state, action) => {
-      state.jobs = action.payload.payload;
+      state.jobs = action.payload.jobs;
+      state.isLoading = action.payload.isLoading;
     },
     getSingleJob: (state, action) => {
-      state.jobs = action.payload.payload;
+      state.jobs = action.payload.jobs;
     },
     //Async operations
   },
 });
 
-export const { getJobs, getSingleJob } =
-  jobsSlice.actions;
+export const { getJobs, getSingleJob } = jobsSlice.actions;
 
 export default jobsSlice;
