@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+import CharactersUsed from "./CharactersUsed";
 
 const Style = styled.section`
   position: absolute;
@@ -94,6 +95,11 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
             })}
             placeholder="Write your message here (min 50 and max 500 characters)"
             aria-invalid={errors.content ? "true" : "false"}
+          />
+          <CharactersUsed
+            charactersUsed={watch("content")?.length || 0}
+            maxCharacters={500}
+            offset={{ small: 0, medium: 0, large: 0 }}
           />
           {errors.content?.type === "required" && (
             <p className="text-red-500" role="alert">

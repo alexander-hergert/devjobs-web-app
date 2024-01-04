@@ -278,8 +278,9 @@ const EditJob = ({ setIsEditJob, selectedJob }) => {
           ></textarea>
         </div>
         <CharactersUsed
-          charactersUsed={watch("description")?.length}
+          charactersUsed={watch("description")?.length || 0}
           maxCharacters={500}
+          offset={{ small: 2, medium: 8, large: 13 }}
         />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors.description?.type === "required" && (
@@ -308,6 +309,11 @@ const EditJob = ({ setIsEditJob, selectedJob }) => {
             defaultValue={companyJobs[selectedJob]?.requirements}
           ></textarea>
         </div>
+        <CharactersUsed
+          charactersUsed={watch("requirementsContent")?.length || 0}
+          maxCharacters={500}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors["requirementsContent"]?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
@@ -385,6 +391,11 @@ const EditJob = ({ setIsEditJob, selectedJob }) => {
             defaultValue={companyJobs[selectedJob]?.job_role}
           ></textarea>
         </div>
+        <CharactersUsed
+          charactersUsed={watch("roleContent")?.length || 0}
+          maxCharacters={500}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors["roleContent"]?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">

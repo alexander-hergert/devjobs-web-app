@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { useNavigate } from "react-router-dom";
+import CharactersUsed from "./CharactersUsed";
 
 const Style = styled.section`
   position: fixed;
@@ -118,6 +119,11 @@ const ApplicationForm = ({ setIsApplication }) => {
             </p>
           )}
         </div>
+        <CharactersUsed
+          charactersUsed={watch("content")?.length || 0}
+          maxCharacters={500}
+          offset={{ small: 0, medium: 0, large: 0 }}
+        />
         <input
           type="submit"
           value="submit application"
