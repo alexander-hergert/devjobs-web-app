@@ -13,6 +13,7 @@ const jobsSlice = createSlice({
     },
     getSingleJob: (state, action) => {
       state.jobs = action.payload.jobs;
+      state.isLoading = action.payload.isLoading;
     },
     //Async operations
   },

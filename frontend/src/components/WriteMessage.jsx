@@ -102,7 +102,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
           <CharactersUsed
             charactersUsed={watch("content")?.length || 0}
             maxCharacters={500}
-            offset={{small: 0, medium: 0, large: 0}}
+            offset={{ small: 0, medium: 0, large: 0 }}
           />
           {errors.content?.type === "required" && (
             <p className="text-red-500" role="alert">

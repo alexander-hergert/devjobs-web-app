@@ -1,7 +1,6 @@
 import React from "react";
 
 const CharactersUsed = ({ charactersUsed, maxCharacters, offset }) => {
-  
   const { small = 0, medium = 0, large = 0 } = offset;
 
   return (

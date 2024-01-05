@@ -18,13 +18,14 @@ const InnerPage = () => {
 
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs.jobs);
+  console.log(jobs);
   const job = jobs[0];
   const [isApplication, setIsApplication] = useState(false);
 
   useEffect(() => {
     try {
       axios.get(`http://localhost:3000/${jobId}`).then((response) => {
-        dispatch(getSingleJob({ payload: response.data }));
+        dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
         console.log(response.data);
       });
     } catch {}
