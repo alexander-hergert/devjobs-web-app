@@ -97,26 +97,30 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
         </h2>
         <p className="my-10 text-slate-400">{job?.requirements}</p>
         <ul className="my-4">
-          {requirementsArray?.map((item, i) => (
-            <LiUl className="my-2 text-slate-400" key={`${item + i}`}>
-              {item}
-            </LiUl>
-          ))}
+          {requirementsArray?.map((item, i) =>
+            item ? (
+              <LiUl className="my-2 text-slate-400" key={`${item + i}`}>
+                {item}
+              </LiUl>
+            ) : null
+          )}
         </ul>
         <h2 className="my-10 text-primary max-md:font-bold max-md:text-lg">
           What You Will Do
         </h2>
         <p className="text-slate-400">{job?.job_role}</p>
         <ul className="my-4">
-          {roleArray?.map((item, i) => (
-            <LiOl
-              $number={i + 1}
-              className="my-2 text-slate-400"
-              key={`${item + i}`}
-            >
-              {item}
-            </LiOl>
-          ))}
+          {roleArray?.map((item, i) =>
+            item ? (
+              <LiOl
+                $number={i + 1}
+                className="my-2 text-slate-400"
+                key={`${item + i}`}
+              >
+                {item}
+              </LiOl>
+            ) : null
+          )}
         </ul>
       </section>
     </>
