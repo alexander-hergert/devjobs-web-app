@@ -20,11 +20,19 @@ const JobHeader = ({ job }) => {
           </div>
           <div className="max-md:text-center">
             <p className="text-2xl font-bold text-primary">{job?.company}</p>
-            <p className="text-slate-500">{job?.company_website}</p>
+            <a
+              target="blank"
+              href={job?.company_website}
+              className="text-slate-500"
+            >
+              {job?.company_website}
+            </a>
           </div>
         </div>
         <div className="max-md:flex-row flex flex-col gap-4">
-          <button
+          <a
+            target="blank"
+            href={job?.company_website}
             className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
               theme === "light"
                 ? "bg-[#eeeffc] text-[#5964e0]"
@@ -32,7 +40,7 @@ const JobHeader = ({ job }) => {
             }`}
           >
             Company Site
-          </button>
+          </a>
           <Link
             to="/"
             className={`btn max-md:mb-8 md:mr-10 w-[147px] h-[48px] border-none duration-0 capitalize ${
