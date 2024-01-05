@@ -54,31 +54,33 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
       >
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2>Job Position</h2>
-          <p>{appliedJobs[data].position}</p>
+          <p className="break-words">{appliedJobs[data].position}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2>Company</h2>
-          <p>{appliedJobs[data].company}</p>
+          <p className="break-words">{appliedJobs[data].company}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2>Location</h2>
-          <p>{appliedJobs[data].location}</p>
+          <p className="break-words">{appliedJobs[data].location}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2 className="self-start">Job Description</h2>
-          <p>{appliedJobs[data].description}</p>
+          <p className="break-words">{appliedJobs[data].description}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2 className="text-left">Job Status</h2>
-          <p>{appliedJobs[data].status ? "open" : "closed"}</p>
+          <p className="break-words">
+            {appliedJobs[data].status ? "open" : "closed"}
+          </p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2>Application Status</h2>
-          <p>{applications[data].app_status}</p>
+          <p className="break-words">{applications[data].app_status}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
           <h2>Application Text</h2>
-          <p>{applications[data].content}</p>
+          <p className="break-words">{applications[data].content}</p>
         </div>
         <Link
           to={`/${appliedJobs[data].job_id}`}
