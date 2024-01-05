@@ -126,7 +126,9 @@ const CreateJobs = ({ setIsCreateJob }) => {
       });
       setIsCreateJob(false);
       //update companyJobs state
-      dispatch(getCompanyJobs({ payload: response.data }));
+      dispatch(
+        getCompanyJobs({ companyJobs: response.data, isLoading: false })
+      );
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);

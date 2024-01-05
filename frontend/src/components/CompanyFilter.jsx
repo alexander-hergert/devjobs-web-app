@@ -31,7 +31,7 @@ const CompanyFilter = () => {
 
   useEffect(() => {
     const data = { search, contract };
-    if (allJobs.length !== 0 && (search || contract)) {
+    if (allJobs?.length !== 0 && (search || contract)) {
       onSubmit(data);
     }
   }, [allJobs]);
