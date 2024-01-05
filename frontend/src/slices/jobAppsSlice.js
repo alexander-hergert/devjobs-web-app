@@ -8,7 +8,8 @@ const jobAppSlice = createSlice({
   },
   reducers: {
     getCompanyApps: (state, action) => {
-      state.jobApps = action.payload.payload;
+      state.jobApps = action.payload.jobApps;
+      state.isLoading = action.payload.isLoading;
     },
   },
 });

@@ -9,7 +9,7 @@ const companyJobsSlice = createSlice({
   reducers: {
     getCompanyJobs: (state, action) => {
       state.companyJobs = action.payload.companyJobs;
-      state.isLoading = false;
+      state.isLoading = action.payload.isLoading;
     },
   },
 });

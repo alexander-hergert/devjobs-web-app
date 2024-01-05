@@ -24,7 +24,6 @@ const Style = styled.section`
   p {
     width: 15rem;
     text-align: left;
-  
 
     //media qeury from 768px
     @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -33,7 +32,6 @@ const Style = styled.section`
 
     //media query from max 768px
     @media screen and (max-width: 767px) {
-
       font-size: 0.8rem;
     }
   }
@@ -77,7 +75,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
         }
       );
       console.log(response.data);
-      dispatch(getCompanyApps({ payload: response.data }));
+      dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
     } catch (error) {
       console.log(error);
     }
@@ -104,7 +102,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
           }
         );
         console.log(response.data);
-        dispatch(getCompanyApps({ payload: response.data }));
+        dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
       } catch (error) {
         console.log(error);
       }

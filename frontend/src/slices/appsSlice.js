@@ -9,7 +9,7 @@ const appsSlice = createSlice({
   reducers: {
     getApps: (state, action) => {
       state.apps = action.payload.apps;
-      state.isLoading = false;
+      state.isLoading = action.payload.isLoading;
     },
   },
 });

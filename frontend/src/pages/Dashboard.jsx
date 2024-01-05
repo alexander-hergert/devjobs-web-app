@@ -108,7 +108,7 @@ const Dashboard = () => {
           },
         });
         console.log(response.data);
-        dispatch(getApps({ payload: response.data }));
+        dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -125,7 +125,9 @@ const Dashboard = () => {
           }
         );
         console.log(response.data);
-        dispatch(getCompanyJobs({ payload: response.data }));
+        dispatch(
+          getCompanyJobs({ companyJobs: response.data, isLoading: false })
+        );
       } catch (error) {
         console.error("Error calling API:", error);
       }
@@ -179,7 +181,7 @@ const Dashboard = () => {
         },
       });
       //update apps state
-      dispatch(getApps({ payload: response.data }));
+      dispatch(getApps({ apps: response.data, isLoading: false }));
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
@@ -203,7 +205,9 @@ const Dashboard = () => {
         },
       });
       //update companyJobs state
-      dispatch(getCompanyJobs({ payload: response.data }));
+      dispatch(
+        getCompanyJobs({ companyJobs: response.data, isLoading: false })
+      );
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
@@ -227,7 +231,9 @@ const Dashboard = () => {
         },
       });
       //update companyJobs state
-      dispatch(getCompanyJobs({ payload: response.data }));
+      dispatch(
+        getCompanyJobs({ companyJobs: response.data, isLoading: false })
+      );
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
