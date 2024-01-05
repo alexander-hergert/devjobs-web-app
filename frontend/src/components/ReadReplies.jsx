@@ -79,17 +79,20 @@ const ReadMessages = ({ setIsReadingReplies }) => {
         max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
       >
         <h2 className="text-center font-bold">Read Replies</h2>
-        <div className="flex gap-4 items-center my-4">
+        <div className="flex flex-col gap-4 items-center my-4">
           {replies?.map((reply, i) => (
             <div
               className="flex items-center gap-4 max-md:flex-col"
               key={`${reply?.subject + i}`}
             >
-              <div className="flex flex-col gap-4 my-4">
-                <h3 className="font-bold">
+              <div
+                className="m-auto p-10 max-md:w-[327px] 
+        max-md:p-6 md:w-[690px] xl:w-[1100px]"
+              >
+                <h3 className="font-bold mb-2">
                   {`(${i + 1})  Subject: ${reply?.subject}`}
                 </h3>
-                <p>{reply?.content}</p>
+                <p className="break-words">{reply?.content}</p>
               </div>
             </div>
           ))}
