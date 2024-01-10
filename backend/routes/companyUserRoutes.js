@@ -340,24 +340,30 @@ companyRouter.get("/getReplies", async (req, res) => {
         [job_ids]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
+      console.log(app_ids);
       //get all messages from apps
       const resultMessages = await client.query(
         "SELECT * FROM messages WHERE app_id = ANY($1)",
         [app_ids]
       );
       const messages = resultMessages.rows;
+      console.log(messages);
       //get all replies from messages
+      console.log(messages);
       const resultReplies = await client.query(
-        "SELECT * FROM replies WHERE message_id = ANY($1)",
-        [messages.map((row) => row.message_id)]
+        "SELECT * FROM replies WHERE app_id = ANY($1)",
+        [app_ids]
       );
       const replies = resultReplies.rows;
+      console.log(replies);
       //add subject to replies
       replies.forEach((reply) => {
         const message = messages.find(
-          (message) => message.message_id === reply.message_id
+          (message) => message.app_id === reply.app_id
         );
-        reply.subject = message.subject;
+        if (message) {
+          reply.subject = message.subject;
+        }
       });
       res.status(200).json(replies);
       client.release();

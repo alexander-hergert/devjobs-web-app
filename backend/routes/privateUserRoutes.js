@@ -260,12 +260,12 @@ privateRouter.get("/messages", async (req, res) => {
     const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
-      //select from table messages, get related ap_ids fro muser id
+      //select from table messages, get related app_ids from user id
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
         [user_id]
       );
-      //select all messages from table where ap_id is in resultApps
+      //select all messages from table where app_id is in resultApps
       const app_ids = resultApps.rows.map((row) => row.app_id);
       const messages = await client.query(
         `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
@@ -307,10 +307,10 @@ privateRouter.delete("/messages", async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
         return;
       } else {
-        //if yes also delete all replies
-        await client.query("DELETE FROM replies WHERE message_id = $1", [
-          message_id,
-        ]);
+        //if yes also delete all replies (possible lines to use if replies are relational connected to messages)
+        // await client.query("DELETE FROM replies WHERE message_id = $1", [
+        //   message_id,
+        // ]);
         //if yes, delete message
         await client.query("DELETE FROM messages WHERE message_id = $1", [
           message_id,
@@ -335,11 +335,19 @@ privateRouter.delete("/messages", async (req, res) => {
 privateRouter.post("/createReply", async (req, res) => {
   console.log(req.body);
   const { message_id, content } = req.body;
+  console.log(message_id, content);
   const userInfo = await authorize(req);
   if (userInfo) {
     const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
+      //select app by message_id
+      const app_id_result = await client.query(
+        "SELECT app_id FROM messages WHERE message_id = $1",
+        [message_id]
+      );
+      const app_id = app_id_result.rows[0].app_id;
+      console.log(app_id);
       //check if message_id is related to the user by using app_id
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
@@ -358,9 +366,16 @@ privateRouter.post("/createReply", async (req, res) => {
         return;
       } else {
         //if yes, create reply
+        //select jobid from applications to get subject
+        const job = await client.query(
+          "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
+          [app_id]
+        );
+        console.log(job.rows[0]);
+        const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location}`;
         await client.query(
-          "INSERT INTO replies (message_id, content) VALUES ($1, $2)",
-          [message_id, content]
+          "INSERT INTO replies (app_id, subject, content) VALUES ($1, $2, $3)",
+          [app_id, subject, content]
         );
       }
       res.status(200).json({ message: "Reply created" });
