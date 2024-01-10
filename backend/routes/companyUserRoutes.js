@@ -376,4 +376,61 @@ companyRouter.get("/getReplies", async (req, res) => {
   }
 });
 
+//delete reply
+companyRouter.delete("/deleteReply", async (req, res) => {
+  console.log(req.body);
+  const { reply_id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    try {
+      const client = await pool.connect();
+      //check if the id is part of users jobs
+      //get all jobs_ids from company user
+      const resultJobs = await client.query(
+        "SELECT * FROM jobs WHERE user_id = $1",
+        [user_id]
+      );
+      const job_ids = resultJobs.rows.map((row) => row.job_id);
+      console.log(job_ids);
+      //get all app_ids from jobs
+      const resultApps = await client.query(
+        "SELECT * FROM applications WHERE job_id = ANY($1)",
+        [job_ids]
+      );
+      const app_ids = resultApps.rows.map((row) => row.app_id);
+      console.log(app_ids);
+      //get all replies with app_ids
+      const resultReplies = await client.query(
+        "SELECT * FROM replies WHERE app_id = ANY($1)",
+        [app_ids]
+      );
+      const reply_ids = resultReplies.rows.map((row) => row.reply_id);
+      console.log(reply_ids);
+      //check if reply_ids contains reply_id
+      if (!reply_ids.includes(reply_id)) {
+        //if not, unauthorized
+        res.status(401).json({ error: "Unauthorized" });
+        return;
+      } else {
+        //if yes, delete message
+        await client.query("DELETE FROM replies WHERE reply_id = $1", [
+          reply_id,
+        ]);
+      }
+      //select all replies
+      const replies = await client.query(
+        `SELECT * FROM replies WHERE reply_id IN (${reply_ids.join(",")})`
+      );
+      res.json(replies.rows);
+      client.release();
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized" });
+  }
+});
+
 export default companyRouter;

@@ -118,20 +118,20 @@ const ReadMessages = ({ setIsReadingMessages }) => {
                   <h3 className="font-bold">
                     {`(${i + 1})  Subject: ${message?.subject}`}
                   </h3>
-                  <p>{message?.content}</p>
+                  <p className="break-words">{message?.content}</p>
                 </div>
-                <div className="flex md:flex-col self-start max-md:gap-4">
+                <div className="flex md:flex-col md:self-start max-md:gap-4">
                   <button
                     onClick={() => handleOpenReply(message?.message_id)}
                     aria-label="answer to message"
-                    className="flex gap-4 items-center p-2 rounded-lg capitalize md:mt-4 text-white bg-accent hover:bg-info min-w-[4rem]"
+                    className="flex gap-4 justify-center items-center p-2 rounded-lg capitalize md:mt-4 text-white bg-accent hover:bg-info min-w-[4rem]"
                   >
                     ANSWER
                     <TfiWrite />
                   </button>
                   <button
                     onClick={() => handleDelete(message?.message_id)}
-                    className="flex gap-4 items-center p-2 rounded-lg text-white capitalize bg-red-500 md:my-2 hover:bg-red-200 min-w-[4rem]"
+                    className="flex gap-4 justify-center items-center p-2 rounded-lg text-white capitalize bg-red-500 md:my-2 hover:bg-red-200 min-w-[4rem]"
                     aria-label="delete message"
                   >
                     DELETE

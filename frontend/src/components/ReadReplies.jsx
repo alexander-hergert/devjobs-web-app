@@ -5,6 +5,7 @@ import axios from "axios";
 import { getReplies } from "../slices/repliesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "./Loader";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Style = styled.section`
   position: absolute;
@@ -57,6 +58,18 @@ const ReadMessages = ({ setIsReadingReplies }) => {
     loadMessages();
   }, []);
 
+  const handleDelete = async (reply_id) => {
+    const token = await getAccessTokenSilently();
+    const response = await axios.delete(`http://localhost:3000/deleteReply`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: { reply_id },
+    });
+    console.log(response.data);
+    dispatch(getReplies({ payload: response.data }));
+  };
+
   if (isLoading) {
     return (
       <Style>
@@ -85,15 +98,20 @@ const ReadMessages = ({ setIsReadingReplies }) => {
               className="flex items-center gap-4 max-md:flex-col"
               key={`${reply?.subject + i}`}
             >
-              <div
-                className="m-auto p-10 max-md:w-[327px] 
-        max-md:p-6 md:w-[690px] xl:w-[1100px]"
-              >
+              <div className="flex flex-col gap-4 my-4">
                 <h3 className="font-bold mb-2">
                   {`(${i + 1})  Subject: ${reply?.subject}`}
                 </h3>
                 <p className="break-words">{reply?.content}</p>
               </div>
+              <button
+                onClick={() => handleDelete(reply?.reply_id)}
+                className="flex md:self-start justify-center gap-4 items-center p-2 rounded-lg text-white capitalize bg-red-500 md:my-2 hover:bg-red-200 min-w-[8rem]"
+                aria-label="delete reply"
+              >
+                DELETE
+                <FaTrashAlt />
+              </button>
             </div>
           ))}
         </div>
