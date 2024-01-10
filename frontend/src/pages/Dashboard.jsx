@@ -97,6 +97,10 @@ const Dashboard = () => {
   const [selectedJob, setSelectedJob] = useState(0);
   const [viewApplications, setViewApplications] = useState(false);
 
+  useEffect(() => {
+    handleRefresh();
+  }, []);
+
   const handleRefresh = async () => {
     //if user is private
     if (user?.role === "private") {

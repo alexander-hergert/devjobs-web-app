@@ -186,11 +186,11 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                       onClick={() => handleWriteMessage(i)}
                       aria-label="write message"
                       className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                      disabled={
-                        messages[i]?.app_id === app.apps[i]?.app_id
-                          ? true
-                          : false
-                      }
+                      // disabled={
+                      //   messages[i]?.app_id === app.apps[i]?.app_id
+                      //     ? true
+                      //     : false
+                      // }
                     >
                       ANSWER
                     </button>

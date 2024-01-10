@@ -31,8 +31,10 @@ const DashboardFilter = () => {
   useEffect(() => {
     const data = { search, contract };
     console.log(allApps);
-    if (Object.keys(allApps).length !== 0 && (search || contract)) {
-      onSubmit(data);
+    if (allApps) {
+      if (Object.keys(allApps).length !== 0 && (search || contract)) {
+        onSubmit(data);
+      }
     }
   }, [allApps]);
 

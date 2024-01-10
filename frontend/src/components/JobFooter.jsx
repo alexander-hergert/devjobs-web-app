@@ -8,7 +8,7 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
   const user = useSelector((state) => state.user.user);
   const apps = useSelector((state) => state.apps.apps);
   const job_id = useParams().jobId;
-  const isApplied = apps.applications?.some(
+  const isApplied = apps?.applications?.some(
     (app) => app.job_id === Number(job_id)
   );
 

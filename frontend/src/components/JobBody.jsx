@@ -43,7 +43,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   const roleArray = roleString?.split("##");
   const job_id = useParams().jobId;
   const apps = useSelector((state) => state.apps.apps);
-  const isApplied = apps.applications?.some(
+  const isApplied = apps?.applications?.some(
     (app) => app.job_id === Number(job_id)
   );
 

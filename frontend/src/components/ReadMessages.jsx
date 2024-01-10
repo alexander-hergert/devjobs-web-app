@@ -108,7 +108,7 @@ const ReadMessages = ({ setIsReadingMessages }) => {
         max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
         >
           <h2 className="text-center font-bold">Read Messages</h2>
-          <div className="flex gap-4 items-center my-4">
+          <div className="flex flex-col gap-4 items-center my-4">
             {messages?.map((message, i) => (
               <div
                 className="flex items-center gap-4 max-md:flex-col"

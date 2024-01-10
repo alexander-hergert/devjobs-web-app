@@ -16,7 +16,7 @@ const Job = ({ job }) => {
   } = job;
 
   const apps = useSelector((state) => state.apps.apps);
-  const isApplied = apps.applications?.some(
+  const isApplied = apps?.applications?.some(
     (app) => app.job_id === Number(job_id)
   );
 

@@ -242,7 +242,7 @@ const createTableReplies = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS replies (
         reply_id SERIAL PRIMARY KEY,
-        message_id INT NOT NULL REFERENCES messages(message_id),
+        message_id INT NOT NULL,
         content TEXT NOT NULL
         )
       `
