@@ -25,6 +25,7 @@ const Jobs = () => {
           dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
           dispatch(getTotalJobs({ payload: response.data[1] }));
           console.log(response.data);
+          dispatch(setPage({ payload: 1 }));
         });
       } else {
         //Query string is present
