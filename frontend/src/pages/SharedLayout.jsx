@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
+import { useLocation } from "react-router-dom";
 
 //shared code goes into jsx
 const SharedLayout = () => {

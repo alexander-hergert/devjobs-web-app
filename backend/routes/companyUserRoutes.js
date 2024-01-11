@@ -248,7 +248,7 @@ companyRouter.get("/getJobApplications", async (req, res) => {
   }
 });
 
-//update jobaaplication
+//update jobapplication
 companyRouter.put("/updateJobApplication", async (req, res) => {
   const { job_id, user_id, status } = req.body;
   const userInfo = await authorize(req);
@@ -287,7 +287,6 @@ companyRouter.post("/createMessage", async (req, res) => {
   const { app_id, content } = req.body;
 
   const userInfo = await authorize(req);
-
   if (userInfo) {
     try {
       const client = await pool.connect();
@@ -303,6 +302,19 @@ companyRouter.post("/createMessage", async (req, res) => {
         "INSERT INTO messages (app_id, subject, content) VALUES ($1, $2, $3)",
         [app_id, subject, content]
       );
+      //update the recipient has_new_message status to true
+      //find the related user_id (recipient) use app_ids
+      const resultUsers = await client.query(
+        "SELECT * FROM applications WHERE app_id = $1",
+        [app_id]
+      );
+      const user_id = resultUsers.rows[0].user_id;
+      //update the user
+      await client.query(
+        "UPDATE users SET has_new_message = true WHERE user_id = $1",
+        [user_id]
+      );
+      //select all messages (does it make sense?)
       const result = await client.query(
         "SELECT * FROM messages WHERE app_id = $1",
         [app_id]
@@ -322,12 +334,13 @@ companyRouter.post("/createMessage", async (req, res) => {
 companyRouter.get("/getReplies", async (req, res) => {
   const userInfo = await authorize(req);
   if (userInfo) {
+    const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
       //get all jobs_ids from company user
       const resultJobs = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1",
-        [userInfo.sub]
+        [user_id]
       );
       const job_ids = resultJobs.rows.map((row) => row.job_id);
       //get all app_ids from jobs
@@ -361,7 +374,21 @@ companyRouter.get("/getReplies", async (req, res) => {
           reply.subject = message.subject;
         }
       });
-      res.status(200).json(replies);
+      //update user has_new_message to false
+      await client.query(
+        "UPDATE users SET has_new_message = false WHERE user_id = $1",
+        [user_id]
+      );
+      //select the user again
+      const resultUser = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      //send replies and user
+      res.json({
+        replies: replies,
+        user: resultUser.rows[0],
+      });
       client.release();
     } catch (err) {
       console.error("Error executing query", err);

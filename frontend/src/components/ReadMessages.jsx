@@ -8,6 +8,7 @@ import { TfiWrite } from "react-icons/tfi";
 import { FaTrashAlt } from "react-icons/fa";
 import ReplyMessage from "./ReplyMessage";
 import Loader from "./Loader";
+import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
   position: absolute;
@@ -57,7 +58,10 @@ const ReadMessages = ({ setIsReadingMessages }) => {
         },
       });
       console.log(response.data);
-      dispatch(getMessages({ messages: response.data, isLoading: false }));
+      dispatch(
+        getMessages({ messages: response.data.messages, isLoading: false })
+      );
+      dispatch(setUser({ user: response.data.user, isLoading: false }));
     };
     loadMessages();
   }, []);

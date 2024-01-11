@@ -272,7 +272,21 @@ privateRouter.get("/messages", async (req, res) => {
         "SELECT * FROM messages WHERE app_id = ANY($1)",
         [app_ids]
       );
-      res.json(messages.rows);
+      //update user has_new_message to false
+      await client.query(
+        "UPDATE users SET has_new_message = false WHERE user_id = $1",
+        [user_id]
+      );
+      //select the user again
+      const resultUser = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      //send messages and user
+      res.json({
+        messages: messages.rows,
+        user: resultUser.rows[0],
+      });
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
@@ -338,7 +352,6 @@ privateRouter.post("/createReply", async (req, res) => {
   console.log(message_id, content);
   const userInfo = await authorize(req);
   if (userInfo) {
-    const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
       //select app by message_id
@@ -351,7 +364,7 @@ privateRouter.post("/createReply", async (req, res) => {
       //check if message_id is related to the user by using app_id
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
-        [user_id]
+        [userInfo.sub]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
       //fetch all messages with app_ids from related user
@@ -379,6 +392,24 @@ privateRouter.post("/createReply", async (req, res) => {
           [app_id, subject, content]
         );
       }
+      //update the recipient has_new_message status to true
+      //find the related user_id (recipient) use job_id
+      const resultJobs = await client.query(
+        "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
+        [app_id]
+      );
+      const job_id = resultJobs.rows[0].job_id;
+      //find the related user_id (recipient) use job_id
+      const resultUsers = await client.query(
+        "SELECT * FROM users WHERE user_id = (SELECT user_id FROM jobs WHERE job_id = $1)",
+        [job_id]
+      );
+      const user_id = resultUsers.rows[0].user_id;
+      //update the user
+      await client.query(
+        "UPDATE users SET has_new_message = true WHERE user_id = $1",
+        [user_id]
+      );
       res.status(200).json({ message: "Reply created" });
     } catch (error) {
       console.error("Error creating reply:", error);

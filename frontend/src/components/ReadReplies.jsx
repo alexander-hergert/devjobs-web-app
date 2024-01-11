@@ -6,6 +6,7 @@ import { getReplies } from "../slices/repliesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "./Loader";
 import { FaTrashAlt } from "react-icons/fa";
+import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
   position: absolute;
@@ -53,7 +54,10 @@ const ReadMessages = ({ setIsReadingReplies }) => {
         },
       });
       console.log(response.data);
-      dispatch(getReplies({ replies: response.data, isLoading: false }));
+      dispatch(
+        getReplies({ replies: response.data.replies, isLoading: false })
+      );
+      dispatch(setUser({ user: response.data.user, isLoading: false }));
     };
     loadMessages();
   }, []);
