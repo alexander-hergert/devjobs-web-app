@@ -202,10 +202,6 @@ companyRouter.delete("/deletejob", async (req, res) => {
     const user_id = userInfo.sub;
     try {
       const client = await pool.connect();
-      //delete application related to job first
-      await client.query("DELETE FROM applications WHERE job_id = $1", [
-        job_id,
-      ]);
       //delete job
       await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
       const result = await client.query(
@@ -420,7 +416,8 @@ companyRouter.delete("/deleteReply", async (req, res) => {
       }
       //select all replies
       const replies = await client.query(
-        `SELECT * FROM replies WHERE reply_id IN (${reply_ids.join(",")})`
+        "SELECT * FROM replies WHERE reply_id = ANY($1)",
+        [reply_ids]
       );
       res.json(replies.rows);
       client.release();

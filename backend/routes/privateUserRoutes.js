@@ -157,9 +157,9 @@ privateRouter.get("/appliedJobs", async (req, res) => {
       const jobsIds = resultApps.rows.map((row) => row.job_id);
       const resultJobs =
         jobsIds.length > 0
-          ? await client.query(
-              `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
-            )
+          ? await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
+              jobsIds,
+            ])
           : { rows: [] };
 
       res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
@@ -204,7 +204,8 @@ privateRouter.post("/apply", async (req, res) => {
       console.log(jobsIds);
       const resultJobs = await client.query(
         //find jobs with all jobsIds
-        `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
+        "SELECT * FROM jobs WHERE job_id = ANY($1)",
+        [jobsIds]
       );
       res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
@@ -238,9 +239,9 @@ privateRouter.delete("/application", async (req, res) => {
       //find jobs with all jobsIds
       const resultJobs =
         jobsIds.length > 0
-          ? await client.query(
-              `SELECT * FROM jobs WHERE job_id IN (${jobsIds.join(",")})`
-            )
+          ? await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
+              jobsIds,
+            ])
           : { rows: [] };
       res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
@@ -268,7 +269,8 @@ privateRouter.get("/messages", async (req, res) => {
       //select all messages from table where app_id is in resultApps
       const app_ids = resultApps.rows.map((row) => row.app_id);
       const messages = await client.query(
-        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+        "SELECT * FROM messages WHERE app_id = ANY($1)",
+        [app_ids]
       );
       res.json(messages.rows);
       client.release();
@@ -354,7 +356,8 @@ privateRouter.post("/createReply", async (req, res) => {
       const app_ids = resultApps.rows.map((row) => row.app_id);
       //fetch all messages with app_ids from related user
       const resultMessages = await client.query(
-        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+        "SELECT * FROM messages WHERE app_id = ANY($1)",
+        [app_ids]
       );
       const message_ids = resultMessages.rows.map((row) => row.message_id);
       //check if message_ids contains message_id

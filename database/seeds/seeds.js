@@ -90,7 +90,7 @@ const createTableJobs = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS jobs (
         job_id SERIAL PRIMARY KEY, 
-        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),
+        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
         logo VARCHAR(255),
         logo_background VARCHAR(255),
         status BOOLEAN NOT NULL, 
@@ -174,8 +174,8 @@ const createTableApplications = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS applications (
         app_id SERIAL PRIMARY KEY,
-        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id),
-        job_id INT NOT NULL REFERENCES jobs(job_id),
+        user_id VARCHAR(255) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+        job_id INT NOT NULL REFERENCES jobs(job_id) ON DELETE CASCADE,
         app_status VARCHAR(20) DEFAULT 'Pending',
         content TEXT NOT NULL
         )
@@ -215,7 +215,7 @@ const createTableMessages = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS messages (
         message_id SERIAL PRIMARY KEY,
-        app_id INT NOT NULL REFERENCES applications(app_id),
+        app_id INT NOT NULL REFERENCES applications(app_id) ON DELETE CASCADE,
         subject VARCHAR(100) NOT NULL,
         content TEXT NOT NULL
         )
@@ -242,7 +242,7 @@ const createTableReplies = async (client) => {
     await client.query(
       `CREATE TABLE IF NOT EXISTS replies (
         reply_id SERIAL PRIMARY KEY,
-        app_id INT NOT NULL REFERENCES applications(app_id),
+        app_id INT NOT NULL REFERENCES applications(app_id) ON DELETE CASCADE,
         subject VARCHAR(100) NOT NULL,
         content TEXT NOT NULL
         )
