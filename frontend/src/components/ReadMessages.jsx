@@ -76,7 +76,7 @@ const ReadMessages = ({ setIsReadingMessages }) => {
       data: { message_id },
     });
     console.log(response.data);
-    dispatch(getMessages({ payload: response.data }));
+    dispatch(getMessages({ messages: response.data, isLoading: false }));
   };
 
   if (isLoading) {
@@ -109,6 +109,9 @@ const ReadMessages = ({ setIsReadingMessages }) => {
         >
           <h2 className="text-center font-bold">Read Messages</h2>
           <div className="flex flex-col gap-4 items-center my-4">
+            {messages?.length === 0 && (
+              <p className="text-center">No messages yet</p>
+            )}
             {messages?.map((message, i) => (
               <div
                 className="flex items-center gap-4 max-md:flex-col"

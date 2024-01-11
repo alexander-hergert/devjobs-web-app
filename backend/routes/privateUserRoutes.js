@@ -298,7 +298,8 @@ privateRouter.delete("/messages", async (req, res) => {
       const app_ids = resultApps.rows.map((row) => row.app_id);
       //get all message ids with app_ids
       const resultMessages = await client.query(
-        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+        "SELECT * FROM messages WHERE app_id = ANY($1)",
+        [app_ids]
       );
       const message_ids = resultMessages.rows.map((row) => row.message_id);
       //check if messages_ids contains message_id
@@ -307,10 +308,6 @@ privateRouter.delete("/messages", async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
         return;
       } else {
-        //if yes also delete all replies (possible lines to use if replies are relational connected to messages)
-        // await client.query("DELETE FROM replies WHERE message_id = $1", [
-        //   message_id,
-        // ]);
         //if yes, delete message
         await client.query("DELETE FROM messages WHERE message_id = $1", [
           message_id,
@@ -318,7 +315,8 @@ privateRouter.delete("/messages", async (req, res) => {
       }
       //select all messages from table where app_id is in resultApps
       const messages = await client.query(
-        `SELECT * FROM messages WHERE app_id IN (${app_ids.join(",")})`
+        "SELECT * FROM messages WHERE app_id = ANY($1)",
+        [app_ids]
       );
       res.json(messages.rows);
       client.release();
