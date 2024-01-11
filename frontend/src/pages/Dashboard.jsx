@@ -319,6 +319,7 @@ const Dashboard = () => {
                   <div className="flex gap-2 items-center">
                     Read Messages
                     <SlEnvolopeLetter />
+                    <div className="relative bottom-2 right-5 w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
                   </div>
                 </button>
               )}
@@ -330,6 +331,7 @@ const Dashboard = () => {
                   <div className="flex gap-2 items-center">
                     Read Replies
                     <SlEnvolopeLetter />
+                    <div className="relative bottom-2 right-5 w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
                   </div>
                 </button>
               )}

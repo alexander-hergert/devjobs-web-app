@@ -35,15 +35,18 @@ const deleteTableUsers = async (client) => {
 const createTableUsers = async (client) => {
   try {
     await client.query(
-      `CREATE TABLE IF NOT EXISTS users (user_id VARCHAR(100) PRIMARY KEY, 
-      role VARCHAR(20) NOT NULL, 
-      email VARCHAR(100) NOT NULL, 
-      fullname VARCHAR(100) NOT NULL,
-      picture VARCHAR(255), 
-      address VARCHAR(100),
-      location VARCHAR(100), 
-      skills VARCHAR(100),
-      user_website VARCHAR(100))`
+      `CREATE TABLE IF NOT EXISTS users (
+    user_id VARCHAR(100) PRIMARY KEY, 
+    role VARCHAR(20) NOT NULL, 
+    email VARCHAR(100) NOT NULL, 
+    fullname VARCHAR(100) NOT NULL,
+    picture VARCHAR(255), 
+    address VARCHAR(100),
+    location VARCHAR(100), 
+    skills VARCHAR(100),
+    user_website VARCHAR(100),
+    has_new_message BOOLEAN NOT NULL DEFAULT FALSE
+  )`
     );
     console.log("Table users created successfully!");
   } catch (error) {
@@ -52,17 +55,6 @@ const createTableUsers = async (client) => {
 };
 
 const fillUsersTable = async (client) => {
-  // await addUser(
-  //   client,
-  //   user_id,
-  //   role,
-  //   email,
-  //   fullname,
-  //   picture,
-  //   null,
-  //   null,
-  //   null
-  // );
   for (let i = 0; i < companies.length; i++) {
     const company = companies[i];
     await addUser(
@@ -71,7 +63,12 @@ const fillUsersTable = async (client) => {
       "company",
       company.email,
       company.name,
-      company.logo
+      company.logo,
+      null,
+      null,
+      null,
+      null,
+      false
     );
   }
 };
@@ -266,7 +263,7 @@ const callFunctions = async () => {
     await fillJobsTable(client);
     await deleteTableApplications(client);
     await createTableApplications(client);
-    await fillApplicationsTable(client);
+    //await fillApplicationsTable(client); fill manually
     await deleteTableMessages(client);
     await createTableMessages(client);
     await deleteTableReplies(client);

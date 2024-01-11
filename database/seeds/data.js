@@ -452,6 +452,7 @@ export const jobs = [
       Consistently improve our platform so we can deliver features quickly with high reliability and scalability.##
       Apply user experience methodology and best practices to translate user needs and business requirements into engaging user-centered design.##
       Write/maintain documentation for the client and other team members.`,
+    company_website: "https://example.com/coffeeroasters",
   },
   {
     user_id: "Blogr",
@@ -479,5 +480,6 @@ export const jobs = [
       Write high quality software for the frontend##
       Do code reviews##
       Proactively solve the problems most important to the business`,
+    company_website: "https://example.com/blogr",
   },
 ];
