@@ -129,7 +129,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
         </button>
         <div
           className="grid grid-cols-4 justify-center justify-items-center items-center m-auto bg-neutral 
-        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary p-4 border-b-4 border-accent"
+        max-md:w-[327px] max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl text-primary p-4"
         >
           <div className="col-span-4">
             <h2 className="pl-12 text-2xl font-bold">Applications</h2>
@@ -138,7 +138,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
             <ul className="col-span-4 mt-6 px-4">
               {companyApps?.map((apps, i) => (
                 <li
-                  className="col-span-4 grid xl:grid-cols-4 gap-4 md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1"
+                  className="mt-4 pb-4 col-span-4 grid xl:grid-cols-4 gap-4 md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1 border-b-4 border-accent"
                   key={i}
                 >
                   <div className="flex flex-col items-center gap-2">
@@ -159,13 +159,13 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                     </h3>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h4>{apps.user?.email}</h4>
-                    <h4>{apps.user?.location}</h4>
-                    <h4>{apps.user?.address}</h4>
-                    <h4>{apps.user?.skills}</h4>
+                    <h4 className="hyphens-auto">{apps.user?.email}</h4>
+                    <h4 className="hyphens-auto">{apps.user?.location}</h4>
+                    <h4 className="hyphens-auto">{apps.user?.address}</h4>
+                    <h4 className="hyphens-auto">{apps.user?.skills}</h4>
                     <h4>
                       <a
-                        className="text-blue-500 hover:text-blue-800"
+                        className="hyphens-auto text-blue-500 hover:text-blue-800"
                         href={apps.user?.user_website}
                         target="_blank"
                       >
@@ -176,10 +176,12 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   <div
                     onClick={() => handleOpen(i)}
                     className={`cursor-pointer max-md:px-0 max-xl:px-4 flex flex-col items-center gap-2 ${
-                      enlargedApp === i ? "" : "max-h-[5rem]"
+                      enlargedApp === i ? "" : "max-h-[15rem]"
                     }`}
                   >
-                    <p className="hyphens-auto">{apps.app?.content}</p>
+                    <p className="hyphens-auto overflow-hidden">
+                      {apps.app?.content}
+                    </p>
                   </div>
                   <div className="flex flex-col gap-4 md:w-[10rem] md:justify-self-center xl:justify-self-end">
                     <button
