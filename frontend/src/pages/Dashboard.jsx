@@ -485,7 +485,7 @@ const Dashboard = () => {
                 {companyJobs?.map((job, i) => {
                   return (
                     <li
-                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center"
+                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center p-2 bg-neutral"
                       key={job.job_id}
                     >
                       <p>{job.position}</p>

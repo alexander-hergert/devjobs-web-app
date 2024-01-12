@@ -59,7 +59,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
   const handleStatus = async (i, status) => {
     const data = {
       job_id: companyJobs[selectedJob]?.job_id,
-      user_id: companyApps[i]?.users[i]?.user_id,
+      user_id: companyApps[i]?.user?.user_id,
       status: status,
     };
     console.log(data);
