@@ -134,9 +134,9 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
           <div className="col-span-4">
             <h2 className="pl-12 text-2xl font-bold">Applications</h2>
           </div>
-          {companyApps[0]?.users[0]?.fullname && (
+          {companyApps[0]?.user?.fullname && (
             <ul className="col-span-4 mt-6 px-4">
-              {companyApps?.map((app, i) => (
+              {companyApps?.map((apps, i) => (
                 <li
                   className="col-span-4 grid xl:grid-cols-4 gap-4 md:grid-cols-2 md:grid-rows-2 xl:grid-rows-1"
                   key={i}
@@ -144,32 +144,32 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                   <div className="flex flex-col items-center gap-2">
                     <img
                       className="w-[10rem] h-[10rem]"
-                      src={app.users[i]?.picture}
-                      alt={app.users[i]?.fullname}
+                      src={apps.user?.picture}
+                      alt={apps.user?.fullname}
                     />
-                    <h3>{app.users[i]?.fullname}</h3>
+                    <h3>{apps.user?.fullname}</h3>
                     <h3
                       className={
-                        app.apps[i]?.app_status === "Accepted"
+                        apps.app?.app_status === "Accepted"
                           ? "text-green-500"
                           : "text-red-500"
                       }
                     >
-                      {app.apps[i]?.app_status}
+                      {apps.app?.app_status}
                     </h3>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h4>{app.users[i]?.email}</h4>
-                    <h4>{app.users[i]?.location}</h4>
-                    <h4>{app.users[i]?.address}</h4>
-                    <h4>{app.users[i]?.skills}</h4>
+                    <h4>{apps.user?.email}</h4>
+                    <h4>{apps.user?.location}</h4>
+                    <h4>{apps.user?.address}</h4>
+                    <h4>{apps.user?.skills}</h4>
                     <h4>
                       <a
                         className="text-blue-500 hover:text-blue-800"
-                        href={app.users[i]?.user_website}
+                        href={apps.user?.user_website}
                         target="_blank"
                       >
-                        {app.users[i]?.user_website}
+                        {apps.user?.user_website}
                       </a>
                     </h4>
                   </div>
@@ -179,18 +179,13 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
                       enlargedApp === i ? "" : "max-h-[5rem]"
                     }`}
                   >
-                    <p className="hyphens-auto">{app.apps[i]?.content}</p>
+                    <p className="hyphens-auto">{apps.app?.content}</p>
                   </div>
                   <div className="flex flex-col gap-4 md:w-[10rem] md:justify-self-center xl:justify-self-end">
                     <button
                       onClick={() => handleWriteMessage(i)}
                       aria-label="write message"
                       className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                      // disabled={
-                      //   messages[i]?.app_id === app.apps[i]?.app_id
-                      //     ? true
-                      //     : false
-                      // }
                     >
                       ANSWER
                     </button>
@@ -213,7 +208,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
               ))}
             </ul>
           )}
-          {!companyApps[0]?.users[0]?.fullname && (
+          {!companyApps[0]?.user?.fullname && (
             <h3 className="col-span-4 text-center my-4">
               You have no Applications for this job.
             </h3>

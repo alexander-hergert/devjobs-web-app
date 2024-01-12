@@ -237,7 +237,15 @@ companyRouter.get("/getJobApplications", async (req, res) => {
         "SELECT * FROM users WHERE user_id = ANY($1)",
         [user_ids]
       );
-      res.status(200).json([{ apps: result.rows, users: users.rows }]);
+      //create a new array with apps and users
+      const usersAndApps = [];
+      for (let i = 0; i < result.rows.length; i++) {
+        usersAndApps.push({
+          app: result.rows[i],
+          user: users.rows[i],
+        });
+      }
+      res.status(200).json(usersAndApps);
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
