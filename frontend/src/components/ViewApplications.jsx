@@ -87,7 +87,7 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
   };
 
   useEffect(() => {
-    //on load fetch da of applicants
+    //on load fetch data of applicants
     const fetchApplicants = async () => {
       const data = { job_id: companyJobs[selectedJob]?.job_id };
       console.log(data);
