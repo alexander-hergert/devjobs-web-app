@@ -268,14 +268,14 @@ companyRouter.put("/updateJobApplication", async (req, res) => {
         [status, job_id, user_id]
       );
       const result = await client.query(
-        "SELECT * FROM applications WHERE job_id = $1",
+        "SELECT * FROM applications WHERE job_id = $1 ORDER BY user_id",
         [job_id]
       );
       // Get user ids from applications
       const user_ids = result.rows.map((row) => row.user_id);
       // Get users from user ids
       const users = await client.query(
-        "SELECT * FROM users WHERE user_id = ANY($1)",
+        "SELECT * FROM users WHERE user_id = ANY($1) ORDER BY user_id",
         [user_ids]
       );
       //create a new array with apps and users

@@ -48,8 +48,9 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
 
   const onSubmit = async (data) => {
     console.log(data);
+    console.log(companyApps);
     try {
-      data.app_id = companyApps[selectedApp].apps[selectedApp]?.app_id;
+      data.app_id = companyApps[selectedApp].app?.app_id;
       const token = await getAccessTokenSilently();
       const response = await axios.post(
         "http://localhost:3000/createMessage",
