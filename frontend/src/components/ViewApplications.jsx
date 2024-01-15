@@ -41,7 +41,11 @@ const Style = styled.section`
   }
 `;
 
-const ViewApplications = ({ setViewApplications, selectedJob }) => {
+const ViewApplications = ({
+  setViewApplications,
+  selectedJob,
+  setIsMainVisible,
+}) => {
   const { getAccessTokenSilently } = useAuth0();
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const messages = useSelector((state) => state.messages.messages);
@@ -122,7 +126,10 @@ const ViewApplications = ({ setViewApplications, selectedJob }) => {
       <Style>
         <button
           className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-          onClick={() => setViewApplications(false)}
+          onClick={() => {
+            setViewApplications(false);
+            setIsMainVisible(true);
+          }}
           aria-label="close"
         >
           CLOSE

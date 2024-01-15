@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import CharactersUsed from "./CharactersUsed";
 
 const Style = styled.section`
-  position: absolute;
+  position: fixed;
   top: 0;
   padding-top: 5rem;
   background-color: rgba(0, 0, 0, 0.75);

@@ -37,14 +37,22 @@ const Style = styled.section`
   }
 `;
 
-const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
+const ViewAppDetails = ({
+  viewDetails,
+  setViewDetails,
+  apps,
+  setIsMainVisible,
+}) => {
   const { applications, appliedJobs } = apps;
   const { data, isViewDetails } = viewDetails;
   return (
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setViewDetails({ data: null, isViewDetails: false })}
+        onClick={() => {
+          setViewDetails({ data: null, isViewDetails: false });
+          setIsMainVisible(true);
+        }}
       >
         CLOSE
       </button>
@@ -79,7 +87,7 @@ const ViewAppDetails = ({ viewDetails, setViewDetails, apps }) => {
           <p className="break-words">{applications[data].app_status}</p>
         </div>
         <div className="flex items-center max-md:gap-2 gap-8 max-md:flex-col max-md:text-center my-2">
-          <h2>Application Text</h2>
+          <h2 className="self-start">Application Text</h2>
           <p className="break-words">{applications[data].content}</p>
         </div>
         <Link

@@ -11,7 +11,7 @@ import Loader from "./Loader";
 import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
-  position: absolute;
+  position: fixed;
   top: 0;
   padding-top: 5rem;
   background-color: rgba(0, 0, 0, 0.75);

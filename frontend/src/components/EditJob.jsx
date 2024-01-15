@@ -45,7 +45,7 @@ const Style = styled.section`
   }
 `;
 
-const EditJob = ({ setIsEditJob, selectedJob }) => {
+const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
   const {
     register,
     handleSubmit,
@@ -156,7 +156,10 @@ const EditJob = ({ setIsEditJob, selectedJob }) => {
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setIsEditJob(false)}
+        onClick={() => {
+          setIsEditJob(false);
+          setIsMainVisible(true);
+        }}
       >
         CLOSE
       </button>

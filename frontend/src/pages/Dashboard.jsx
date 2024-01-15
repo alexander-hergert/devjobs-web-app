@@ -88,6 +88,7 @@ const Dashboard = () => {
   const [isCreateJob, setIsCreateJob] = useState(false);
   const [isReadingMessages, setIsReadingMessages] = useState(false);
   const [isReadingReplies, setIsReadingReplies] = useState(false);
+  const [isMainVisible, setIsMainVisible] = useState(true);
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const [viewDetails, setViewDetails] = useState({
@@ -157,15 +158,18 @@ const Dashboard = () => {
   const handleEditJob = (i) => {
     setIsEditJob(!isEditJob);
     setSelectedJob(i);
+    setIsMainVisible(false);
   };
 
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
+    setIsMainVisible(false);
   };
 
   const handleViewApplications = async (i) => {
     setViewApplications(!viewApplications);
     setSelectedJob(i);
+    setIsMainVisible(false);
   };
 
   const handleCancel = async (i) => {
@@ -268,7 +272,11 @@ const Dashboard = () => {
           <ReadReplies setIsReadingReplies={setIsReadingReplies} />
         )}
         {isEditJob && (
-          <EditJob setIsEditJob={setIsEditJob} selectedJob={selectedJob} />
+          <EditJob
+            setIsEditJob={setIsEditJob}
+            selectedJob={selectedJob}
+            setIsMainVisible={setIsMainVisible}
+          />
         )}
         {isCreateJob && <CreateJobs setIsCreateJob={setIsCreateJob} />}
         {viewDetails.isViewDetails && (
@@ -276,263 +284,271 @@ const Dashboard = () => {
             viewDetails={viewDetails}
             setViewDetails={setViewDetails}
             apps={apps}
+            setIsMainVisible={setIsMainVisible}
           />
         )}
         {viewApplications && (
           <ViewApplications
             setViewApplications={setViewApplications}
             selectedJob={selectedJob}
+            setIsMainVisible={setIsMainVisible}
           />
         )}
-        <main>
-          <section className="flex justify-center gap-12 items-center mt-10">
-            <div className="max-lg:flex max-md:block items-center gap-12">
-              <ProfileImage>
-                <input type="image" src={user?.picture} alt={user?.fullname} />
-                <div>
-                  <UploadWidget />
-                </div>
-              </ProfileImage>
-              <h2 className="lg:hidden text-center">
-                <span className="font-bold text-lg">{user?.fullname}</span>
-              </h2>
-            </div>
-            <h1 className="max-lg:hidden">
-              Hello, <span className="font-bold">{user?.fullname}</span>.
-              Welcome to Devjobs!
-            </h1>
-            <div className="flex gap-4 items-center max-xl:flex-col">
-              <button
-                onClick={handleEditProfile}
-                className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
-              >
-                <div className="flex gap-2 items-center">
-                  Edit Profile
-                  <FaEdit />
-                </div>
-              </button>
-              {user.role === "private" && (
+        {isMainVisible && (
+          <main>
+            <section className="flex justify-center gap-12 items-center mt-10">
+              <div className="max-lg:flex max-md:block items-center gap-12">
+                <ProfileImage>
+                  <input
+                    type="image"
+                    src={user?.picture}
+                    alt={user?.fullname}
+                  />
+                  <div>
+                    <UploadWidget />
+                  </div>
+                </ProfileImage>
+                <h2 className="lg:hidden text-center">
+                  <span className="font-bold text-lg">{user?.fullname}</span>
+                </h2>
+              </div>
+              <h1 className="max-lg:hidden">
+                Hello, <span className="font-bold">{user?.fullname}</span>.
+                Welcome to Devjobs!
+              </h1>
+              <div className="flex gap-4 items-center max-xl:flex-col">
                 <button
-                  onClick={handleMessages}
+                  onClick={handleEditProfile}
                   className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
                   <div className="flex gap-2 items-center">
-                    Read Messages
-                    <SlEnvolopeLetter />
-                    {user.has_new_message && (
-                      <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
-                    )}
+                    Edit Profile
+                    <FaEdit />
                   </div>
                 </button>
-              )}
-              {user.role === "company" && (
+                {user.role === "private" && (
+                  <button
+                    onClick={handleMessages}
+                    className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
+                  >
+                    <div className="flex gap-2 items-center">
+                      Read Messages
+                      <SlEnvolopeLetter />
+                      {user.has_new_message && (
+                        <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
+                      )}
+                    </div>
+                  </button>
+                )}
+                {user.role === "company" && (
+                  <button
+                    onClick={handleReplies}
+                    className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                  >
+                    <div className="flex gap-2 items-center">
+                      Read Replies
+                      <SlEnvolopeLetter />
+                      {user.has_new_message && (
+                        <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
+                      )}
+                    </div>
+                  </button>
+                )}
+              </div>
+            </section>
+            <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+              <div className="flex gap-4 items-center">
+                <h2 className="mt-5 text-center font-bold">
+                  {user.role === "private" ? "Applications" : "Jobs"}
+                </h2>
                 <button
-                  onClick={handleReplies}
-                  className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                  onClick={handleRefresh}
+                  className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
-                  <div className="flex gap-2 items-center">
-                    Read Replies
-                    <SlEnvolopeLetter />
-                    {user.has_new_message && (
-                      <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
-                    )}
-                  </div>
+                  Refresh
+                  <FiRefreshCw />
+                </button>
+              </div>
+              {user?.role === "company" && (
+                <button
+                  onClick={handleCreateJob}
+                  className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+                >
+                  Create New Joboffer <FaPlus />
                 </button>
               )}
+            </section>
+            <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+              {user?.role === "private" && <DashboardFilter />}
+              {user?.role === "company" && <CompanyFilter />}
+              {user?.role === "private" && <DashboardSort />}
+              {user?.role === "company" && <CompanySort />}
             </div>
-          </section>
-          <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-            <div className="flex gap-4 items-center">
-              <h2 className="mt-5 text-center font-bold">
-                {user.role === "private" ? "Applications" : "Jobs"}
-              </h2>
-              <button
-                onClick={handleRefresh}
-                className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-              >
-                Refresh
-                <FiRefreshCw />
-              </button>
-            </div>
-            {user?.role === "company" && (
-              <button
-                onClick={handleCreateJob}
-                className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-              >
-                Create New Joboffer <FaPlus />
-              </button>
+            {/* Private User */}
+            {user?.role === "private" && (
+              <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+                <ul>
+                  <li
+                    className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8 items-center"
+                    key={0}
+                  >
+                    <h3 className="font-bold max-md:text-lg">Position</h3>
+                    <h3 className="font-bold max-md:text-lg">Company</h3>
+                    <h3 className="font-bold max-lg:hidden">Location</h3>
+                    <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                    <h3 className="font-bold max-lg:hidden">App Status</h3>
+                    <h3 className="font-bold max-md:text-lg">Details</h3>
+                    <h3 className="font-bold max-md:text-lg">Cancel</h3>
+                  </li>
+                  {apps?.appliedJobs?.map((job, i) => {
+                    return (
+                      <li
+                        className={`grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center p-2 rounded ${
+                          apps?.applications[i].app_status === "Accepted"
+                            ? "bg-green-200"
+                            : apps?.applications[i].app_status === "Denied"
+                            ? "bg-red-200"
+                            : "bg-neutral"
+                        }`}
+                        key={job.job_id}
+                      >
+                        <p
+                          className={
+                            apps?.applications[i].app_status === "Pending"
+                              ? "text-primary"
+                              : "text-black"
+                          }
+                        >
+                          {job.position}
+                        </p>
+                        <p
+                          className={
+                            apps?.applications[i].app_status === "Pending"
+                              ? "text-primary"
+                              : "text-black"
+                          }
+                        >
+                          {job.company}
+                        </p>
+                        <p
+                          className={
+                            apps?.applications[i].app_status === "Pending"
+                              ? "text-primary max-lg:hidden"
+                              : "text-black max-lg:hidden"
+                          }
+                        >
+                          {job.location}
+                        </p>
+                        <p
+                          className={
+                            apps?.applications[i].app_status === "Pending"
+                              ? "text-primary max-lg:hidden"
+                              : "text-black max-lg:hidden"
+                          }
+                        >
+                          {job.status ? "open" : "closed"}
+                        </p>
+                        <p
+                          className={
+                            apps?.applications[i].app_status === "Pending"
+                              ? "text-primary max-lg:hidden"
+                              : "text-black max-lg:hidden"
+                          }
+                        >
+                          {apps?.applications[i].app_status}
+                        </p>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                          onClick={() => handleViewDetails(i)}
+                        >
+                          <div className="flex gap-2 items-center">
+                            Details
+                            <TbListDetails className="text-xl" />
+                          </div>
+                        </button>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
+                          onClick={() => handleCancel(i)}
+                        >
+                          <div className="flex gap-2 items-center">
+                            Cancel
+                            <GiCancel className="text-xl" />
+                          </div>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
             )}
-          </section>
-          <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-            {user?.role === "private" && <DashboardFilter />}
-            {user?.role === "company" && <CompanyFilter />}
-            {user?.role === "private" && <DashboardSort />}
-            {user?.role === "company" && <CompanySort />}
-          </div>
-          {/* Private User */}
-          {user?.role === "private" && (
-            <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-              <ul>
-                <li
-                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8 items-center"
-                  key={0}
-                >
-                  <h3 className="font-bold max-md:text-lg">Position</h3>
-                  <h3 className="font-bold max-md:text-lg">Company</h3>
-                  <h3 className="font-bold max-lg:hidden">Location</h3>
-                  <h3 className="font-bold max-lg:hidden">Job Status</h3>
-                  <h3 className="font-bold max-lg:hidden">App Status</h3>
-                  <h3 className="font-bold max-md:text-lg">Details</h3>
-                  <h3 className="font-bold max-md:text-lg">Cancel</h3>
-                </li>
-                {apps?.appliedJobs?.map((job, i) => {
-                  return (
-                    <li
-                      className={`grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center p-2 rounded ${
-                        apps?.applications[i].app_status === "Accepted"
-                          ? "bg-green-200"
-                          : apps?.applications[i].app_status === "Denied"
-                          ? "bg-red-200"
-                          : "bg-neutral"
-                      }`}
-                      key={job.job_id}
-                    >
-                      <p
-                        className={
-                          apps?.applications[i].app_status === "Pending"
-                            ? "text-primary"
-                            : "text-black"
-                        }
+            {/* Company User */}
+            {user?.role === "company" && (
+              <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+                <ul>
+                  <li
+                    className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8 items-center"
+                    key={0}
+                  >
+                    <h3 className="font-bold max-md:text-lg">Position</h3>
+                    <h3 className="font-bold max-lg:hidden">Location</h3>
+                    <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                    <h3 className="font-bold max-md:text-lg">Apps</h3>
+                    <h3 className="font-bold max-md:text-lg">Edit</h3>
+                    <h3 className="font-bold max-md:text-lg">Cancel</h3>
+                    <h3 className="font-bold max-md:text-lg">Delete</h3>
+                  </li>
+                  {companyJobs?.map((job, i) => {
+                    return (
+                      <li
+                        className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center p-2 bg-neutral"
+                        key={job.job_id}
                       >
-                        {job.position}
-                      </p>
-                      <p
-                        className={
-                          apps?.applications[i].app_status === "Pending"
-                            ? "text-primary"
-                            : "text-black"
-                        }
-                      >
-                        {job.company}
-                      </p>
-                      <p
-                        className={
-                          apps?.applications[i].app_status === "Pending"
-                            ? "text-primary max-lg:hidden"
-                            : "text-black max-lg:hidden"
-                        }
-                      >
-                        {job.location}
-                      </p>
-                      <p
-                        className={
-                          apps?.applications[i].app_status === "Pending"
-                            ? "text-primary max-lg:hidden"
-                            : "text-black max-lg:hidden"
-                        }
-                      >
-                        {job.status ? "open" : "closed"}
-                      </p>
-                      <p
-                        className={
-                          apps?.applications[i].app_status === "Pending"
-                            ? "text-primary max-lg:hidden"
-                            : "text-black max-lg:hidden"
-                        }
-                      >
-                        {apps?.applications[i].app_status}
-                      </p>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                        onClick={() => handleViewDetails(i)}
-                      >
-                        <div className="flex gap-2 items-center">
-                          Details
-                          <TbListDetails className="text-xl" />
-                        </div>
-                      </button>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
-                        onClick={() => handleCancel(i)}
-                      >
-                        <div className="flex gap-2 items-center">
-                          Cancel
-                          <GiCancel className="text-xl" />
-                        </div>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          )}
-          {/* Company User */}
-          {user?.role === "company" && (
-            <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-              <ul>
-                <li
-                  className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8 items-center"
-                  key={0}
-                >
-                  <h3 className="font-bold max-md:text-lg">Position</h3>
-                  <h3 className="font-bold max-lg:hidden">Location</h3>
-                  <h3 className="font-bold max-lg:hidden">Job Status</h3>
-                  <h3 className="font-bold max-md:text-lg">Apps</h3>
-                  <h3 className="font-bold max-md:text-lg">Edit</h3>
-                  <h3 className="font-bold max-md:text-lg">Cancel</h3>
-                  <h3 className="font-bold max-md:text-lg">Delete</h3>
-                </li>
-                {companyJobs?.map((job, i) => {
-                  return (
-                    <li
-                      className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center p-2 bg-neutral"
-                      key={job.job_id}
-                    >
-                      <p>{job.position}</p>
-                      <p className="max-lg:hidden">{job.location}</p>
-                      <p className="max-lg:hidden">
-                        {job.status ? "open" : "closed"}
-                      </p>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                        onClick={() => handleViewApplications(i)}
-                      >
-                        Applications
-                      </button>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                        onClick={() => handleEditJob(i)}
-                      >
-                        <div className="flex gap-2 items-center">
-                          Edit Job
-                          <FaEdit />
-                        </div>
-                      </button>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
-                        onClick={() => handleCancelJob(i)}
-                      >
-                        <div className="flex gap-2 items-center">
-                          Close
-                          <FaDoorClosed />
-                        </div>
-                      </button>
-                      <button
-                        className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
-                        onClick={() => handleDeleteJob(i)}
-                      >
-                        <div className="flex gap-2 items-center">
-                          Delete
-                          <MdDelete className="text-xl" />
-                        </div>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
-          )}
-        </main>
+                        <p>{job.position}</p>
+                        <p className="max-lg:hidden">{job.location}</p>
+                        <p className="max-lg:hidden">
+                          {job.status ? "open" : "closed"}
+                        </p>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                          onClick={() => handleViewApplications(i)}
+                        >
+                          Applications
+                        </button>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
+                          onClick={() => handleEditJob(i)}
+                        >
+                          <div className="flex gap-2 items-center">
+                            Edit Job
+                            <FaEdit />
+                          </div>
+                        </button>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
+                          onClick={() => handleCancelJob(i)}
+                        >
+                          <div className="flex gap-2 items-center">
+                            Close
+                            <FaDoorClosed />
+                          </div>
+                        </button>
+                        <button
+                          className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
+                          onClick={() => handleDeleteJob(i)}
+                        >
+                          <div className="flex gap-2 items-center">
+                            Delete
+                            <MdDelete className="text-xl" />
+                          </div>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            )}
+          </main>
+        )}
       </>
     );
   }
