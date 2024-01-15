@@ -101,7 +101,7 @@ const CompanyFilter = () => {
               type="text"
               id="filter"
               {...register("search")}
-              className="bg-neutral outline-none"
+              className="bg-neutral outline-none border-2 border-gray-500 rounded-md"
               defaultValue={search}
             />
           </div>

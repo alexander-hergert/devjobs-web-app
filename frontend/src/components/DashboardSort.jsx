@@ -84,7 +84,7 @@ const DashboardSort = () => {
           Sort
         </label>
         <select
-          className="border-2 border-gray-500 rounded-md"
+          className="border-2 border-gray-500 rounded-md bg-neutral"
           id="typesort"
           {...register("typesort")}
         >
@@ -94,7 +94,11 @@ const DashboardSort = () => {
           <option value="company">Company</option>
           <option value="location">Location</option>
         </select>
-        <select id="rowsort" {...register("rowsort")}>
+        <select
+          className="border-2 border-gray-500 rounded-md bg-neutral"
+          id="rowsort"
+          {...register("rowsort")}
+        >
           <option defaultChecked value="asc">
             Ascending
           </option>

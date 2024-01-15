@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -131,7 +131,10 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
       });
       setIsEditJob(false);
       //update companyJobs state
-      dispatch(getCompanyJobs({ payload: response.data }));
+      dispatch(
+        getCompanyJobs({ companyJobs: response.data, isLoading: false })
+      );
+      setIsMainVisible(true);
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
