@@ -161,9 +161,9 @@ const SignUpPage = () => {
             />
           </div>
           <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
-            <label htmlFor="location">location</label>
+            <label htmlFor="location">Location</label>
             <input
-              className="max-md:w-[18rem] w-[20rem] rounded border pl-2"
+              className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
               type="text"
               name="location"
               id="location"

@@ -37,7 +37,7 @@ const Style = styled.section`
   }
 `;
 
-const ReadMessages = ({ setIsReadingReplies }) => {
+const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const replies = useSelector((state) => state.replies.replies);
@@ -87,7 +87,10 @@ const ReadMessages = ({ setIsReadingReplies }) => {
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setIsReadingReplies(false)}
+        onClick={() => {
+          setIsReadingReplies(false);
+          setIsMainVisible(true);
+        }}
         aria-label="close"
       >
         CLOSE

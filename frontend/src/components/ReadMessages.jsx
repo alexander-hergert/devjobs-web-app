@@ -11,7 +11,7 @@ import Loader from "./Loader";
 import { setUser } from "../slices/userSlice";
 
 const Style = styled.section`
-  position: fixed;
+  position: absolute;
   top: 0;
   padding-top: 5rem;
   background-color: rgba(0, 0, 0, 0.75);
@@ -39,7 +39,7 @@ const Style = styled.section`
   }
 `;
 
-const ReadMessages = ({ setIsReadingMessages }) => {
+const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages.messages);
@@ -103,7 +103,10 @@ const ReadMessages = ({ setIsReadingMessages }) => {
       <Style>
         <button
           className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-          onClick={() => setIsReadingMessages(false)}
+          onClick={() => {
+            setIsReadingMessages(false);
+            setIsMainVisible(true);
+          }}
           aria-label="close"
         >
           CLOSE

@@ -149,10 +149,12 @@ const Dashboard = () => {
 
   const handleMessages = async () => {
     setIsReadingMessages(!isReadingMessages);
+    setIsMainVisible(false);
   };
 
   const handleReplies = () => {
     setIsReadingReplies(!isReadingReplies);
+    setIsMainVisible(false);
   };
 
   const handleEditJob = (i) => {
@@ -266,10 +268,16 @@ const Dashboard = () => {
           <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
         )}
         {isReadingMessages && (
-          <ReadMessages setIsReadingMessages={setIsReadingMessages} />
+          <ReadMessages
+            setIsReadingMessages={setIsReadingMessages}
+            setIsMainVisible={setIsMainVisible}
+          />
         )}
         {isReadingReplies && (
-          <ReadReplies setIsReadingReplies={setIsReadingReplies} />
+          <ReadReplies
+            setIsReadingReplies={setIsReadingReplies}
+            setIsMainVisible={setIsMainVisible}
+          />
         )}
         {isEditJob && (
           <EditJob
