@@ -386,7 +386,13 @@ privateRouter.post("/createReply", async (req, res) => {
           [app_id]
         );
         console.log(job.rows[0]);
-        const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location}`;
+        //get username
+        const username = await client.query(
+          "SELECT fullname FROM users WHERE user_id = $1",
+          [userInfo.sub]
+        );
+        console.log(username.rows[0]);
+        const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location} from ${username.rows[0].fullname}`;
         await client.query(
           "INSERT INTO replies (app_id, subject, content) VALUES ($1, $2, $3)",
           [app_id, subject, content]

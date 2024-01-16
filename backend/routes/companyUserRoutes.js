@@ -381,13 +381,14 @@ companyRouter.get("/getReplies", async (req, res) => {
       );
       const replies = resultReplies.rows;
       console.log(replies);
+      console.log(resultReplies.rows);
       //add subject to replies
-      replies.forEach((reply) => {
+      replies.forEach((reply, i) => {
         const message = messages.find(
           (message) => message.app_id === reply.app_id
         );
         if (message) {
-          reply.subject = message.subject;
+          reply.subject = resultReplies.rows[i].subject;
         }
       });
       //update user has_new_message to false

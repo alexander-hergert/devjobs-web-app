@@ -20,18 +20,9 @@ const Style = styled.section`
   min-height: 100dvh;
   white-space: pre-wrap;
 
-  input,
-  textarea {
+  input {
     width: 100%;
     border-radius: 5px;
-  }
-
-  textarea {
-    height: 30vh;
-    min-height: 20vh;
-    max-height: 40vh;
-    padding: 1rem;
-    border: 1px solid #ccc;
   }
 
   @media screen and (max-width: 767px) {
@@ -84,6 +75,11 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
     dispatch(getMessages({ messages: response.data, isLoading: false }));
   };
 
+  const handleExpand = (message_id) => {
+    setSelectedMessage(message_id);
+    console.log(message_id);
+  };
+
   if (isLoading) {
     return (
       <Style>
@@ -122,24 +118,29 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
             )}
             {messages?.map((message, i) => (
               <div
-                className="flex items-center gap-4 max-md:flex-col"
+                onClick={() => handleExpand(message?.message_id)}
+                className="flex items-center justify-between gap-4 max-md:flex-col cursor-pointer md:p-6 md:w-[690px] xl:w-[1100px]"
                 key={`${message?.subject + i}`}
               >
                 <div className="flex flex-col gap-4 my-4">
                   <h3 className="font-bold">
                     {`(${i + 1})  Subject: ${message?.subject}`}
                   </h3>
-                  <p className="break-words">{message?.content}</p>
+                  {selectedMessage === message?.message_id && (
+                    <p className="break-words">{message?.content}</p>
+                  )}
                 </div>
                 <div className="flex md:flex-col md:self-start max-md:gap-4">
-                  <button
-                    onClick={() => handleOpenReply(message?.message_id)}
-                    aria-label="answer to message"
-                    className="flex gap-4 justify-center items-center p-2 rounded-lg capitalize md:mt-4 text-white bg-accent hover:bg-info min-w-[4rem]"
-                  >
-                    ANSWER
-                    <TfiWrite />
-                  </button>
+                  {selectedMessage === message?.message_id && (
+                    <button
+                      onClick={() => handleOpenReply(message?.message_id)}
+                      aria-label="answer to message"
+                      className="flex gap-4 justify-center items-center p-2 rounded-lg capitalize md:mt-4 text-white bg-accent hover:bg-info min-w-[4rem]"
+                    >
+                      ANSWER
+                      <TfiWrite />
+                    </button>
+                  )}
                   <button
                     onClick={() => handleDelete(message?.message_id)}
                     className="flex gap-4 justify-center items-center p-2 rounded-lg text-white capitalize bg-red-500 md:my-2 hover:bg-red-200 min-w-[4rem]"

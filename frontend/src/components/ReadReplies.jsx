@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
@@ -18,18 +18,9 @@ const Style = styled.section`
   min-height: 100dvh;
   white-space: pre-wrap;
 
-  input,
-  textarea {
+  input {
     width: 100%;
     border-radius: 5px;
-  }
-
-  textarea {
-    height: 30vh;
-    min-height: 20vh;
-    max-height: 40vh;
-    padding: 1rem;
-    border: 1px solid #ccc;
   }
 
   @media screen and (max-width: 767px) {
@@ -42,6 +33,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
   const dispatch = useDispatch();
   const replies = useSelector((state) => state.replies.replies);
   const isLoading = useSelector((state) => state.replies.isLoading);
+  const [selectedReply, setSelectedReply] = useState(null);
 
   //load replies
   useEffect(() => {
@@ -83,6 +75,11 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
     );
   }
 
+  const handleExpand = (reply_id) => {
+    setSelectedReply(reply_id);
+    console.log(reply_id);
+  };
+
   return (
     <Style>
       <button
@@ -106,14 +103,17 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
           )}
           {replies?.map((reply, i) => (
             <div
-              className="flex items-center gap-4 max-md:flex-col"
+              onClick={() => handleExpand(reply?.reply_id)}
+              className="flex items-center justify-between gap-4 max-md:flex-col cursor-pointer md:p-6 md:w-[690px] xl:w-[1100px]"
               key={`${reply?.subject + i}`}
             >
               <div className="flex flex-col gap-4 my-4">
                 <h3 className="font-bold mb-2">
                   {`(${i + 1})  Subject: ${reply?.subject}`}
                 </h3>
-                <p className="break-words">{reply?.content}</p>
+                {selectedReply === reply?.reply_id && (
+                  <p className="break-words">{reply?.content}</p>
+                )}
               </div>
               <button
                 onClick={() => handleDelete(reply?.reply_id)}
