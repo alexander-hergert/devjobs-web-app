@@ -18,6 +18,7 @@ const Style = styled.section`
   z-index: 100;
   width: 100%;
   min-height: 100dvh;
+  white-space: pre-wrap;
 
   input,
   textarea {

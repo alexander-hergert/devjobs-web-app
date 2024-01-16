@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ const Style = styled.section`
   z-index: 10;
   width: 100%;
   height: 100dvh;
+  white-space: pre-wrap;
 
   @media screen and (min-width: 767px) {
     input,
@@ -112,8 +113,6 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
   const onSubmit = async (data) => {
     //send data to backend
     //alternate the data
-    data.requirementsContent = companyJobs[selectedJob]?.requirements;
-    data.roleContent = companyJobs[selectedJob]?.job_role;
     data.requirementsItems = requirementsItems.map((item) => item + "##");
     data.roleItems = roleItems.map((item) => item + "##");
     data.job_id = companyJobs[selectedJob]?.job_id;

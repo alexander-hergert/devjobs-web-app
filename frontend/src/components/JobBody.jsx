@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 
+const Style = styled.section`
+  white-space: pre-wrap;
+`;
+
 const LiUl = styled.li`
   display: flex;
   list-style: none;
@@ -67,7 +71,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
     <>
       <ToastContainer />
       {isApplication && <ApplicationForm setIsApplication={setIsApplication} />}
-      <section className="self-center max-md:w-[327px] md:w-[689px] xl:w-[730px] px-10 bg-neutral rounded-lg py-[48px] mb-[82px]">
+      <Style className="self-center max-md:w-[327px] md:w-[689px] xl:w-[730px] px-10 bg-neutral rounded-lg py-[48px] mb-[82px]">
         <div className="flex justify-between items-center max-md:flex-col">
           <div className="w-full">
             <p className="text-slate-500">
@@ -122,7 +126,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
             ) : null
           )}
         </ul>
-      </section>
+      </Style>
     </>
   );
 };

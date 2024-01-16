@@ -14,6 +14,7 @@ const Style = styled.section`
   z-index: 10;
   width: 100%;
   min-height: 100dvh;
+  white-space: pre-wrap;
 
   h2 {
     width: 15rem;
