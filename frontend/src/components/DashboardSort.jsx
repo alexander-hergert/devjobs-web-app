@@ -77,14 +77,14 @@ const DashboardSort = () => {
     <form
       action=""
       onSubmit={handleSubmit(onSubmit)}
-      className="flex gap-4 max-md:flex-col"
+      className="flex gap-4 max-md:flex-col max-md:w-[375px]"
     >
-      <div className="flex gap-4 items-center">
+      <div className="max-md:self-start flex gap-4 items-center">
         <label className="font-bold text-2xl" htmlFor="typesort">
           Sort
         </label>
         <select
-          className="border-2 border-gray-500 rounded-md bg-neutral"
+          className="w-[130px] border-2 border-gray-500 rounded-md bg-neutral"
           id="typesort"
           {...register("typesort")}
         >
@@ -95,7 +95,7 @@ const DashboardSort = () => {
           <option value="location">Location</option>
         </select>
         <select
-          className="border-2 border-gray-500 rounded-md bg-neutral"
+          className="w-[130px] border-2 border-gray-500 rounded-md bg-neutral"
           id="rowsort"
           {...register("rowsort")}
         >

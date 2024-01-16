@@ -88,12 +88,12 @@ const CompanyFilter = () => {
   return (
     <div>
       <form
-        className="flex gap-4 max-md:flex-col"
+        className="flex gap-4 max-md:flex-col max-md:w-[375px]"
         action=""
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex gap-4 items-center">
-          <div className="flex gap-4 items-center">
+        <div className="flex max-md:flex-col gap-4 items-center">
+          <div className="max-md:self-start flex gap-4 items-center">
             <label className="font-bold text-2xl" htmlFor="filter">
               Filter
             </label>
@@ -101,11 +101,11 @@ const CompanyFilter = () => {
               type="text"
               id="filter"
               {...register("search")}
-              className="bg-neutral outline-none border-2 border-gray-500 rounded-md"
+              className="w-[300px] bg-neutral outline-none border-2 border-gray-500 rounded-md"
               defaultValue={search}
             />
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="max-md:self-start flex gap-4 items-center">
             <label className="font-bold text-2xl" htmlFor="contract">
               Fulltime
             </label>

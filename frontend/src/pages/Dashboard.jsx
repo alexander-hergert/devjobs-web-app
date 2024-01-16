@@ -319,7 +319,7 @@ const Dashboard = () => {
               <div className="flex gap-4 items-center max-xl:flex-col">
                 <button
                   onClick={handleEditProfile}
-                  className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
+                  className="w-[10rem] btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
                 >
                   <div className="flex gap-2 items-center">
                     Edit Profile
@@ -329,7 +329,7 @@ const Dashboard = () => {
                 {user.role === "private" && (
                   <button
                     onClick={handleMessages}
-                    className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
+                    className="w-[10rem] btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
                   >
                     <div className="flex gap-2 items-center">
                       Read Messages
@@ -343,7 +343,7 @@ const Dashboard = () => {
                 {user.role === "company" && (
                   <button
                     onClick={handleReplies}
-                    className="btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
+                    className="w-[10rem] btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
                   >
                     <div className="flex gap-2 items-center">
                       Read Replies
@@ -389,21 +389,21 @@ const Dashboard = () => {
               <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
                 <ul>
                   <li
-                    className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-4 mb-8 items-center"
+                    className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 max-md:grid-cols-4 mb-8 items-center"
                     key={0}
                   >
                     <h3 className="font-bold max-md:text-lg">Position</h3>
                     <h3 className="font-bold max-md:text-lg">Company</h3>
-                    <h3 className="font-bold max-lg:hidden">Location</h3>
-                    <h3 className="font-bold max-lg:hidden">Job Status</h3>
-                    <h3 className="font-bold max-lg:hidden">App Status</h3>
+                    <h3 className="font-bold max-md:hidden">Location</h3>
+                    <h3 className="font-bold max-xl:hidden">Job Status</h3>
+                    <h3 className="font-bold max-xl:hidden">App Status</h3>
                     <h3 className="font-bold max-md:text-lg">Details</h3>
                     <h3 className="font-bold max-md:text-lg">Cancel</h3>
                   </li>
                   {apps?.appliedJobs?.map((job, i) => {
                     return (
                       <li
-                        className={`grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-4 items-center p-2 rounded ${
+                        className={`max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-md:grid-cols-4 items-center p-2 rounded ${
                           apps?.applications[i].app_status === "Accepted"
                             ? "bg-green-200"
                             : apps?.applications[i].app_status === "Denied"
@@ -433,8 +433,8 @@ const Dashboard = () => {
                         <p
                           className={
                             apps?.applications[i].app_status === "Pending"
-                              ? "text-primary max-lg:hidden"
-                              : "text-black max-lg:hidden"
+                              ? "text-primary max-md:hidden"
+                              : "text-black max-md:hidden"
                           }
                         >
                           {job.location}
@@ -442,8 +442,8 @@ const Dashboard = () => {
                         <p
                           className={
                             apps?.applications[i].app_status === "Pending"
-                              ? "text-primary max-lg:hidden"
-                              : "text-black max-lg:hidden"
+                              ? "text-primary max-xl:hidden"
+                              : "text-black max-xl:hidden"
                           }
                         >
                           {job.status ? "open" : "closed"}
@@ -451,8 +451,8 @@ const Dashboard = () => {
                         <p
                           className={
                             apps?.applications[i].app_status === "Pending"
-                              ? "text-primary max-lg:hidden"
-                              : "text-black max-lg:hidden"
+                              ? "text-primary max-xl:hidden"
+                              : "text-black max-xl:hidden"
                           }
                         >
                           {apps?.applications[i].app_status}
@@ -463,7 +463,7 @@ const Dashboard = () => {
                         >
                           <div className="flex gap-2 items-center">
                             Details
-                            <TbListDetails className="text-xl" />
+                            <TbListDetails className="max-md:hidden text-xl" />
                           </div>
                         </button>
                         <button
@@ -472,7 +472,7 @@ const Dashboard = () => {
                         >
                           <div className="flex gap-2 items-center">
                             Cancel
-                            <GiCancel className="text-xl" />
+                            <GiCancel className="max-md:hidden text-xl" />
                           </div>
                         </button>
                       </li>
@@ -486,12 +486,12 @@ const Dashboard = () => {
               <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
                 <ul>
                   <li
-                    className="grid max-md:gap-4 gap-12 grid-cols-7 max-lg:grid-cols-5 mb-8 items-center"
+                    className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 mb-8 items-center"
                     key={0}
                   >
                     <h3 className="font-bold max-md:text-lg">Position</h3>
-                    <h3 className="font-bold max-lg:hidden">Location</h3>
-                    <h3 className="font-bold max-lg:hidden">Job Status</h3>
+                    <h3 className="font-bold max-xl:hidden">Location</h3>
+                    <h3 className="font-bold max-xl:hidden">Job Status</h3>
                     <h3 className="font-bold max-md:text-lg">Apps</h3>
                     <h3 className="font-bold max-md:text-lg">Edit</h3>
                     <h3 className="font-bold max-md:text-lg">Cancel</h3>
@@ -500,19 +500,20 @@ const Dashboard = () => {
                   {companyJobs?.map((job, i) => {
                     return (
                       <li
-                        className="grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-lg:grid-cols-5 items-center p-2 bg-neutral"
+                        className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 my-2 items-center p-2 bg-neutral"
                         key={job.job_id}
                       >
-                        <p>{job.position}</p>
-                        <p className="max-lg:hidden">{job.location}</p>
-                        <p className="max-lg:hidden">
+                        <p className="text-sm">{job.position}</p>
+                        <p className="max-xl:hidden">{job.location}</p>
+                        <p className="max-xl:hidden">
                           {job.status ? "open" : "closed"}
                         </p>
                         <button
                           className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
                           onClick={() => handleViewApplications(i)}
                         >
-                          Applications
+                          Apps
+                          <TbListDetails className="max-md:hidden text-xl" />
                         </button>
                         <button
                           className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
@@ -520,7 +521,7 @@ const Dashboard = () => {
                         >
                           <div className="flex gap-2 items-center">
                             Edit Job
-                            <FaEdit />
+                            <FaEdit className="max-md:hidden text-xl" />
                           </div>
                         </button>
                         <button
@@ -529,7 +530,7 @@ const Dashboard = () => {
                         >
                           <div className="flex gap-2 items-center">
                             Close
-                            <FaDoorClosed />
+                            <FaDoorClosed className="max-md:hidden text-xl" />
                           </div>
                         </button>
                         <button
@@ -538,7 +539,7 @@ const Dashboard = () => {
                         >
                           <div className="flex gap-2 items-center">
                             Delete
-                            <MdDelete className="text-xl" />
+                            <MdDelete className="max-md:hidden text-xl" />
                           </div>
                         </button>
                       </li>
