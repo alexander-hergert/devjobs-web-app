@@ -141,6 +141,7 @@ const Dashboard = () => {
 
   const handleCreateJob = () => {
     setIsCreateJob(!isCreateJob);
+    setIsMainVisible(false);
   };
 
   const handleEditProfile = () => {
@@ -286,7 +287,12 @@ const Dashboard = () => {
             setIsMainVisible={setIsMainVisible}
           />
         )}
-        {isCreateJob && <CreateJobs setIsCreateJob={setIsCreateJob} />}
+        {isCreateJob && (
+          <CreateJobs
+            setIsCreateJob={setIsCreateJob}
+            setIsMainVisible={setIsMainVisible}
+          />
+        )}
         {viewDetails.isViewDetails && (
           <ViewAppDetails
             viewDetails={viewDetails}

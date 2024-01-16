@@ -44,7 +44,7 @@ const Style = styled.section`
   }
 `;
 
-const CreateJobs = ({ setIsCreateJob }) => {
+const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
   const {
     register,
     handleSubmit,
@@ -139,7 +139,10 @@ const CreateJobs = ({ setIsCreateJob }) => {
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setIsCreateJob(false)}
+        onClick={() => {
+          setIsCreateJob(false);
+          setIsMainVisible(true);
+        }}
       >
         CLOSE
       </button>
