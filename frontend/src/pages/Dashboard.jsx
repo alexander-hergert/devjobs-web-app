@@ -17,10 +17,6 @@ import ReadMessages from "../components/ReadMessages";
 import ReadReplies from "../components/ReadReplies";
 import styled from "styled-components";
 import UploadWidget from "../components/UploadWidget";
-import DashboardFilter from "../components/DashboardFilter";
-import CompanyFilter from "../components/CompanyFilter";
-import DashboardSort from "../components/DashboardSort";
-import CompanySort from "../components/CompanySort";
 import { FaEdit } from "react-icons/fa";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
@@ -297,20 +293,14 @@ const Dashboard = () => {
                 </button>
               )}
             </section>
-            <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-              {user?.role === "private" && <DashboardFilter />}
-              {user?.role === "company" && <CompanyFilter />}
-              {user?.role === "private" && <DashboardSort />}
-              {user?.role === "company" && <CompanySort />}
-            </div>
-            {/* Private User Table*/}
+            {/* Private User*/}
             {user?.role === "private" && (
               <DashboardPrivate
                 setViewDetails={setViewDetails}
                 setIsMainVisible={setIsMainVisible}
               />
             )}
-            {/* Company User Table*/}
+            {/* Company User*/}
             {user?.role === "company" && (
               <DashboardCompany
                 setViewApplications={setViewApplications}
