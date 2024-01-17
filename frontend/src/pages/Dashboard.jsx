@@ -23,10 +23,10 @@ import DashboardSort from "../components/DashboardSort";
 import CompanySort from "../components/CompanySort";
 import { FaEdit } from "react-icons/fa";
 import { SlEnvolopeLetter } from "react-icons/sl";
-import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
-import { MdDelete } from "react-icons/md";
-import { FaDoorClosed } from "react-icons/fa";
+import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
+import DashboardPrivate from "../components/Dashboards/DashboardPrivate";
+import DashboardCompany from "../components/Dashboards/DashboardCompany";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -81,7 +81,6 @@ const ProfileImage = styled.div`
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user);
   const apps = useSelector((state) => state.apps.apps);
-  const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const navigate = useNavigate();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [isEditJob, setIsEditJob] = useState(false);
@@ -158,20 +157,8 @@ const Dashboard = () => {
     setIsMainVisible(false);
   };
 
-  const handleEditJob = (i) => {
-    setIsEditJob(!isEditJob);
-    setSelectedJob(i);
-    setIsMainVisible(false);
-  };
-
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
-    setIsMainVisible(false);
-  };
-
-  const handleViewApplications = async (i) => {
-    setViewApplications(!viewApplications);
-    setSelectedJob(i);
     setIsMainVisible(false);
   };
 
@@ -193,58 +180,6 @@ const Dashboard = () => {
       });
       //update apps state
       dispatch(getApps({ apps: response.data, isLoading: false }));
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error calling API:", error);
-    }
-  };
-
-  const handleCancelJob = async (i) => {
-    //get job id
-    const data = {
-      job_id: companyJobs[i].job_id,
-    };
-    console.log(data);
-    try {
-      const token = await getAccessTokenSilently();
-      const response = await axios({
-        method: "put",
-        url: "http://localhost:3000/canceljob",
-        data: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      //update companyJobs state
-      dispatch(
-        getCompanyJobs({ companyJobs: response.data, isLoading: false })
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error calling API:", error);
-    }
-  };
-
-  const handleDeleteJob = async (i) => {
-    //get job id
-    const data = {
-      job_id: companyJobs[i].job_id,
-    };
-    console.log(data);
-    try {
-      const token = await getAccessTokenSilently();
-      const response = await axios({
-        method: "delete",
-        url: "http://localhost:3000/deletejob",
-        data: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      //update companyJobs state
-      dispatch(
-        getCompanyJobs({ companyJobs: response.data, isLoading: false })
-      );
       console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
@@ -398,7 +333,7 @@ const Dashboard = () => {
               {user?.role === "private" && <DashboardSort />}
               {user?.role === "company" && <CompanySort />}
             </div>
-            {/* Private User */}
+            {/* Private User Table*/}
             {user?.role === "private" && (
               <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
                 <ul>
@@ -495,72 +430,14 @@ const Dashboard = () => {
                 </ul>
               </section>
             )}
-            {/* Company User */}
+            {/* Company User Table*/}
             {user?.role === "company" && (
-              <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-                <ul>
-                  <li
-                    className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 mb-8 items-center"
-                    key={0}
-                  >
-                    <h3 className="font-bold max-md:text-lg">Position</h3>
-                    <h3 className="font-bold max-xl:hidden">Location</h3>
-                    <h3 className="font-bold max-xl:hidden">Job Status</h3>
-                    <h3 className="font-bold max-md:text-lg">Apps</h3>
-                    <h3 className="font-bold max-md:text-lg">Edit</h3>
-                    <h3 className="font-bold max-md:text-lg">Cancel</h3>
-                    <h3 className="font-bold max-md:text-lg">Delete</h3>
-                  </li>
-                  {companyJobs?.map((job, i) => {
-                    return (
-                      <li
-                        className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 my-2 items-center p-2 bg-neutral"
-                        key={job.job_id}
-                      >
-                        <p className="text-sm">{job.position}</p>
-                        <p className="max-xl:hidden">{job.location}</p>
-                        <p className="max-xl:hidden">
-                          {job.status ? "open" : "closed"}
-                        </p>
-                        <button
-                          className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                          onClick={() => handleViewApplications(i)}
-                        >
-                          Apps
-                          <TbListDetails className="max-md:hidden text-xl" />
-                        </button>
-                        <button
-                          className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                          onClick={() => handleEditJob(i)}
-                        >
-                          <div className="flex gap-2 items-center">
-                            Edit Job
-                            <FaEdit className="max-md:hidden text-xl" />
-                          </div>
-                        </button>
-                        <button
-                          className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
-                          onClick={() => handleCancelJob(i)}
-                        >
-                          <div className="flex gap-2 items-center">
-                            Close
-                            <FaDoorClosed className="max-md:hidden text-xl" />
-                          </div>
-                        </button>
-                        <button
-                          className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
-                          onClick={() => handleDeleteJob(i)}
-                        >
-                          <div className="flex gap-2 items-center">
-                            Delete
-                            <MdDelete className="max-md:hidden text-xl" />
-                          </div>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
+              <DashboardCompany
+                setViewApplications={setViewApplications}
+                setSelectedJob={setSelectedJob}
+                setIsMainVisible={setIsMainVisible}
+                setIsEditJob={setIsEditJob}
+              />
             )}
           </main>
         )}
