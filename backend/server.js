@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import publicRouter from "./routes/publicRoutes.js";
 import privateRouter from "./routes/privateUserRoutes.js";
 import companyRouter from "./routes/companyUserRoutes.js";
+import adminRouter from "./routes/adminUserRoutes.js";
 import companyUserRoutes from "./routes/companyUserRoutes.js";
 
 const app = express();
@@ -13,6 +14,7 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 //routes
+app.use(adminRouter);
 app.use(privateRouter);
 app.use(companyRouter);
 app.use(companyUserRoutes);

@@ -8,6 +8,11 @@ privateRouter.post("/createuser", async (req, res) => {
   console.log(req.body);
   const { email, role, fullname, address, location, skills, user_website } =
     req.body;
+  //protect admin route
+  if (role === "admin") {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
   const userInfo = await authorize(req);
   if (userInfo) {
     const user_id = userInfo.sub;
