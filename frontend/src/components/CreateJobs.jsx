@@ -124,12 +124,13 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setIsCreateJob(false);
       //update companyJobs state
       dispatch(
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
       console.log(response.data);
+      setIsCreateJob(false);
+      setIsMainVisible(true);
     } catch (error) {
       console.error("Error calling API:", error);
     }
