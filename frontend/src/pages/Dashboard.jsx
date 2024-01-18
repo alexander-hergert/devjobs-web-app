@@ -8,20 +8,19 @@ import Loader from "../components/Loader";
 import axios from "axios";
 import { getApps } from "../slices/appsSlice";
 import ViewAppDetails from "../components/ViewAppDetails";
-import { FaPlus } from "react-icons/fa";
 import CreateJobs from "../components/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import ViewApplications from "../components/ViewApplications";
-import { FiRefreshCw } from "react-icons/fi";
 import ReadMessages from "../components/ReadMessages";
 import ReadReplies from "../components/ReadReplies";
 import styled from "styled-components";
 import UploadWidget from "../components/UploadWidget";
 import { FaEdit } from "react-icons/fa";
-import { SlEnvolopeLetter } from "react-icons/sl";
 import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
 import DashboardPrivate from "../components/Dashboards/DashboardPrivate";
 import DashboardCompany from "../components/Dashboards/DashboardCompany";
+import MessageButton from "../components/MessageButton";
+import ReplyButton from "../components/ReplyButton";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -133,23 +132,8 @@ const Dashboard = () => {
     }
   };
 
-  const handleCreateJob = () => {
-    setIsCreateJob(!isCreateJob);
-    setIsMainVisible(false);
-  };
-
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);
-  };
-
-  const handleMessages = async () => {
-    setIsReadingMessages(!isReadingMessages);
-    setIsMainVisible(false);
-  };
-
-  const handleReplies = () => {
-    setIsReadingReplies(!isReadingReplies);
-    setIsMainVisible(false);
   };
 
   //Route Protection
@@ -242,35 +226,26 @@ const Dashboard = () => {
                   </div>
                 </button>
                 {user.role === "private" && (
-                  <button
-                    onClick={handleMessages}
-                    className="w-[10rem] btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info"
-                  >
-                    <div className="flex gap-2 items-center">
-                      Read Messages
-                      <SlEnvolopeLetter />
-                      {user.has_new_message && (
-                        <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
-                      )}
-                    </div>
-                  </button>
+                  <MessageButton
+                    setIsReadingMessages={setIsReadingMessages}
+                    setIsMainVisible={setIsMainVisible}
+                  />
                 )}
                 {user.role === "company" && (
-                  <button
-                    onClick={handleReplies}
-                    className="w-[10rem] btn border-0 my-2 duration-0 capitalize text-white bg-accent hover:bg-info"
-                  >
-                    <div className="flex gap-2 items-center">
-                      Read Replies
-                      <SlEnvolopeLetter />
-                      {user.has_new_message && (
-                        <div className="w-[0.75rem] h-[0.75rem] bg-red-500 rounded-2xl"></div>
-                      )}
-                    </div>
-                  </button>
+                  <ReplyButton
+                    setIsReadingReplies={setIsReadingReplies}
+                    setIsMainVisible={setIsMainVisible}
+                  />
                 )}
               </div>
             </section>
+            {/* Admin User*/}
+            {user?.role === "admin" && (
+              <DashboardAdmin
+                setIsMainVisible={setIsMainVisible}
+                handleRefresh={handleRefresh}
+              />
+            )}
             {/* Private User*/}
             {user?.role === "private" && (
               <DashboardPrivate
