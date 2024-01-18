@@ -7,6 +7,8 @@ import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
 import { getApps } from "../../slices/appsSlice";
 import { getUsers } from "../../slices/allUsersSlice";
+import AdminFilter from "../AdminFilter";
+import AdminSort from "../AdminSort";
 
 const DashboardAdmin = ({ handleRefresh }) => {
   const apps = useSelector((state) => state.apps.apps);
@@ -30,8 +32,8 @@ const DashboardAdmin = ({ handleRefresh }) => {
         </div>
       </section>
       <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-        <h2>UsersFilter</h2>
-        <h2>UsersSort</h2>
+        <AdminFilter />
+        <AdminSort />
       </div>
       <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <ul>

@@ -22,7 +22,7 @@ adminRouter.get("/getUsers", async (req, res) => {
     try {
       const client = await pool.connect();
       const result = await client.query(
-        "SELECT * FROM users WHERE role != 'admin'"
+        "SELECT * FROM users WHERE role != 'admin' ORDER BY user_id ASC"
       );
       const users = result.rows;
       res.json(users);
