@@ -21,6 +21,7 @@ import DashboardPrivate from "../components/Dashboards/DashboardPrivate";
 import DashboardCompany from "../components/Dashboards/DashboardCompany";
 import MessageButton from "../components/MessageButton";
 import ReplyButton from "../components/ReplyButton";
+import { getUsers } from "../slices/allUsersSlice";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -96,6 +97,22 @@ const Dashboard = () => {
   }, []);
 
   const handleRefresh = async () => {
+    
+    //if user is admin
+    if (user?.role === "admin") {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get("http://localhost:3000/getUsers", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.data);
+        dispatch(getUsers({ allUsers: response.data, isLoading: false }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
+    }
     //if user is private
     if (user?.role === "private") {
       try {
