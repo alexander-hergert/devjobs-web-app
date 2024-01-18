@@ -70,6 +70,12 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
         message: "Please use at least 2 characters!",
       });
       return;
+    } else if (watch("requirements-items").length > 100) {
+      setError("requirements-items", {
+        type: "maxLength",
+        message: "Please use max 100 characters!",
+      });
+      return;
     } else if (requirementsItems.length === 5) {
       setError("requirements-items", {
         type: "maxItems",
@@ -80,6 +86,8 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
       clearErrors("requirements-items");
     }
     setRequirementsItems([...requirementsItems, watch("requirements-items")]);
+    //clear input field
+    setValue("requirements-items", "");
   };
 
   const removeRequirement = (index) => {
@@ -94,6 +102,12 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
         message: "Please use at least 2 characters!",
       });
       return;
+    } else if (watch("role-items").length > 100) {
+      setError("role-items", {
+        type: "maxLength",
+        message: "Please use max 100 characters!",
+      });
+      return;
     } else if (roleItems.length === 5) {
       setError("role-items", {
         type: "maxItems",
@@ -104,6 +118,8 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
       clearErrors("role-items");
     }
     setRoleItems([...roleItems, watch("role-items")]);
+    //clear input field
+    setValue("role-items", "");
   };
 
   const removeRole = (index) => {
@@ -276,7 +292,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="description"
-            {...register("description", { required: true, minLength: 50 })}
+            {...register("description", {
+              required: true,
+              minLength: 50,
+              maxLength: 500,
+            })}
             aria-label="description"
             placeholder="e.g. We are looking for a Frontend Developer to join our team..."
             defaultValue={companyJobs[selectedJob]?.description}
@@ -298,6 +318,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
               Please use at least 50 characters!
             </p>
           )}
+          {errors.description?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 500 characters!
+            </p>
+          )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="requirementsContent">Requirements*</label>
@@ -308,6 +333,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             {...register("requirementsContent", {
               required: true,
               minLength: 50,
+              maxLength: 500,
             })}
             aria-label="requirementsContent"
             placeholder="e.g. 3+ years of experience as a Frontend Developer..."
@@ -330,6 +356,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
               Please use at least 50 characters!
             </p>
           )}
+          {errors["requirementsContent"]?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 500 characters!
+            </p>
+          )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="requirements-items">Other Requirements</label>
@@ -348,10 +379,10 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
           </div>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          <label className="align-center" htmlFor="requirements-items">
+          <label className="pt-4" htmlFor="requirements-items">
             New Requirement
           </label>
-          <div className="flex items-center gap-4 w-full">
+          <div className="flex flex-col items-center gap-4 w-full">
             <div className="md:flex md:items-center md:gap-4 md:w-full">
               <input
                 className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
@@ -359,6 +390,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                 id="requirements-items"
                 {...register("requirements-items", {
                   minLength: 2,
+                  maxLength: 100,
                 })}
                 aria-label="requirements-items"
                 placeholder="Max 5 items"
@@ -370,6 +402,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                 Add Item
               </button>
             </div>
+            <CharactersUsed
+              charactersUsed={watch("requirements-items")?.length || 0}
+              maxCharacters={100}
+              offset={{ small: 2, medium: 8, large: 13 }}
+            />
           </div>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
@@ -390,7 +427,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="roleContent"
-            {...register("roleContent", { required: true, minLength: 50 })}
+            {...register("roleContent", {
+              required: true,
+              minLength: 50,
+              maxLength: 500,
+            })}
             aria-label="roleContent"
             placeholder="e.g. You will be responsible for the development of our website..."
             defaultValue={companyJobs[selectedJob]?.job_role}
@@ -412,6 +453,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
               Please use at least 50 characters!
             </p>
           )}
+          {errors["roleContent"]?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 500 characters!
+            </p>
+          )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="role-items">Other Roles</label>
@@ -422,7 +468,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                   className="flex items-center justify-between gap-4"
                   key={`${item + index}`}
                 >
-                  <li>{item}</li>
+                  <li className="text-lg">{item}</li>
                   <p onClick={() => removeRole(index)}>X</p>
                 </div>
               ))}
@@ -430,16 +476,19 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
           </div>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
-          <label className="align-center" htmlFor="role-items">
+          <label className="pt-7" htmlFor="role-items">
             New Role
           </label>
-          <div className="flex items-center gap-4 w-full">
+          <div className="flex flex-col items-center gap-4 w-full">
             <div className="md:flex md:items-center md:gap-4 md:w-full">
               <input
                 className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
                 type="text"
                 id="role-items"
-                {...register("role-items", { minLength: 2 })}
+                {...register("role-items", {
+                  minLength: 2,
+                  maxLength: 100,
+                })}
                 aria-label="role-items"
                 placeholder="Max 5 items"
               />
@@ -450,12 +499,22 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                 Add Item
               </button>
             </div>
+            <CharactersUsed
+              charactersUsed={watch("role-items")?.length || 0}
+              maxCharacters={100}
+              offset={{ small: 2, medium: 8, large: 13 }}
+            />
           </div>
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center">
           {errors["role-items"]?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
               Please use at least 2 characters!
+            </p>
+          )}
+          {errors["role-items"]?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 100 characters!
             </p>
           )}
           {errors["role-items"]?.type === "maxItems" && (
