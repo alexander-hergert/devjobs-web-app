@@ -97,7 +97,6 @@ const Dashboard = () => {
   }, []);
 
   const handleRefresh = async () => {
-    
     //if user is admin
     if (user?.role === "admin") {
       try {

@@ -6,10 +6,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
 import { getApps } from "../../slices/appsSlice";
-
+import { getUsers } from "../../slices/allUsersSlice";
 
 const DashboardAdmin = ({ handleRefresh }) => {
   const apps = useSelector((state) => state.apps.apps);
+  const users = useSelector((state) => state.allUsers.allUsers);
+  console.log(users);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
 
@@ -34,73 +36,53 @@ const DashboardAdmin = ({ handleRefresh }) => {
       <section className="m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <ul>
           <li
-            className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 max-md:grid-cols-4 mb-8 items-center"
+            className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-6 max-md:grid-cols-3 mb-8 items-center"
             key={0}
           >
             <h3 className="font-bold max-md:text-lg">Username</h3>
-            <h3 className="font-bold max-md:text-lg">aaa</h3>
-            <h3 className="font-bold max-md:hidden">bbb</h3>
-            <h3 className="font-bold max-xl:hidden">ccc</h3>
-            <h3 className="font-bold max-xl:hidden">ddd</h3>
+            <h3 className="font-bold max-md:text-lg">Avatar</h3>
+            <h3 className="font-bold max-md:hidden">Role</h3>
+            <h3 className="font-bold max-xl:hidden">Fullname</h3>
+            <h3 className="font-bold max-md:text-lg">Details</h3>
             <h3 className="font-bold max-md:text-lg">Bann</h3>
-            <h3 className="font-bold max-md:text-lg">Unbann</h3>
           </li>
-          {apps?.appliedJobs?.map((job, i) => {
+          {users?.map((user, i) => {
             return (
               <li
-                className={`max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 my-2 max-md:grid-cols-4 items-center p-2 rounded ${
-                  apps?.applications[i].app_status === "Accepted"
-                    ? "bg-green-200"
-                    : apps?.applications[i].app_status === "Denied"
-                    ? "bg-red-200"
-                    : "bg-neutral"
+                className={`max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-6 my-2 max-md:grid-cols-3 items-center p-2 rounded ${
+                  user?.is_banned === false ? "bg-neutral" : "bg-red-200"
                 }`}
-                key={job.job_id}
+                key={user.user_id}
               >
                 <p
                   className={
-                    apps?.applications[i].app_status === "Pending"
-                      ? "text-primary"
-                      : "text-black"
+                    user?.is_banned === false ? "text-primary" : "text-black"
                   }
                 >
-                  {job.position}
+                  {user.user_id}
                 </p>
+                <img
+                  className="w-[2rem] h-[2rem] max-md:hidden"
+                  src={user.picture}
+                  alt={user.picture}
+                />
                 <p
                   className={
-                    apps?.applications[i].app_status === "Pending"
-                      ? "text-primary"
-                      : "text-black"
-                  }
-                >
-                  {job.company}
-                </p>
-                <p
-                  className={
-                    apps?.applications[i].app_status === "Pending"
+                    user?.is_banned === false
                       ? "text-primary max-md:hidden"
                       : "text-black max-md:hidden"
                   }
                 >
-                  {job.location}
+                  {user.role}
                 </p>
                 <p
                   className={
-                    apps?.applications[i].app_status === "Pending"
+                    user?.is_banned === false
                       ? "text-primary max-xl:hidden"
                       : "text-black max-xl:hidden"
                   }
                 >
-                  {job.status ? "open" : "closed"}
-                </p>
-                <p
-                  className={
-                    apps?.applications[i].app_status === "Pending"
-                      ? "text-primary max-xl:hidden"
-                      : "text-black max-xl:hidden"
-                  }
-                >
-                  {apps?.applications[i].app_status}
+                  {user.fullname}
                 </p>
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
@@ -116,7 +98,7 @@ const DashboardAdmin = ({ handleRefresh }) => {
                   onClick={() => handleCancel(i)}
                 >
                   <div className="flex gap-2 items-center">
-                    Cancel
+                    Bann
                     <GiCancel className="max-md:hidden text-xl" />
                   </div>
                 </button>
