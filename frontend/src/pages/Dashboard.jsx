@@ -271,33 +271,12 @@ const Dashboard = () => {
                 )}
               </div>
             </section>
-            <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-              <div className="flex gap-4 items-center">
-                <h2 className="mt-5 text-center font-bold">
-                  {user.role === "private" ? "Applications" : "Jobs"}
-                </h2>
-                <button
-                  onClick={handleRefresh}
-                  className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-                >
-                  Refresh
-                  <FiRefreshCw />
-                </button>
-              </div>
-              {user?.role === "company" && (
-                <button
-                  onClick={handleCreateJob}
-                  className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
-                >
-                  Create New Joboffer <FaPlus />
-                </button>
-              )}
-            </section>
             {/* Private User*/}
             {user?.role === "private" && (
               <DashboardPrivate
                 setViewDetails={setViewDetails}
                 setIsMainVisible={setIsMainVisible}
+                handleRefresh={handleRefresh}
               />
             )}
             {/* Company User*/}
@@ -307,6 +286,8 @@ const Dashboard = () => {
                 setSelectedJob={setSelectedJob}
                 setIsMainVisible={setIsMainVisible}
                 setIsEditJob={setIsEditJob}
+                handleRefresh={handleRefresh}
+                setIsCreateJob={setIsCreateJob}
               />
             )}
           </main>

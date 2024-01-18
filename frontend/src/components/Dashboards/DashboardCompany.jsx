@@ -9,12 +9,16 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import CompanyFilter from "../CompanyFilter";
 import CompanySort from "../CompanySort";
+import { FiRefreshCw } from "react-icons/fi";
+import { FaPlus } from "react-icons/fa";
 
 const DashboardCompany = ({
   setViewApplications,
   setSelectedJob,
   setIsMainVisible,
   setIsEditJob,
+  handleRefresh,
+  setIsCreateJob,
 }) => {
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   console.log(companyJobs);
@@ -85,8 +89,31 @@ const DashboardCompany = ({
     }
   };
 
+  const handleCreateJob = () => {
+    setIsCreateJob(true);
+    setIsMainVisible(false);
+  };
+
   return (
     <>
+      <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+        <div className="flex gap-4 items-center">
+          <h2 className="mt-5 text-center font-bold">Jobs</h2>
+          <button
+            onClick={handleRefresh}
+            className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+          >
+            Refresh
+            <FiRefreshCw />
+          </button>
+        </div>
+        <button
+          onClick={handleCreateJob}
+          className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+        >
+          Create New Joboffer <FaPlus />
+        </button>
+      </section>
       <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <CompanyFilter />
         <CompanySort />

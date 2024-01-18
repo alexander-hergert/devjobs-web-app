@@ -7,8 +7,13 @@ import { GiCancel } from "react-icons/gi";
 import { getApps } from "../../slices/appsSlice";
 import DashboardFilter from "../DashboardFilter";
 import DashboardSort from "../DashboardSort";
+import { FiRefreshCw } from "react-icons/fi";
 
-const DashboardPrivate = ({ setViewDetails, setIsMainVisible }) => {
+const DashboardPrivate = ({
+  setViewDetails,
+  setIsMainVisible,
+  handleRefresh,
+}) => {
   const apps = useSelector((state) => state.apps.apps);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
@@ -44,6 +49,18 @@ const DashboardPrivate = ({ setViewDetails, setIsMainVisible }) => {
 
   return (
     <>
+      <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
+        <div className="flex gap-4 items-center">
+          <h2 className="mt-5 text-center font-bold">Applications</h2>
+          <button
+            onClick={handleRefresh}
+            className="btn border-0 my-4 duration-0 capitalize text-white bg-accent hover:bg-info"
+          >
+            Refresh
+            <FiRefreshCw />
+          </button>
+        </div>
+      </section>
       <div className="flex gap-4 max-xl:justify-center justify-between items-center mb-10 flex-wrap m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <DashboardFilter />
         <DashboardSort />
