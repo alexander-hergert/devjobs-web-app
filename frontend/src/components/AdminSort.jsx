@@ -72,7 +72,7 @@ const AdminSort = () => {
           {...register("typesort")}
         >
           <option defaultChecked value="user_id">
-            User_id
+            User_Id
           </option>
           <option value="role">Role</option>
           <option value="fullname">Fullname</option>

@@ -22,6 +22,7 @@ import DashboardCompany from "../components/Dashboards/DashboardCompany";
 import MessageButton from "../components/MessageButton";
 import ReplyButton from "../components/ReplyButton";
 import { getUsers } from "../slices/allUsersSlice";
+import ViewUserDetails from "../components/ViewUserDetails";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -90,7 +91,9 @@ const Dashboard = () => {
     isViewDetails: false,
   });
   const [selectedJob, setSelectedJob] = useState(0);
+  const [selectedUser, setSelectedUser] = useState(0); //for admin
   const [viewApplications, setViewApplications] = useState(false);
+  const [viewUserDetails, setViewUserDetails] = useState(false);
 
   useEffect(() => {
     handleRefresh();
@@ -209,6 +212,13 @@ const Dashboard = () => {
             setIsMainVisible={setIsMainVisible}
           />
         )}
+        {viewUserDetails && (
+          <ViewUserDetails
+            setViewUserDetails={setViewUserDetails}
+            setIsMainVisible={setIsMainVisible}
+            selectedUser={selectedUser}
+          />
+        )}
         {isMainVisible && (
           <main>
             <section className="flex justify-center gap-12 items-center mt-10">
@@ -260,6 +270,8 @@ const Dashboard = () => {
               <DashboardAdmin
                 setIsMainVisible={setIsMainVisible}
                 handleRefresh={handleRefresh}
+                setViewUserDetails={setViewUserDetails}
+                setSelectedUser={setSelectedUser}
               />
             )}
             {/* Private User*/}

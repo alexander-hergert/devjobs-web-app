@@ -1,7 +1,7 @@
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
@@ -10,12 +10,23 @@ import { getUsers } from "../../slices/allUsersSlice";
 import AdminFilter from "../AdminFilter";
 import AdminSort from "../AdminSort";
 
-const DashboardAdmin = ({ handleRefresh }) => {
-  const apps = useSelector((state) => state.apps.apps);
+const DashboardAdmin = ({
+  handleRefresh,
+  setIsMainVisible,
+  setViewUserDetails,
+  setSelectedUser,
+}) => {
   const users = useSelector((state) => state.allUsers.allUsers);
   console.log(users);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
+
+  const handleViewUserDetails = (i) => {
+    setViewUserDetails(true);
+    setIsMainVisible(false);
+    setSelectedUser(i);
+  };
+
 
   return (
     <>
@@ -88,7 +99,7 @@ const DashboardAdmin = ({ handleRefresh }) => {
                 </p>
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-                  onClick={() => handleViewDetails(i)}
+                  onClick={() => handleViewUserDetails(i)}
                 >
                   <div className="flex gap-2 items-center">
                     Details
