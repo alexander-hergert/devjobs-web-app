@@ -38,15 +38,7 @@ const InnerPage = () => {
     } catch {}
   }, []);
 
-  if (job?.length === 0) {
-    return (
-      <div className="flex justify-center items-center">
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
-
-  if (jobId > jobs) {
+  if (!job) {
     return (
       <div className="flex flex-col justify-center items-center">
         <h1>Job not found</h1>

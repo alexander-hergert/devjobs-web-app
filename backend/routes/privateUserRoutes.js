@@ -2,6 +2,7 @@ import express from "express";
 const privateRouter = express.Router();
 import pool from "../config/configDB.js";
 import { authorize } from "../auth/oauth.js";
+import checkBanStatus from "../auth/banCheck.js";
 
 //create user
 privateRouter.post("/createuser", async (req, res) => {
@@ -17,6 +18,14 @@ privateRouter.post("/createuser", async (req, res) => {
   if (userInfo) {
     const user_id = userInfo.sub;
     const picture = userInfo.picture;
+    //check if user_website has http:// or https://
+    if (
+      !user_website.startsWith("http://") &&
+      !user_website.startsWith("https://")
+    ) {
+      user_website = "https://" + user_website;
+    }
+
     try {
       const client = await pool.connect();
       await client.query(
