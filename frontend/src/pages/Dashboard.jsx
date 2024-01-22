@@ -166,6 +166,17 @@ const Dashboard = () => {
     return <Loader />;
   }
 
+  //user banned no access
+  if (user?.is_banned) {
+    return (
+      <section className="flex justify-center items-center h-screen">
+        <h1 className="text-2xl font-bold text-center">
+          You have been banned from Devjobs.
+        </h1>
+      </section>
+    );
+  }
+
   if (isAuthenticated && user) {
     return (
       <>

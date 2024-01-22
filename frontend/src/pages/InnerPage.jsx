@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleJob } from "../slices/jobsSlice";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const InnerPage = () => {
   //scroll window to top
@@ -14,14 +16,20 @@ const InnerPage = () => {
   }, []);
 
   const params = useParams();
-  const jobId = params.jobId;
-
+  const jobId = Number(params.jobId);
+  console.log(jobId);
   const dispatch = useDispatch();
-  const jobs = useSelector((state) => state.jobs.jobs);
-  const job = jobs[0];
+  const [job] = useSelector((state) => state.jobs.jobs);
+  const jobs = useSelector((state) => state.totalJobs.totalJobs);
+  console.log(jobs);
   const [isApplication, setIsApplication] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!jobId || jobId < 1) {
+      navigate("/error");
+      return;
+    }
     try {
       axios.get(`http://localhost:3000/${jobId}`).then((response) => {
         dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
@@ -30,10 +38,21 @@ const InnerPage = () => {
     } catch {}
   }, []);
 
-  if (!job) {
+  if (job?.length === 0) {
     return (
       <div className="flex justify-center items-center">
         <h1>Loading...</h1>
+      </div>
+    );
+  }
+
+  if (jobId > jobs) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <h1>Job not found</h1>
+        <Link to="/" className="btn">
+          Home
+        </Link>
       </div>
     );
   }

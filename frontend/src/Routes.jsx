@@ -20,12 +20,16 @@ const router = createBrowserRouter([
         element: <SignUpPage />,
       },
       {
-        path: "/:jobId",
-        element: <InnerPage />,
-      },
-      {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/error",
+        element: <ErrorPage />,
+      },
+      {
+        path: "/:jobId",
+        element: <InnerPage />,
       },
       {
         path: "*",
