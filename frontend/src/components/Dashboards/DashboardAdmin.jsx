@@ -1,11 +1,11 @@
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
-
+import Loader from "../Loader";
+import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
-import { getApps } from "../../slices/appsSlice";
 import { getUsers } from "../../slices/allUsersSlice";
 import AdminFilter from "../AdminFilter";
 import AdminSort from "../AdminSort";
@@ -27,6 +27,30 @@ const DashboardAdmin = ({
     setSelectedUser(i);
   };
 
+  const handleBan = async (i) => {
+    const token = await getAccessTokenSilently();
+    try {
+      dispatch(getUsers({ allUsers: [], isLoading: true }));
+      const response = await axios.put(
+        "http://localhost:3000/banUser",
+        { id: users[i].user_id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      console.log(response.data);
+      dispatch(getUsers({ allUsers: response.data, isLoading: false }));
+      handleRefresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (users?.isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -108,10 +132,10 @@ const DashboardAdmin = ({
                 </button>
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
-                  onClick={() => handleCancel(i)}
+                  onClick={() => handleBan(i)}
                 >
                   <div className="flex gap-2 items-center">
-                    Bann
+                    {user?.is_banned ? "Unban" : "Ban"}
                     <GiCancel className="max-md:hidden text-xl" />
                   </div>
                 </button>

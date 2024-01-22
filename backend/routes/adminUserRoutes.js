@@ -108,4 +108,47 @@ adminRouter.get("/getUserStats", async (req, res) => {
   }
 });
 
+//ban and unban user
+adminRouter.put("/banUser", async (req, res) => {
+  const { id } = req.body;
+  const userInfo = await authorize(req);
+  if (userInfo) {
+    const user_id = userInfo.sub;
+    //test if user is admin
+    const client = await pool.connect();
+    const result = await client.query(
+      "SELECT * FROM users WHERE user_id = $1",
+      [user_id]
+    );
+    const user = result.rows[0];
+    if (!user.role == "admin") {
+      res.status(401).send("Unauthorized");
+    }
+    client.release();
+    try {
+      const client = await pool.connect();
+      //fetch user to see if banned
+      const resultUser = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [id]
+      );
+      const is_user_banned = resultUser.rows[0].is_banned;
+      await client.query("UPDATE users SET is_banned = $1 WHERE user_id = $2", [
+        !is_user_banned,
+        id,
+      ]);
+      const resultUsers = await client.query(
+        "SELECT * FROM users WHERE role != 'admin' ORDER BY user_id ASC"
+      );
+      const users = resultUsers.rows;
+      res.json(users);
+      client.release();
+    } catch (err) {
+      console.error(err.message);
+    }
+  } else {
+    res.status(401).send("Unauthorized");
+  }
+});
+
 export default adminRouter;
