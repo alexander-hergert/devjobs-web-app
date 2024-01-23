@@ -5,15 +5,21 @@ import "./styles/normalize.css";
 import "./styles/index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import "react-toastify/dist/ReactToastify.css";
+const clientIdDev = import.meta.env.VITE_AUTH0_CLIENT_ID_DEV;
+const domainDev = import.meta.env.VITE_AUTH0_DOMAIN_DEV;
+const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 createRoot(document.getElementById("root")).render(
   <>
     <Auth0Provider
-      domain="dev-8xdmup6cvgzbmjkw.us.auth0.com"
-      clientId="mjN11zl0Oqw4J0UdG6I15fv90tCGb9aA"
+      domain={domain}
+      clientId={clientId}
       authorizationParams={{
         redirect_uri: window.location.origin,
       }}
+      useRefreshTokens
+      cacheLocation="localstorage"
     >
       <App />
     </Auth0Provider>
