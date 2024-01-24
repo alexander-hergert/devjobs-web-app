@@ -42,6 +42,7 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
   } = useForm();
 
   const { getAccessTokenSilently } = useAuth0();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -49,15 +50,11 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
       console.log(selectedMessage);
       data.message_id = selectedMessage;
       const token = await getAccessTokenSilently();
-      const response = await axios.post(
-        "http://localhost:3000/createReply",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/createReply`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
       setIsReplyOpen(false);
     } catch (error) {

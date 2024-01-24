@@ -24,6 +24,7 @@ const InnerPage = () => {
   console.log(jobs);
   const [isApplication, setIsApplication] = useState(false);
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     if (!jobId || jobId < 1) {
@@ -31,7 +32,7 @@ const InnerPage = () => {
       return;
     }
     try {
-      axios.get(`http://localhost:3000/${jobId}`).then((response) => {
+      axios.get(`${baseUrl}/${jobId}`).then((response) => {
         dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
         console.log(response.data);
       });

@@ -37,6 +37,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
   const isLoading = useSelector((state) => state.messages.isLoading);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
   //load messages
   useEffect(() => {
@@ -44,7 +45,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
       //dispatch isLoading
       dispatch(getMessages({ messages: [], isLoading: true }));
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:3000/messages", {
+      const response = await axios.get(`${baseUrl}/messages`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,7 +66,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
 
   const handleDelete = async (message_id) => {
     const token = await getAccessTokenSilently();
-    const response = await axios.delete(`http://localhost:3000/messages`, {
+    const response = await axios.delete(`${baseUrl}/messages`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

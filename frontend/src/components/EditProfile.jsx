@@ -36,6 +36,7 @@ const Style = styled.section`
 const EditProfile = ({ setIsEditProfile, user }) => {
   const { fullname, email, address, location, skills, user_website } = user;
   const [isDeleteProfile, setIsDeleteProfile] = useState(false);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const { getAccessTokenSilently, logout } = useAuth0();
   const {
@@ -51,7 +52,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
     console.log(data);
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.put("http://localhost:3000/user", data, {
+      const response = await axios.put(`${baseUrl}/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -72,7 +73,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
   const handleDelete = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await axios.delete("http://localhost:3000/user", {
+      const response = await axios.delete(`${baseUrl}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

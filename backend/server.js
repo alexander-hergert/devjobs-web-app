@@ -7,7 +7,7 @@ import companyRouter from "./routes/companyUserRoutes.js";
 import adminRouter from "./routes/adminUserRoutes.js";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //middlewares
 app.use(cors());
@@ -19,5 +19,5 @@ app.use(companyRouter);
 app.use(publicRouter);
 
 app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+  console.log(`Server listening at port: ${port}`);
 });

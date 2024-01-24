@@ -12,6 +12,7 @@ const UploadWidget = () => {
   const dispatch = useDispatch();
   const clname = import.meta.env.VITE_CLOUDNAME;
   const preset = import.meta.env.VITE_UPLOAD_PRESET;
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
@@ -37,15 +38,11 @@ const UploadWidget = () => {
         try {
           const token = await getAccessTokenSilently();
           const data = { url };
-          const response = await axios.put(
-            "http://localhost:3000/userprofile",
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await axios.put(`${baseUrl}/userprofile`, data, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           dispatch(setUser({ user: response.data[0], isLoading: false }));
         } catch (error) {
           console.log(error);

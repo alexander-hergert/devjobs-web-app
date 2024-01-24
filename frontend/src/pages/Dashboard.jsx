@@ -94,6 +94,7 @@ const Dashboard = () => {
   const [selectedUser, setSelectedUser] = useState(0); //for admin
   const [viewApplications, setViewApplications] = useState(false);
   const [viewUserDetails, setViewUserDetails] = useState(false);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     handleRefresh();
@@ -104,7 +105,7 @@ const Dashboard = () => {
     if (user?.role === "admin") {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/getUsers", {
+        const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -119,7 +120,7 @@ const Dashboard = () => {
     if (user?.role === "private") {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/appliedJobs", {
+        const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -133,14 +134,11 @@ const Dashboard = () => {
     else if (user?.role === "company") {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
-          "http://localhost:3000/getCompanyJobs",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })

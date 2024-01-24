@@ -61,6 +61,7 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
   const [roleItems, setRoleItems] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleAddRequirementsItem = (e) => {
     e.preventDefault();
@@ -136,7 +137,7 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "post",
-        url: "http://localhost:3000/createjob",
+        url: `${baseUrl}/createjob`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,

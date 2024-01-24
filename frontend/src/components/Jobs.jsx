@@ -17,11 +17,12 @@ const Jobs = () => {
   const location = useLocation();
   const page = useSelector((state) => state.pagination.page);
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     try {
       if (!location.search) {
-        axios.get("http://localhost:3000/jobs").then((response) => {
+        axios.get(`${baseUrl}/jobs`).then((response) => {
           dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
           dispatch(getTotalJobs({ payload: response.data[1] }));
           console.log(response.data);
@@ -29,29 +30,27 @@ const Jobs = () => {
         });
       } else {
         //Query string is present
-        axios
-          .get(`http://localhost:3000/jobs${location.search}`)
-          .then((response) => {
-            dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
-            dispatch(getTotalJobs({ payload: response.data[1] }));
-            console.log(response.data);
-            //set the page number
-            const query = new URLSearchParams(location.search);
-            const totalJobs = response.data[1];
-            const number = parseInt(query.get("page") || 1);
-            if (number > Math.ceil(totalJobs / 12)) {
-              dispatch(setPage({ payload: Math.ceil(totalJobs / 12) }));
-              navigate(
-                `/?searchTerm=${query.get("searchTerm") || ""}&location=${
-                  query.get("location") || ""
-                }&contract=${query.get("contract") || ""}&page=${Math.ceil(
-                  totalJobs / 12
-                )}`
-              );
-            } else {
-              dispatch(setPage({ payload: number }));
-            }
-          });
+        axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {
+          dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
+          dispatch(getTotalJobs({ payload: response.data[1] }));
+          console.log(response.data);
+          //set the page number
+          const query = new URLSearchParams(location.search);
+          const totalJobs = response.data[1];
+          const number = parseInt(query.get("page") || 1);
+          if (number > Math.ceil(totalJobs / 12)) {
+            dispatch(setPage({ payload: Math.ceil(totalJobs / 12) }));
+            navigate(
+              `/?searchTerm=${query.get("searchTerm") || ""}&location=${
+                query.get("location") || ""
+              }&contract=${query.get("contract") || ""}&page=${Math.ceil(
+                totalJobs / 12
+              )}`
+            );
+          } else {
+            dispatch(setPage({ payload: number }));
+          }
+        });
       }
     } catch (error) {}
   }, [location.search]);

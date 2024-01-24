@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useCreateUserMutation } from "../api/apiSlice";
 
 const Profile = ({ user, isAuthenticated }) => {
  // const [createUser, { isLoading: isCreatingUser }] = useCreateUserMutation();

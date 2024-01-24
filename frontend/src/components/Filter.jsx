@@ -47,6 +47,7 @@ const Filter = ({ handleToggleFilter }) => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
   const [width, setWidth] = useState(window.innerWidth);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const {
     register,
@@ -64,17 +65,15 @@ const Filter = ({ handleToggleFilter }) => {
     data.page = 1;
     console.log(data);
     try {
-      axios
-        .get(`http://localhost:3000/jobs`, { params: data })
-        .then((response) => {
-          dispatch(getJobs({ payload: response.data[0] }));
-          navigate(
-            `/?searchTerm=${data.searchTerm}&location=${
-              data.location
-            }&contract=${data.contract}&page=${1}`
-          );
-          dispatch(setPage({ payload: 1 }));
-        });
+      axios.get(`${baseUrl}/jobs`, { params: data }).then((response) => {
+        dispatch(getJobs({ payload: response.data[0] }));
+        navigate(
+          `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${
+            data.contract
+          }&page=${1}`
+        );
+        dispatch(setPage({ payload: 1 }));
+      });
     } catch {}
   };
 

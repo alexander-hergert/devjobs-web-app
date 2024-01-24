@@ -61,6 +61,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
   const [roleItems, setRoleItems] = useState([]);
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleAddRequirementsItem = (e) => {
     e.preventDefault();
@@ -138,7 +139,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "put",
-        url: "http://localhost:3000/editjob",
+        url: `${baseUrl}/editjob`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,

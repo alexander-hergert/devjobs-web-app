@@ -34,6 +34,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
   const replies = useSelector((state) => state.replies.replies);
   const isLoading = useSelector((state) => state.replies.isLoading);
   const [selectedReply, setSelectedReply] = useState(null);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   //load replies
   useEffect(() => {
@@ -41,7 +42,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
       //dispatch isLoading
       dispatch(getReplies({ replies: [], isLoading: true }));
       const token = await getAccessTokenSilently();
-      const response = await axios.get("http://localhost:3000/getReplies", {
+      const response = await axios.get(`${baseUrl}/getReplies`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +58,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
 
   const handleDelete = async (reply_id) => {
     const token = await getAccessTokenSilently();
-    const response = await axios.delete(`http://localhost:3000/deleteReply`, {
+    const response = await axios.delete(`${baseUrl}/deleteReply`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

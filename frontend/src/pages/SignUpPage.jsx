@@ -20,12 +20,8 @@ const SignUpPage = () => {
     formState: { errors },
   } = useForm();
 
-  const {
-    isAuthenticated,
-    loginWithPopup,
-    getAccessTokenSilently,
-    logout,
-  } = useAuth0();
+  const { isAuthenticated, loginWithPopup, getAccessTokenSilently, logout } =
+    useAuth0();
 
   const user = useSelector((state) => state.user.user);
 
@@ -40,15 +36,11 @@ const SignUpPage = () => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.post(
-          "http://localhost:3000/createuser",
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.post(`${baseUrl}/createuser`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         dispatch(setUser({ user: response.data[0], isLoading: false }));
         navigate("/dashboard");
       } catch (error) {

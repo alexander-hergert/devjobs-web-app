@@ -63,6 +63,7 @@ const Overlay = styled.div`
 const MobileFilter = ({ handleToggleFilter }) => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
+  const baseUrl = useSelector((state) => state.baseUrl);
 
   const {
     register,
@@ -78,16 +79,14 @@ const MobileFilter = ({ handleToggleFilter }) => {
   const onSubmit = (data) => {
     console.log("form", data);
     try {
-      axios
-        .get(`http://localhost:3000/jobs`, { params: data })
-        .then((response) => {
-          dispatch(getJobs({ payload: response.data }));
-          console.log(response.data);
-          console.log(data);
-          navigate(
-            `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
-          );
-        });
+      axios.get(`${baseUrl}/jobs`, { params: data }).then((response) => {
+        dispatch(getJobs({ payload: response.data }));
+        console.log(response.data);
+        console.log(data);
+        navigate(
+          `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
+        );
+      });
     } catch {}
   };
 

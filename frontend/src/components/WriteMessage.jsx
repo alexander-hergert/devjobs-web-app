@@ -45,6 +45,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
 
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -52,15 +53,11 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
     try {
       data.app_id = companyApps[selectedApp].app?.app_id;
       const token = await getAccessTokenSilently();
-      const response = await axios.post(
-        "http://localhost:3000/createMessage",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/createMessage`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(response.data);
       dispatch(getMessages({ messages: response.data, isLoading: false }));
       setIsMessageOpen(false);

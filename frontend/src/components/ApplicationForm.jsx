@@ -53,13 +53,14 @@ const ApplicationForm = ({ setIsApplication }) => {
   const param = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     console.log(data);
     try {
       data.job_id = param.jobId;
       const token = await getAccessTokenSilently();
-      const response = await axios.post("http://localhost:3000/apply", data, {
+      const response = await axios.post(`${baseUrl}/apply`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

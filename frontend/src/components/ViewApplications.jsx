@@ -56,6 +56,7 @@ const ViewApplications = ({
   const [enlargedApp, setEnlargedApp] = useState(0);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState(0);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleOpen = (i) => {
     setEnlargedApp(i);
@@ -71,7 +72,7 @@ const ViewApplications = ({
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
-        `http://localhost:3000/updateJobApplication`,
+        `${baseUrl}/updateJobApplication`,
         data,
         {
           headers: {
@@ -99,7 +100,7 @@ const ViewApplications = ({
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
-          `http://localhost:3000/getJobApplications?job_id=${data.job_id}`,
+          `${baseUrl}/getJobApplications?job_id=${data.job_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

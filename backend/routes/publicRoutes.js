@@ -2,6 +2,12 @@ import express from "express";
 const publicRouter = express.Router();
 import pool from "../config/configDB.js";
 
+//test route
+publicRouter.get("/test", (req, res) => {
+  //json respond
+  res.json({ message: "Public test route" });
+});
+
 // fetch filtered jobs for Homepage
 publicRouter.get("/jobs", async (req, res) => {
   const page = req.query.page || 1;

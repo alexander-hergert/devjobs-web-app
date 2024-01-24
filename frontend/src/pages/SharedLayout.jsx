@@ -17,13 +17,14 @@ const SharedLayout = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const user = useSelector((state) => state.user.user);
   const location = useLocation();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   //public
   useEffect(() => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/user", {
+        const response = await axios.get(`${baseUrl}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +46,7 @@ const SharedLayout = () => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/appliedJobs", {
+        const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -66,14 +67,11 @@ const SharedLayout = () => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get(
-          "http://localhost:3000/getCompanyJobs",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })
@@ -92,7 +90,7 @@ const SharedLayout = () => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/getUsers", {
+        const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -111,18 +109,16 @@ const SharedLayout = () => {
   useEffect(() => {
     try {
       if (!location.search) {
-        axios.get("http://localhost:3000/jobs").then((response) => {
+        axios.get(`${baseUrl}/jobs`).then((response) => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
           console.log(response.data);
         });
       } else {
         //Query string is present
-        axios
-          .get(`http://localhost:3000/jobs${location.search}`)
-          .then((response) => {
-            dispatch(getTotalJobs({ payload: response.data[1] }));
-            console.log(response.data);
-          });
+        axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {
+          dispatch(getTotalJobs({ payload: response.data[1] }));
+          console.log(response.data);
+        });
       }
     } catch (error) {}
   }, [location.search]);

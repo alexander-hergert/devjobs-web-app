@@ -52,6 +52,7 @@ const ViewUserDetails = ({
   const user = allUsers[selectedUser];
   const param = user.user_id;
   const [userStats, setUserStats] = useState({});
+  const baseUrl = import.meta.env.VITE_BASE_URL;
   console.log(selectedUser);
   console.log(user);
 
@@ -59,7 +60,7 @@ const ViewUserDetails = ({
     const getUserStats = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.get("http://localhost:3000/getUserStats", {
+        const response = await axios.get(`${baseUrl}/getUserStats`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
