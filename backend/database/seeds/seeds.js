@@ -1,10 +1,9 @@
-import pkg from "pg";
-const { Pool } = pkg;
 import dotenv from "dotenv";
 import { addUser } from "./user_seeds.js";
 import { addJob } from "./job_seeds.js";
 import { companies, jobs } from "./data.js";
 import { createRandomJobs } from "./randomJobs.js";
+import pool from "../../config/configDB.js";
 
 dotenv.config({ path: "../../.env" });
 
@@ -14,14 +13,6 @@ const role = process.env.Role;
 const email = process.env.Email;
 const fullname = process.env.FullName;
 const picture = process.env.Picture;
-
-const pool = new Pool({
-  user: "alexanderhergert",
-  host: "localhost",
-  database: "webdevjobs",
-  password: "1234",
-  port: 5432,
-});
 
 // Seed the users table
 const deleteTableUsers = async (client) => {

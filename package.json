@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cd frontend && vite",
     "server": "cd backend && nodemon server.js",
+    "dbseeds": "cd ./backend/database/seeds && node seeds.js",
     "build": "cd frontend && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

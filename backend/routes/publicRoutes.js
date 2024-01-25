@@ -17,7 +17,7 @@ publicRouter.get("/jobs", async (req, res) => {
     const { searchTerm, location, contract } = req.query;
     const client = await pool.connect();
 
-    //two queries one does fetch the limited amount depending o page and one all hits
+    //two queries one does fetch the limited amount depending on page and one all hits
     let query = "SELECT * FROM jobs WHERE 1 = 1";
     let queryAll = "SELECT * FROM jobs WHERE 1 = 1";
     const queryParams = [];
