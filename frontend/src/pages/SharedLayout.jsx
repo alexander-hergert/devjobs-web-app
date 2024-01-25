@@ -14,16 +14,18 @@ import { getTotalJobs } from "../slices/totalJobsSlice";
 //shared code goes into jsx
 const SharedLayout = () => {
   const dispatch = useDispatch();
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const user = useSelector((state) => state.user.user);
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+  //const user = useSelector((state) => state.user.user);
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  console.log(user);
 
   //public
   useEffect(() => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
+        console.log(token);
         const response = await axios.get(`${baseUrl}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -17,6 +17,7 @@ const DashboardPrivate = ({
   const apps = useSelector((state) => state.apps.apps);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
@@ -33,7 +34,7 @@ const DashboardPrivate = ({
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "delete",
-        url: "http://localhost:3000/application",
+        url: `${baseUrl}/application`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,

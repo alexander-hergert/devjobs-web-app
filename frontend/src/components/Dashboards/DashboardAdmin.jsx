@@ -20,6 +20,7 @@ const DashboardAdmin = ({
   console.log(users);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleViewUserDetails = (i) => {
     setViewUserDetails(true);
@@ -32,7 +33,7 @@ const DashboardAdmin = ({
     try {
       dispatch(getUsers({ allUsers: [], isLoading: true }));
       const response = await axios.put(
-        "http://localhost:3000/banUser",
+        `${baseUrl}/banUser`,
         { id: users[i].user_id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -47,9 +48,9 @@ const DashboardAdmin = ({
   if (users?.isLoading) {
     return (
       <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
-      <div className="flex justify-center items-center h-screen">
-        <Loader />
-      </div>
+        <div className="flex justify-center items-center h-screen">
+          <Loader />
+        </div>
       </section>
     );
   }

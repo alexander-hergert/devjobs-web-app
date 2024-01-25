@@ -24,6 +24,7 @@ const DashboardCompany = ({
   console.log(companyJobs);
   const dispatch = useDispatch();
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const handleViewApplications = async (i) => {
     setViewApplications(true);
@@ -47,7 +48,7 @@ const DashboardCompany = ({
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "delete",
-        url: "http://localhost:3000/deletejob",
+        url: `${baseUrl}/deletejob`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -73,7 +74,7 @@ const DashboardCompany = ({
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "put",
-        url: "http://localhost:3000/canceljob",
+        url: `${baseUrl}/canceljob`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
