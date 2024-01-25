@@ -15,7 +15,7 @@ adminRouter.get("/getUsers", async (req, res) => {
       [user_id]
     );
     const user = result.rows[0];
-    if (!user.role == "admin") {
+    if (!user?.role == "admin") {
       res.status(401).send("Unauthorized");
     }
     client.release();
@@ -48,7 +48,7 @@ adminRouter.get("/getUserStats", async (req, res) => {
       [user_id]
     );
     const user = result.rows[0];
-    if (!user.role == "admin") {
+    if (!user?.role == "admin") {
       res.status(401).send("Unauthorized");
     }
     client.release();
@@ -121,7 +121,7 @@ adminRouter.put("/banUser", async (req, res) => {
       [user_id]
     );
     const user = result.rows[0];
-    if (!user.role == "admin") {
+    if (!user?.role == "admin") {
       res.status(401).send("Unauthorized");
     }
     client.release();
