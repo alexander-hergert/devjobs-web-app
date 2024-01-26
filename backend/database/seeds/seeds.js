@@ -8,11 +8,11 @@ import pool from "../../config/configDB.js";
 dotenv.config({ path: "../../.env" });
 
 //ADMIN DATA
-const user_id = process.env.User_Id;
-const role = process.env.Role;
-const email = process.env.Email;
-const fullname = process.env.FullName;
-const picture = process.env.Picture;
+const user_id = process.env.ADMIN_ID;
+const role = "admin";
+const email = "alexander.hergert1989@gmail.com";
+const fullname = "Alexander Hergert";
+const picture = "https://avatars.githubusercontent.com/u/39084399?v=4";
 
 // Seed the users table
 const deleteTableUsers = async (client) => {
