@@ -7,7 +7,7 @@ import checkBanStatus from "../auth/banCheck.js";
 //create user
 privateRouter.post("/createuser", async (req, res) => {
   console.log(req.body);
-  const { email, role, fullname, address, location, skills, user_website } =
+  let { email, role, fullname, address, location, skills, user_website } =
     req.body;
   //protect admin route
   if (role === "admin") {
@@ -24,6 +24,8 @@ privateRouter.post("/createuser", async (req, res) => {
       !user_website.startsWith("https://")
     ) {
       user_website = "https://" + user_website;
+    } else if (user_website === "") {
+      user_website = null;
     }
 
     try {

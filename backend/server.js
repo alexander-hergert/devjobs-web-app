@@ -10,14 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //middlewares
-app.use(
-  cors({
-    origin: "https://a-hergert-devjobs-web-app.netlify.app",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-    optionsSuccessStatus: 204,
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 //routes
 app.use(adminRouter);

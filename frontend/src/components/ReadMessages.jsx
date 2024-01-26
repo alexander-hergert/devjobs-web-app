@@ -37,7 +37,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
   const isLoading = useSelector((state) => state.messages.isLoading);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   //load messages
   useEffect(() => {

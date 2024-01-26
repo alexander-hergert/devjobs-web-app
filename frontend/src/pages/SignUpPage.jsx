@@ -24,6 +24,7 @@ const SignUpPage = () => {
     useAuth0();
 
   const user = useSelector((state) => state.user.user);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = (data) => {
     console.log(data);
