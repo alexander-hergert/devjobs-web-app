@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import Job from "./Job";
+import Job from "../Inner/Job";
 import { useDispatch, useSelector } from "react-redux";
-import { getJobs } from "../slices/jobsSlice";
-import { getTotalJobs } from "../slices/totalJobsSlice";
+import { getJobs } from "../../slices/jobsSlice";
+import { getTotalJobs } from "../../slices/totalJobsSlice";
 import { useLocation, useNavigate } from "react-router-dom";
-import { setPage } from "../slices/paginationSlice";
-import JobLoader from "./JobLoader";
-import ScrollUpButton from "./ScrollUpButton";
+import { setPage } from "../../slices/paginationSlice";
+import JobLoader from "../Home/JobLoader";
+import ScrollUpButton from "../Home/ScrollUpButton";
 
 const Jobs = () => {
   const dispatch = useDispatch();

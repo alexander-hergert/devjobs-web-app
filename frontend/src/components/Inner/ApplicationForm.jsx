@@ -1,18 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import CharactersUsed from "./CharactersUsed";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getApps } from "../../slices/appsSlice";
+import { useNavigate } from "react-router-dom";
+import CharactersUsed from "../Global/CharactersUsed";
 
 const Style = styled.section`
   position: fixed;
-  top: 0;
-  padding-top: 5rem;
   background-color: rgba(0, 0, 0, 0.75);
-  z-index: 1000;
+  z-index: 10;
+  top: 0;
   width: 100%;
-  min-height: 100dvh;
+  min-height: 100vh;
+  padding-top: 5rem;
 
   input,
   textarea {
@@ -28,12 +32,16 @@ const Style = styled.section`
     border: 1px solid #ccc;
   }
 
+  ul {
+    margin-left: 2rem;
+  }
+
   @media screen and (max-width: 767px) {
     padding-top: 2rem;
   }
 `;
 
-const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
+const ApplicationForm = ({ setIsApplication }) => {
   const {
     register,
     handleSubmit,
@@ -42,21 +50,24 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
   } = useForm();
 
   const { getAccessTokenSilently } = useAuth0();
+  const param = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      console.log(selectedMessage);
-      data.message_id = selectedMessage;
+      data.job_id = param.jobId;
       const token = await getAccessTokenSilently();
-      const response = await axios.post(`${baseUrl}/createReply`, data, {
+      const response = await axios.post(`${baseUrl}/apply`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       console.log(response.data);
-      setIsReplyOpen(false);
+      dispatch(getApps({ payload: response.data }));
+      navigate(`/dashboard`);
     } catch (error) {
       console.error("Error calling API:", error);
       console.log(error.response.data);
@@ -67,20 +78,20 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setIsReplyOpen(false)}
-        aria-label="close"
+        onClick={() => setIsApplication(false)}
       >
         CLOSE
       </button>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         action=""
         className="flex flex-col bg-neutral m-auto p-10 max-md:w-[327px] 
         max-md:p-6 md:w-[690px] xl:w-[1100px] shadow rounded-xl"
       >
-        <h2 className="text-center font-bold">Write Reply</h2>
+        <h2 className="text-center font-bold">Write Application</h2>
         <div className="flex flex-col gap-4 justify-center items-center my-4">
-          <label htmlFor="content">Reply Text</label>
+          <label htmlFor="content">Application Text</label>
           <textarea
             className="bg-neutral text-primary"
             type="text"
@@ -90,13 +101,8 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
               minLength: 50,
               maxLength: 500,
             })}
-            placeholder="Write your message here (min 50 and max 500 characters)"
+            placeholder="Write your application here (min 50 and max 500 characters)"
             aria-invalid={errors.content ? "true" : "false"}
-          />
-          <CharactersUsed
-            charactersUsed={watch("content")?.length || 0}
-            maxCharacters={500}
-            offset={{ small: 0, medium: 0, large: 0 }}
           />
           {errors.content?.type === "required" && (
             <p className="text-red-500" role="alert">
@@ -114,10 +120,14 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
             </p>
           )}
         </div>
+        <CharactersUsed
+          charactersUsed={watch("content")?.length || 0}
+          maxCharacters={500}
+          offset={{ small: 0, medium: 0, large: 0 }}
+        />
         <input
           type="submit"
-          aria-label="submit message"
-          value="submit message"
+          value="submit application"
           className="btn my-4 duration-0 capitalize text-white bg-accent max-md:max-w-full 
           max-w-[10rem] self-center hover:bg-info border-none"
         />
@@ -126,4 +136,4 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
   );
 };
 
-export default ReplyMessage;
+export default ApplicationForm;

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ThemeSwitcher from "./ThemeSwitcher";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
+import ThemeSwitcher from "../Global/ThemeSwitcher";
+import LoginButton from "../Global/LoginButton";
+import LogoutButton from "../Global/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import SignUpButton from "./SignUpButton";
+import SignUpButton from "../Global/SignUpButton";
 import { TfiMenu } from "react-icons/tfi";
 import MobileMenu from "./MobileMenu";
-import DashboardButton from "./DashboardButton";
+import DashboardButton from "../Global/DashboardButton";
 
 const StyledMenubar = styled.nav`
   background-image: url("../assets/desktop/bg-pattern-header.svg");

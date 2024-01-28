@@ -4,11 +4,11 @@ import { TbListDetails } from "react-icons/tb";
 import { FaEdit } from "react-icons/fa";
 import { FaDoorClosed } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { getCompanyJobs } from "../../slices/companyJobsSlice";
+import { getCompanyJobs } from "../../../slices/companyJobsSlice";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import CompanyFilter from "../CompanyFilter";
-import CompanySort from "../CompanySort";
+import CompanyFilter from "./CompanyFilter";
+import CompanySort from "./CompanySort";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 

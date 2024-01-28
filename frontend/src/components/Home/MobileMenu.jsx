@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import SignUpButton from "./SignUpButton";
-import DashboardButton from "./DashboardButton";
+import LoginButton from "../Global/LoginButton";
+import LogoutButton from "../Global/LogoutButton";
+import SignUpButton from "../Global/SignUpButton";
+import DashboardButton from "../Global/DashboardButton";
 
 const Overlay = styled.section`
   position: fixed;

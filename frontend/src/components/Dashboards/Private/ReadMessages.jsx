@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { getMessages } from "../slices/messagesSlice";
+import { getMessages } from "../../../slices/messagesSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { TfiWrite } from "react-icons/tfi";
 import { FaTrashAlt } from "react-icons/fa";
-import ReplyMessage from "./ReplyMessage";
-import Loader from "./Loader";
-import { setUser } from "../slices/userSlice";
+import ReplyMessage from "../Private/ReplyMessage";
+import Loader from "../../Global/Loader";
+import { setUser } from "../../../slices/userSlice";
 
 const Style = styled.section`
   position: absolute;

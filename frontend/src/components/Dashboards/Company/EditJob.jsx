@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCompanyJobs } from "../slices/companyJobsSlice";
-import CharactersUsed from "./CharactersUsed";
+import { getCompanyJobs } from "../../../slices/companyJobsSlice";
+import CharactersUsed from "../../Global/CharactersUsed";
 
 const Style = styled.section`
   position: absolute;

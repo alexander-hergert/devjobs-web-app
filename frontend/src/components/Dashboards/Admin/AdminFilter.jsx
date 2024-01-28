@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUsers } from "../slices/allUsersSlice";
+import { getUsers } from "../../../slices/allUsersSlice";
 
 const AdminFilter = () => {
   const dispatch = useDispatch();

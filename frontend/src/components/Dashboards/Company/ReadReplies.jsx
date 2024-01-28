@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { getReplies } from "../slices/repliesSlice";
+import { getReplies } from "../../../slices/repliesSlice";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from "./Loader";
+import Loader from "../../Global/Loader";
 import { FaTrashAlt } from "react-icons/fa";
-import { setUser } from "../slices/userSlice";
+import { setUser } from "../../../slices/userSlice";
 
 const Style = styled.section`
   position: absolute;

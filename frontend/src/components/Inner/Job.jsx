@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { timeSince } from "../utils";
+import { timeSince } from "../../utils";
 import { useSelector } from "react-redux";
 
 const Job = ({ job }) => {

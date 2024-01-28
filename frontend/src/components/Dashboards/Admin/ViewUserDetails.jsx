@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "./Loader";
+import Loader from "../../Global/Loader";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 

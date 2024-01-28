@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCompanyApps } from "../slices/jobAppsSlice";
+import { getCompanyApps } from "../../../slices/jobAppsSlice";
 import WriteMessage from "./WriteMessage";
 
 const Style = styled.section`

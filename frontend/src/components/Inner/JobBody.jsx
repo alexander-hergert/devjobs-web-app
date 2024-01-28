@@ -1,5 +1,5 @@
 import React from "react";
-import { timeSince } from "../utils";
+import { timeSince } from "../../utils";
 import { useSelector } from "react-redux";
 import ApplicationForm from "./ApplicationForm";
 import { useParams } from "react-router-dom";

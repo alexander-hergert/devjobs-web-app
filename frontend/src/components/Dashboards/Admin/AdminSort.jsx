@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { getUsers } from "../slices/allUsersSlice";
+import { getUsers } from "../../../slices/allUsersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSortAlphaDown } from "react-icons/fa";
 

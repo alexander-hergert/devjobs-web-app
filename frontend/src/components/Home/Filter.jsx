@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { getJobs } from "../slices/jobsSlice";
+import { getJobs } from "../../slices/jobsSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { setPage } from "../slices/paginationSlice";
+import { setPage } from "../../slices/paginationSlice";
 
 const CheckBox = styled.input`
   appearance: none;

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Menubar from "../components/Menubar";
-import Footer from "../components/Footer";
+import Menubar from "../components/Home/Menubar";
+import Footer from "../components/Global/Footer";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
 import { getUsers } from "../slices/allUsersSlice";

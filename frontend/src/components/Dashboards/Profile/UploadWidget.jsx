@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../slices/userSlice";
+import { setUser } from "../../../slices/userSlice";
 
 const UploadWidget = () => {
   const cloudinaryRef = useRef();

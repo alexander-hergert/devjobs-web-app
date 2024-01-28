@@ -4,9 +4,9 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
-import { getApps } from "../../slices/appsSlice";
-import DashboardFilter from "../DashboardFilter";
-import DashboardSort from "../DashboardSort";
+import { getApps } from "../../../slices/appsSlice";
+import DashboardFilter from "./DashboardFilter";
+import DashboardSort from "./DashboardSort";
 import { FiRefreshCw } from "react-icons/fi";
 
 const DashboardPrivate = ({

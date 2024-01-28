@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
-import { getApps } from "../slices/appsSlice";
+import { getApps } from "../../../slices/appsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 

@@ -5,8 +5,6 @@ import "./styles/normalize.css";
 import "./styles/index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 import "react-toastify/dist/ReactToastify.css";
-const clientIdDev = import.meta.env.VITE_AUTH0_CLIENT_ID_DEV;
-const domainDev = import.meta.env.VITE_AUTH0_DOMAIN_DEV;
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 

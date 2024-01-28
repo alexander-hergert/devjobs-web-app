@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTheme } from "../slices/themeSlice";
-import { loadDataFromLocalStorage } from "../utils";
+import { setTheme } from "../../slices/themeSlice";
+import { loadDataFromLocalStorage } from "../../utils";
 
 const ThemeSwitcher = () => {
   const dispatch = useDispatch();

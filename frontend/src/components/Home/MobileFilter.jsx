@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getJobs } from "../slices/jobsSlice";
+import { getJobs } from "../../slices/jobsSlice";
 
 const CheckBox = styled.input`
   appearance: none;

@@ -1,14 +1,14 @@
 import React from "react";
 import { FiRefreshCw } from "react-icons/fi";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from "../Loader";
+import Loader from "../../Global/Loader";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TbListDetails } from "react-icons/tb";
 import { GiCancel } from "react-icons/gi";
-import { getUsers } from "../../slices/allUsersSlice";
-import AdminFilter from "../AdminFilter";
-import AdminSort from "../AdminSort";
+import { getUsers } from "../../../slices/allUsersSlice";
+import AdminFilter from "./AdminFilter";
+import AdminSort from "./AdminSort";
 
 const DashboardAdmin = ({
   handleRefresh,

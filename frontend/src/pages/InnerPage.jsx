@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import JobHeader from "../components/JobHeader";
-import JobBody from "../components/JobBody";
-import JobFooter from "../components/JobFooter";
+import JobHeader from "../components/Inner/JobHeader";
+import JobBody from "../components/Inner/JobBody";
+import JobFooter from "../components/Inner/JobFooter";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
