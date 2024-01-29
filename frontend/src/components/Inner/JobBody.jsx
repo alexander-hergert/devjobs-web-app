@@ -37,6 +37,7 @@ const LiOl = styled.li`
     content: "${(props) => props.$number}";
     color: #5964e0;
     display: inline-block;
+    width: 0.25rem;
   }
 `;
 

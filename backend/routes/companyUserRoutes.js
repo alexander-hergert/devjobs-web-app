@@ -21,9 +21,9 @@ companyRouter.post("/createjob", async (req, res) => {
   } = req.body;
 
   // Format requirements list to string with line breaks
-  const requirements_list = requirementsItems.join("\n");
+  const requirements_list = requirementsItems.join("");
   // Format role list to string with line breaks
-  const job_role_list = roleItems.join("\n");
+  const job_role_list = roleItems.join("");
 
   const userInfo = await authorize(req);
   if (userInfo) {
