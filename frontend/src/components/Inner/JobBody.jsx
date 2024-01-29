@@ -57,7 +57,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   const handleClick = () => {
     if (user?.role === "private") {
       setIsApplication(true);
-    } else if (user?.role === "company") {
+    } else if (user?.role === "company" || user?.role === "admin") {
       toast.error("This feature is only for candidates", {
         toastId: "applicationError",
       });
