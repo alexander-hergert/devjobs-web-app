@@ -36,9 +36,10 @@ const SharedLayout = () => {
         dispatch(setUser({ user: response.data[0], isLoading: false }));
       } catch (error) {
         dispatch(setUser({ user: undefined, isLoading: false }));
-        toast.error("Your account has beend banned.", {
-          toastId: "userError",
-        });
+        if (isAuthenticated)
+          toast.error("Error loading userdata.", {
+            toastId: "userError",
+          });
       }
     };
     if (!user?.user_id) {

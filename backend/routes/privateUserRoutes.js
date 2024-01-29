@@ -15,6 +15,7 @@ privateRouter.post("/createuser", async (req, res) => {
     return;
   }
   const userInfo = await authorize(req);
+
   if (userInfo) {
     const user_id = userInfo.sub;
     const picture = userInfo.picture;
@@ -30,6 +31,17 @@ privateRouter.post("/createuser", async (req, res) => {
 
     try {
       const client = await pool.connect();
+      const isBanned = await checkBanStatus(client, userInfo, res);
+      if (isBanned) return;
+      //check if user already exists
+      const userExist = await client.query(
+        "SELECT * FROM users WHERE user_id = $1",
+        [user_id]
+      );
+      if (userExist.rows.length > 0) {
+        res.status(400).json({ error: "User exists" });
+        return;
+      }
       await client.query(
         "INSERT INTO users (user_id, role, email, fullname, picture, address, location, skills, user_website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
         [

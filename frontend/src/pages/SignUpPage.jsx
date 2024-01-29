@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -46,7 +46,10 @@ const SignUpPage = () => {
         navigate("/dashboard");
       } catch (error) {
         toast.error("Error creating user");
-        logout({ logoutParams: { returnTo: window.location.origin } });
+        //set timeout to logout
+        setTimeout(() => {
+          logout({ logoutParams: { returnTo: window.location.origin } });
+        }, 1000);
         localStorage.setItem("user", JSON.stringify(false));
       }
     };
