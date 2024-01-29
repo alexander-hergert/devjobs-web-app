@@ -4,18 +4,19 @@ import Menubar from "../components/Home/Menubar";
 import Footer from "../components/Global/Footer";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getApps } from "../slices/appsSlice";
 import { setUser } from "../slices/userSlice";
 import { getUsers } from "../slices/allUsersSlice";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { getTotalJobs } from "../slices/totalJobsSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 //shared code goes into jsx
 const SharedLayout = () => {
   const dispatch = useDispatch();
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
-  //const user = useSelector((state) => state.user.user);
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const user = useSelector((state) => state.user.user);
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
   console.log(user);
@@ -35,6 +36,9 @@ const SharedLayout = () => {
         dispatch(setUser({ user: response.data[0], isLoading: false }));
       } catch (error) {
         dispatch(setUser({ user: undefined, isLoading: false }));
+        toast.error("Your account has beend banned.", {
+          toastId: "userError",
+        });
       }
     };
     if (!user?.user_id) {
@@ -127,6 +131,7 @@ const SharedLayout = () => {
 
   return (
     <>
+      <ToastContainer />
       <Menubar />
       <Outlet />
       <Footer />

@@ -67,7 +67,8 @@ privateRouter.get("/user", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       const result = await client.query(
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
@@ -93,7 +94,8 @@ privateRouter.put("/user", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       await client.query(
         "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",
         [user_id, email, fullname, address, location, skills, user_website]
@@ -123,7 +125,8 @@ privateRouter.put("/userprofile", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       await client.query("UPDATE users SET picture = $2 WHERE user_id = $1", [
         user_id,
         url,
@@ -151,7 +154,8 @@ privateRouter.delete("/user", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       await client.query("DELETE FROM applications WHERE user_id = $1", [
         user_id,
       ]);
@@ -175,7 +179,8 @@ privateRouter.get("/appliedJobs", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
@@ -209,7 +214,8 @@ privateRouter.post("/apply", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const IsBanned = await checkBanStatus(client, user_id, res);
+      if (IsBanned) return;
       //test if user already applied
       const result = await client.query(
         "SELECT * FROM applications WHERE user_id = $1 AND job_id = $2",
@@ -256,7 +262,8 @@ privateRouter.delete("/application", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       await client.query(
         "DELETE FROM applications WHERE user_id = $1 AND app_id = $2",
         [user_id, app_id]
@@ -292,7 +299,8 @@ privateRouter.get("/messages", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //select from table messages, get related app_ids from user id
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
@@ -339,7 +347,8 @@ privateRouter.delete("/messages", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //check if the id is part of users applications
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
@@ -389,7 +398,8 @@ privateRouter.post("/createReply", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //select app by message_id
       const app_id_result = await client.query(
         "SELECT app_id FROM messages WHERE message_id = $1",

@@ -6,8 +6,9 @@ const checkBanStatus = async (client, user_id, res) => {
     );
     const user = resultUser.rows[0];
     if (user?.is_banned) {
-      res.status(401).json({ error: "Unauthorized" });
-      return;
+      console.log(user);
+      res.status(401).json({ error: "User is banned" });
+      return true;
     }
   } catch (err) {
     console.error(err.message);
