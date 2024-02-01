@@ -109,6 +109,7 @@ const Dashboard = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
@@ -124,6 +125,7 @@ const Dashboard = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
@@ -138,6 +140,7 @@ const Dashboard = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(

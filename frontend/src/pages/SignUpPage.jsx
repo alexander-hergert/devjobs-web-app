@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -41,8 +41,11 @@ const SignUpPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
-        dispatch(setUser({ user: response.data[0], isLoading: false }));
+        document.cookie = `session_id=${response.data.session_id}; secure; SameSite=None`;
+        console.log(response.data);
+        dispatch(setUser({ user: response.data, isLoading: false }));
         navigate("/dashboard");
       } catch (error) {
         toast.error("Error creating user");

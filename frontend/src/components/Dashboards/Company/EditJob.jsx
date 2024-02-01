@@ -144,6 +144,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       setIsEditJob(false);
       //update companyJobs state

@@ -5,9 +5,9 @@ import { authorize } from "../auth/oauth.js";
 
 // GET all users
 adminRouter.get("/getUsers", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     //test if user is admin
     const client = await pool.connect();
     const result = await client.query(
@@ -38,9 +38,9 @@ adminRouter.get("/getUsers", async (req, res) => {
 //get user stats
 adminRouter.get("/getUserStats", async (req, res) => {
   const { id } = req.query;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     //test if user is admin
     const client = await pool.connect();
     const result = await client.query(
@@ -111,9 +111,9 @@ adminRouter.get("/getUserStats", async (req, res) => {
 //ban and unban user
 adminRouter.put("/banUser", async (req, res) => {
   const { id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     //test if user is admin
     const client = await pool.connect();
     const result = await client.query(

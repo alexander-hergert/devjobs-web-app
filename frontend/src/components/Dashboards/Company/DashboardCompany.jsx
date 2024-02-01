@@ -53,6 +53,7 @@ const DashboardCompany = ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       //update companyJobs state
       dispatch(
@@ -79,6 +80,7 @@ const DashboardCompany = ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       //update companyJobs state
       dispatch(

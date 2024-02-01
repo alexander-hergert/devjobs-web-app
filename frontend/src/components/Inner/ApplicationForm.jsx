@@ -64,6 +64,7 @@ const ApplicationForm = ({ setIsApplication }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       dispatch(getApps({ payload: response.data }));

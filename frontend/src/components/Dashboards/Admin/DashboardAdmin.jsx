@@ -35,7 +35,7 @@ const DashboardAdmin = ({
       const response = await axios.put(
         `${baseUrl}/banUser`,
         { id: users[i].user_id },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       console.log(response.data);
       dispatch(getUsers({ allUsers: response.data, isLoading: false }));

@@ -6,76 +6,80 @@ import checkBanStatus from "../auth/banCheck.js";
 
 //create user
 privateRouter.post("/createuser", async (req, res) => {
-  console.log(req.body);
   let { email, role, fullname, address, location, skills, user_website } =
     req.body;
   //protect admin route
   if (role === "admin") {
     res.status(401).json({ error: "Unauthorized" });
     return;
-  }
-  const userInfo = await authorize(req);
-
-  if (userInfo) {
-    const user_id = userInfo.sub;
-    const picture = userInfo.picture;
-    //check if user_website has http:// or https://
-    if (
-      !user_website?.startsWith("http://") &&
-      !user_website?.startsWith("https://")
-    ) {
-      user_website = "https://" + user_website;
-    } else if (user_website === "") {
-      user_website = null;
-    }
-
-    try {
-      const client = await pool.connect();
-      const isBanned = await checkBanStatus(client, userInfo, res);
-      if (isBanned) return;
-      //check if user already exists
-      const userExist = await client.query(
-        "SELECT * FROM users WHERE user_id = $1",
-        [user_id]
-      );
-      if (userExist.rows.length > 0) {
-        res.status(400).json({ error: "User exists" });
-        return;
-      }
-      await client.query(
-        "INSERT INTO users (user_id, role, email, fullname, picture, address, location, skills, user_website) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-        [
-          user_id,
-          role,
-          email,
-          fullname,
-          picture,
-          address,
-          location,
-          skills,
-          user_website,
-        ]
-      );
-      const result = await client.query(
-        "SELECT * FROM users WHERE user_id = $1",
-        [user_id]
-      );
-      res.json(result.rows);
-      client.release();
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
   } else {
-    res.status(401).json({ error: "Unauthorized" });
+    const user = await authorize(req);
+    const user_id = user?.sub;
+    const session_id = user?.session_id;
+    if (user_id) {
+      const picture = user?.picture;
+      //check if user_website has http:// or https://
+      if (
+        !user_website?.startsWith("http://") &&
+        !user_website?.startsWith("https://")
+      ) {
+        user_website = "https://" + user_website;
+      } else if (user_website === "") {
+        user_website = null;
+      }
+
+      try {
+        const client = await pool.connect();
+        const isBanned = await checkBanStatus(client, user_id, res);
+        if (isBanned) return;
+        //check if user already exists
+        const userExist = await client.query(
+          "SELECT * FROM users WHERE user_id = $1",
+          [user_id]
+        );
+        if (userExist.rows.length > 0) {
+          res.status(400).json({ error: "User exists" });
+          return;
+        } else {
+          await client.query(
+            "INSERT INTO users (user_id, role, email, fullname, picture, address, location, skills, user_website, is_banned, session_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+            [
+              user_id,
+              role,
+              email,
+              fullname,
+              picture,
+              address,
+              location,
+              skills,
+              user_website,
+              false,
+              session_id,
+            ]
+          );
+        }
+        const result = await client.query(
+          "SELECT * FROM users WHERE user_id = $1",
+          [user_id]
+        );
+        const user = result.rows[0];
+        res.json(user);
+        client.release();
+      } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    } else {
+      res.status(401).json({ error: "Unauthorized" });
+    }
   }
 });
 
 //fetch user data
 privateRouter.get("/user", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -85,7 +89,8 @@ privateRouter.get("/user", async (req, res) => {
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
       );
-      res.json(result.rows);
+      const user = result.rows[0];
+      res.json(user);
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
@@ -98,16 +103,24 @@ privateRouter.get("/user", async (req, res) => {
 
 //update user
 privateRouter.put("/user", async (req, res) => {
-  console.log(req.body);
-  const { email, fullname, address, location, skills, user_website } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  let { email, fullname, address, location, skills, user_website } = req.body;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //check if user_website has http:// or https://
+      if (
+        !user_website?.startsWith("http://") &&
+        !user_website?.startsWith("https://")
+      ) {
+        user_website = "https://" + user_website;
+      } else if (user_website === "") {
+        user_website = null;
+      }
       await client.query(
         "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",
         [user_id, email, fullname, address, location, skills, user_website]
@@ -116,7 +129,8 @@ privateRouter.put("/user", async (req, res) => {
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
       );
-      res.json(result.rows);
+      const user = result.rows[0];
+      res.json(user);
       client.release();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -129,11 +143,10 @@ privateRouter.put("/user", async (req, res) => {
 
 //update user url picture
 privateRouter.put("/userprofile", async (req, res) => {
-  console.log(req.body);
   const { url } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -160,9 +173,9 @@ privateRouter.put("/userprofile", async (req, res) => {
 
 //delete user
 privateRouter.delete("/user", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -185,9 +198,9 @@ privateRouter.delete("/user", async (req, res) => {
 
 // fetch users applied jobs
 privateRouter.get("/appliedJobs", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -218,11 +231,10 @@ privateRouter.get("/appliedJobs", async (req, res) => {
 
 //send application
 privateRouter.post("/apply", async (req, res) => {
-  console.log(req.body);
   const { job_id, content } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -266,11 +278,10 @@ privateRouter.post("/apply", async (req, res) => {
 
 //delete application
 privateRouter.delete("/application", async (req, res) => {
-  console.log(req.body);
   const { app_id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -305,9 +316,9 @@ privateRouter.delete("/application", async (req, res) => {
 
 //fetch messages
 privateRouter.get("/messages", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -351,11 +362,10 @@ privateRouter.get("/messages", async (req, res) => {
 
 //delete message
 privateRouter.delete("/messages", async (req, res) => {
-  console.log(req.body);
   const { message_id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -402,11 +412,10 @@ privateRouter.delete("/messages", async (req, res) => {
 
 //create reply
 privateRouter.post("/createReply", async (req, res) => {
-  console.log(req.body);
   const { message_id, content } = req.body;
-  console.log(message_id, content);
-  const userInfo = await authorize(req);
-  if (userInfo) {
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
@@ -418,11 +427,10 @@ privateRouter.post("/createReply", async (req, res) => {
         [message_id]
       );
       const app_id = app_id_result.rows[0].app_id;
-      console.log(app_id);
       //check if message_id is related to the user by using app_id
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
-        [userInfo.sub]
+        [user_id]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
       //fetch all messages with app_ids from related user
@@ -447,9 +455,8 @@ privateRouter.post("/createReply", async (req, res) => {
         //get username
         const username = await client.query(
           "SELECT fullname FROM users WHERE user_id = $1",
-          [userInfo.sub]
+          [user_id]
         );
-        console.log(username.rows[0]);
         const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location} from ${username.rows[0].fullname}`;
         await client.query(
           "INSERT INTO replies (app_id, subject, content) VALUES ($1, $2, $3)",
@@ -468,11 +475,11 @@ privateRouter.post("/createReply", async (req, res) => {
         "SELECT * FROM users WHERE user_id = (SELECT user_id FROM jobs WHERE job_id = $1)",
         [job_id]
       );
-      const user_id = resultUsers.rows[0].user_id;
+      const id = resultUsers.rows[0].user_id;
       //update the user
       await client.query(
         "UPDATE users SET has_new_message = true WHERE user_id = $1",
-        [user_id]
+        [id]
       );
       res.status(200).json({ message: "Reply created" });
     } catch (error) {

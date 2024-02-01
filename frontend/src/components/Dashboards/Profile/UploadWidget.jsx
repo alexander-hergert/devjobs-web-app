@@ -42,6 +42,7 @@ const UploadWidget = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           });
           dispatch(setUser({ user: response.data[0], isLoading: false }));
         } catch (error) {

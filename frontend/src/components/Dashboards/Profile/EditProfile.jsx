@@ -49,16 +49,16 @@ const EditProfile = ({ setIsEditProfile, user }) => {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(`${baseUrl}/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
-      dispatch(setUser({ user: response.data[0], isLoading: false }));
+      dispatch(setUser({ user: response.data, isLoading: false }));
       setIsEditProfile(false);
     } catch (error) {
       console.error("Error calling API:", error);
@@ -77,9 +77,13 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       dispatch(setUser({ payload: undefined }));
+      //delete cookie
+      document.cookie =
+        "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       setIsEditProfile(false);
       logout({ logoutParams: { returnTo: window.location.origin } });
       localStorage.setItem("user", JSON.stringify(false));

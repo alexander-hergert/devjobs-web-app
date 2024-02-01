@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../../Global/Loader";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -47,7 +46,6 @@ const ViewUserDetails = ({
   selectedUser,
 }) => {
   const { getAccessTokenSilently } = useAuth0();
-  const dispatch = useDispatch();
   const allUsers = useSelector((state) => state.allUsers.allUsers);
   const user = allUsers[selectedUser];
   const param = user.user_id;
@@ -64,6 +62,7 @@ const ViewUserDetails = ({
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
           params: { id: param },
         });
         console.log(response.data);

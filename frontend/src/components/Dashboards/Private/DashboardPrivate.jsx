@@ -39,6 +39,7 @@ const DashboardPrivate = ({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       //update apps state
       dispatch(getApps({ apps: response.data, isLoading: false }));

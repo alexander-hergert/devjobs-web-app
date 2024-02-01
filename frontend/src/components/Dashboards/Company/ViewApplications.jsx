@@ -78,6 +78,7 @@ const ViewApplications = ({
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         }
       );
       console.log(response.data);
@@ -105,6 +106,7 @@ const ViewApplications = ({
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            withCredentials: true,
           }
         );
         console.log(response.data);

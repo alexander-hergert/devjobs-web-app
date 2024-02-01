@@ -49,6 +49,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       dispatch(

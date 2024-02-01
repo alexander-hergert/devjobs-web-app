@@ -19,21 +19,20 @@ const SharedLayout = () => {
   const user = useSelector((state) => state.user.user);
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  console.log(user);
 
   //public
   useEffect(() => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        console.log(token);
         const response = await axios.get(`${baseUrl}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
-        console.log(response.data[0]);
-        dispatch(setUser({ user: response.data[0], isLoading: false }));
+        document.cookie = `session_id=${response.data.session_id}; secure; SameSite=None`;
+        dispatch(setUser({ user: response.data, isLoading: false }));
       } catch (error) {
         dispatch(setUser({ user: undefined, isLoading: false }));
         if (isAuthenticated)
@@ -57,6 +56,7 @@ const SharedLayout = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
@@ -64,10 +64,10 @@ const SharedLayout = () => {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   //company
   useEffect(() => {
@@ -78,6 +78,7 @@ const SharedLayout = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(
@@ -87,10 +88,10 @@ const SharedLayout = () => {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   //admin
   useEffect(() => {
@@ -101,6 +102,7 @@ const SharedLayout = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
         });
         console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
@@ -108,10 +110,10 @@ const SharedLayout = () => {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   useEffect(() => {
     try {

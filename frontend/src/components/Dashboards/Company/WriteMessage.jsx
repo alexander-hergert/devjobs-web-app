@@ -57,6 +57,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       dispatch(getMessages({ messages: response.data, isLoading: false }));

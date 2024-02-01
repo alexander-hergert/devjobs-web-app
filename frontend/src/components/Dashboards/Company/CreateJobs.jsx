@@ -132,7 +132,6 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
     //alternate the data
     data.requirementsItems = requirementsItems.map((item) => item + "##");
     data.roleItems = roleItems.map((item) => item + "##");
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios({
@@ -142,6 +141,7 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       //update companyJobs state
       dispatch(

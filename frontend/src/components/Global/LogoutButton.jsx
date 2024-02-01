@@ -11,6 +11,9 @@ const LogoutButton = () => {
       onClick={() => {
         logout({ logoutParams: { returnTo: window.location.origin } });
         localStorage.setItem("user", JSON.stringify(false));
+        //delete cookie
+        document.cookie =
+          "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       }}
     >
       <div className="justify-center flex gap-2 items-center">

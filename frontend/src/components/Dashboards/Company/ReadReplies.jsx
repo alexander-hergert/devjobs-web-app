@@ -46,6 +46,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       dispatch(
@@ -63,6 +64,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
         Authorization: `Bearer ${token}`,
       },
       data: { reply_id },
+      withCredentials: true,
     });
     console.log(response.data);
     dispatch(getReplies({ replies: response.data, isLoading: false }));

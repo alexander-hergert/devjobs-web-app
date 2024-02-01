@@ -54,6 +54,7 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true,
       });
       console.log(response.data);
       setIsReplyOpen(false);
