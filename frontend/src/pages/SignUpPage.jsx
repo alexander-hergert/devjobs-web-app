@@ -27,7 +27,6 @@ const SignUpPage = () => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = (data) => {
-    console.log(data);
     loginWithPopup();
   };
   const formData = watch();
@@ -44,7 +43,6 @@ const SignUpPage = () => {
           withCredentials: true,
         });
         document.cookie = `session_id=${response.data.session_id}; secure; SameSite=None`;
-        console.log(response.data);
         dispatch(setUser({ user: response.data, isLoading: false }));
         navigate("/dashboard");
       } catch (error) {
@@ -59,7 +57,7 @@ const SignUpPage = () => {
     if (!user?.user_id && isAuthenticated) {
       callApi();
     }
-  }, [user, isAuthenticated]);
+  }, [isAuthenticated]);
 
   return (
     <>

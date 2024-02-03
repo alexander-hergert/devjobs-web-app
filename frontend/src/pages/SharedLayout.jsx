@@ -45,7 +45,7 @@ const SharedLayout = () => {
       dispatch(setUser({ user: undefined, isLoading: true }));
       callApi();
     }
-  }, []);
+  }, [isAuthenticated]);
 
   //private
   useEffect(() => {
@@ -58,7 +58,6 @@ const SharedLayout = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -80,7 +79,6 @@ const SharedLayout = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })
         );
@@ -104,7 +102,6 @@ const SharedLayout = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -120,13 +117,11 @@ const SharedLayout = () => {
       if (!location.search) {
         axios.get(`${baseUrl}/jobs`).then((response) => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
         });
       } else {
         //Query string is present
         axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
         });
       }
     } catch (error) {}
