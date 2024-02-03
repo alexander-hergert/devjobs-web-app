@@ -259,7 +259,6 @@ privateRouter.post("/apply", async (req, res) => {
         [user_id]
       );
       const jobsIds = resultApps.rows.map((row) => row.job_id);
-      console.log(jobsIds);
       const resultJobs = await client.query(
         //find jobs with all jobsIds
         "SELECT * FROM jobs WHERE job_id = ANY($1)",
@@ -451,7 +450,6 @@ privateRouter.post("/createReply", async (req, res) => {
           "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
           [app_id]
         );
-        console.log(job.rows[0]);
         //get username
         const username = await client.query(
           "SELECT fullname FROM users WHERE user_id = $1",

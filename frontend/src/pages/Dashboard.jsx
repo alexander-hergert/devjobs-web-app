@@ -111,7 +111,6 @@ const Dashboard = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -127,7 +126,6 @@ const Dashboard = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -142,7 +140,6 @@ const Dashboard = () => {
           },
           withCredentials: true,
         });
-        console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })
         );

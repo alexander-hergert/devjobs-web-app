@@ -17,10 +17,8 @@ const CompanySort = () => {
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
 
   const onSubmit = (data) => {
-    console.log(data);
     const { typesort, rowsort } = data;
     const sortedJobs = [...companyJobs];
-    console.log(sortedJobs);
 
     if (typesort === "position") {
       sortedJobs?.sort((a, b) => {
@@ -39,8 +37,6 @@ const CompanySort = () => {
         }
       });
     }
-
-    console.log(sortedJobs);
 
     dispatch(
       getCompanyJobs({

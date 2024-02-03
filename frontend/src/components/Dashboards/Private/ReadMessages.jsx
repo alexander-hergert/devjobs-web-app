@@ -51,7 +51,6 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(
         getMessages({ messages: response.data.messages, isLoading: false })
       );
@@ -73,13 +72,11 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
       },
       data: { message_id },
     });
-    console.log(response.data);
     dispatch(getMessages({ messages: response.data, isLoading: false }));
   };
 
   const handleExpand = (message_id) => {
     setSelectedMessage(message_id);
-    console.log(message_id);
   };
 
   if (isLoading) {

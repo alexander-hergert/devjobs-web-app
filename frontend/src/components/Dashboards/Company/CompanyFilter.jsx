@@ -10,7 +10,6 @@ const CompanyFilter = () => {
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const isLoading = useSelector((state) => state.companyJobs.isLoading);
   const [allJobs, setAllJobs] = useState(companyJobs);
-  console.log(allJobs);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +36,6 @@ const CompanyFilter = () => {
   }, [allJobs]);
 
   const onSubmit = (data) => {
-    console.log(data);
     let { search, contract } = data || { search: "", contract: true };
 
     if (contract === true) {
@@ -48,7 +46,6 @@ const CompanyFilter = () => {
       contract = contract;
     }
 
-    console.log(search, contract);
     //filter jobs
     const filteredJobs = allJobs?.filter((job) => {
       if (search && contract === "Full Time") {
@@ -70,11 +67,10 @@ const CompanyFilter = () => {
           job.contract === "Part Time"
         );
       } else if (contract) {
-        console.log(contract);
         return job.contract === contract;
       }
     });
-    console.log(filteredJobs);
+    
     dispatch(
       getCompanyJobs({
         companyJobs: filteredJobs,

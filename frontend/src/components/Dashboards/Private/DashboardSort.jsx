@@ -17,12 +17,9 @@ const DashboardSort = () => {
   const apps = useSelector((state) => state.apps.apps);
 
   const onSubmit = (data) => {
-    console.log(data);
     const { typesort, rowsort } = data;
     const sortedApps = [...apps?.applications];
     const sortedJobs = [...apps?.appliedJobs];
-    console.log(sortedApps);
-    console.log(sortedJobs);
 
     if (typesort === "position") {
       sortedJobs?.sort((a, b) => {
@@ -50,17 +47,11 @@ const DashboardSort = () => {
       });
     }
 
-    console.log(sortedJobs);
-
     const sortedJobsIds = sortedJobs?.map((job) => job.job_id);
-    console.log(sortedJobsIds);
-
     //sort apps by job ids
     sortedApps?.sort((a, b) => {
       return sortedJobsIds.indexOf(a.job_id) - sortedJobsIds.indexOf(b.job_id);
     });
-
-    console.log(sortedApps);
 
     dispatch(
       getApps({

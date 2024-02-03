@@ -17,7 +17,6 @@ const DashboardAdmin = ({
   setSelectedUser,
 }) => {
   const users = useSelector((state) => state.allUsers.allUsers);
-  console.log(users);
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -37,7 +36,6 @@ const DashboardAdmin = ({
         { id: users[i].user_id },
         { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
-      console.log(response.data);
       dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       handleRefresh();
     } catch (error) {

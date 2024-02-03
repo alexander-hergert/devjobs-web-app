@@ -147,7 +147,6 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
       dispatch(
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
-      console.log(response.data);
       setIsCreateJob(false);
       setIsMainVisible(true);
     } catch (error) {

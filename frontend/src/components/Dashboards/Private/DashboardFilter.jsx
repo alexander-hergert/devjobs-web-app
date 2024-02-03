@@ -30,7 +30,6 @@ const DashboardFilter = () => {
 
   useEffect(() => {
     const data = { search, contract };
-    console.log(allApps);
     if (allApps) {
       if (Object.keys(allApps).length !== 0 && (search || contract)) {
         onSubmit(data);
@@ -39,9 +38,7 @@ const DashboardFilter = () => {
   }, [allApps]);
 
   const onSubmit = (data) => {
-    console.log(data);
     let { search, contract } = data || { search: "", contract: true };
-    console.log(search, contract);
     if (contract === true) {
       contract = "Full Time";
     } else if (contract === false) {
@@ -71,18 +68,14 @@ const DashboardFilter = () => {
           job.contract === "Part Time"
         );
       } else if (contract) {
-        console.log(contract);
         return job.contract === contract;
       }
     });
-    console.log(filteredJobs);
     const filteredJobdIds = filteredJobs.map((job) => job.job_id);
-    console.log(filteredJobdIds);
     //filter applications
     const filteredApplications = allApps?.applications?.filter((app) => {
       return filteredJobdIds.includes(app.job_id);
     });
-    console.log(filteredApplications);
     //sort filtered applications by job_id
     filteredApplications?.sort((a, b) => {
       return (

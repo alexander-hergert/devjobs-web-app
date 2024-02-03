@@ -51,8 +51,6 @@ const ViewUserDetails = ({
   const param = user.user_id;
   const [userStats, setUserStats] = useState({});
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  console.log(selectedUser);
-  console.log(user);
 
   useEffect(() => {
     const getUserStats = async () => {
@@ -65,7 +63,6 @@ const ViewUserDetails = ({
           withCredentials: true,
           params: { id: param },
         });
-        console.log(response.data);
         setUserStats(response.data);
       } catch (error) {
         console.error("Error calling API:", error);

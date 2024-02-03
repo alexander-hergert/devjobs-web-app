@@ -63,7 +63,6 @@ const Filter = ({ handleToggleFilter }) => {
 
   const onSubmit = (data) => {
     data.page = 1;
-    console.log(data);
     try {
       axios.get(`${baseUrl}/jobs`, { params: data }).then((response) => {
         dispatch(getJobs({ payload: response.data[0] }));

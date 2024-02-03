@@ -77,12 +77,9 @@ const MobileFilter = ({ handleToggleFilter }) => {
   const query = new URLSearchParams(location.search);
 
   const onSubmit = (data) => {
-    console.log("form", data);
     try {
       axios.get(`${baseUrl}/jobs`, { params: data }).then((response) => {
         dispatch(getJobs({ payload: response.data }));
-        console.log(response.data);
-        console.log(data);
         navigate(
           `/?searchTerm=${data.searchTerm}&location=${data.location}&contract=${data.contract}`
         );

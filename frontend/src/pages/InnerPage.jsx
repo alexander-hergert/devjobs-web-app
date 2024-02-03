@@ -17,11 +17,8 @@ const InnerPage = () => {
 
   const params = useParams();
   const jobId = Number(params.jobId);
-  console.log(jobId);
   const dispatch = useDispatch();
   const [job] = useSelector((state) => state.jobs.jobs);
-  const jobs = useSelector((state) => state.totalJobs.totalJobs);
-  console.log(jobs);
   const [isApplication, setIsApplication] = useState(false);
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -34,7 +31,6 @@ const InnerPage = () => {
     try {
       axios.get(`${baseUrl}/${jobId}`).then((response) => {
         dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
-        console.log(response.data);
       });
     } catch {}
   }, []);

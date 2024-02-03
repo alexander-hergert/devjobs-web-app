@@ -29,7 +29,6 @@ const AdminFilter = () => {
 
   useEffect(() => {
     const data = { search };
-    console.log(allUsers);
     if (allUsers) {
       if (Object.keys(allUsers).length !== 0 && search) {
         onSubmit(data);
@@ -38,10 +37,7 @@ const AdminFilter = () => {
   }, [allUsers]);
 
   const onSubmit = (data) => {
-    console.log(data);
     let { search } = data || { search: "" };
-    console.log(search);
-
     const filteredUsers = allUsers?.filter((user) => {
       return (
         user.user_id.toLowerCase().includes(search?.toLowerCase() || "") ||
@@ -49,7 +45,6 @@ const AdminFilter = () => {
         user.role.toLowerCase().includes(search?.toLowerCase() || "")
       );
     });
-    console.log(filteredUsers);
 
     dispatch(
       getUsers({

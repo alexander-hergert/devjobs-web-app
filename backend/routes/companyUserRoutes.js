@@ -335,7 +335,6 @@ companyRouter.post("/createMessage", async (req, res) => {
         "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
         [app_id]
       );
-      console.log(job.rows[0]);
       const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location}`;
       //insert message
       await client.query(
@@ -392,16 +391,13 @@ companyRouter.get("/getReplies", async (req, res) => {
         [job_ids]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
-      console.log(app_ids);
       //get all messages from apps
       const resultMessages = await client.query(
         "SELECT * FROM messages WHERE app_id = ANY($1)",
         [app_ids]
       );
       const messages = resultMessages.rows;
-      console.log(messages);
       //get all replies from messages
-      console.log(messages);
       const resultReplies = await client.query(
         "SELECT * FROM replies WHERE app_id = ANY($1)",
         [app_ids]

@@ -48,7 +48,6 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(
         getReplies({ replies: response.data.replies, isLoading: false })
       );
@@ -66,7 +65,6 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
       data: { reply_id },
       withCredentials: true,
     });
-    console.log(response.data);
     dispatch(getReplies({ replies: response.data, isLoading: false }));
   };
 
@@ -80,7 +78,6 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
 
   const handleExpand = (reply_id) => {
     setSelectedReply(reply_id);
-    console.log(reply_id);
   };
 
   return (

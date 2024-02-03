@@ -15,7 +15,6 @@ const jobsSlice = createSlice({
       state.jobs = action.payload.jobs;
       state.isLoading = action.payload.isLoading;
     },
-    //Async operations
   },
 });
 

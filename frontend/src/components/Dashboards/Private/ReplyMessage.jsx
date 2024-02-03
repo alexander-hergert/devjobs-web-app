@@ -47,7 +47,6 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
   const onSubmit = async (data) => {
     console.log(data);
     try {
-      console.log(selectedMessage);
       data.message_id = selectedMessage;
       const token = await getAccessTokenSilently();
       const response = await axios.post(`${baseUrl}/createReply`, data, {
@@ -56,11 +55,9 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       setIsReplyOpen(false);
     } catch (error) {
       console.error("Error calling API:", error);
-      console.log(error.response.data);
     }
   };
 

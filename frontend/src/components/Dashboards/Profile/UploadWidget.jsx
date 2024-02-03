@@ -23,9 +23,7 @@ const UploadWidget = () => {
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
           const url = result.info.secure_url;
-          console.log(url);
           setUrl(url);
         }
       }
@@ -46,7 +44,7 @@ const UploadWidget = () => {
           });
           dispatch(setUser({ user: response.data[0], isLoading: false }));
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     };

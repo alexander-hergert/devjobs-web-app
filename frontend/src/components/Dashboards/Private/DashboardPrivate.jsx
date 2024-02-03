@@ -29,7 +29,6 @@ const DashboardPrivate = ({
     const data = {
       app_id: apps?.applications[i].app_id,
     };
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios({
@@ -43,7 +42,6 @@ const DashboardPrivate = ({
       });
       //update apps state
       dispatch(getApps({ apps: response.data, isLoading: false }));
-      console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
     }

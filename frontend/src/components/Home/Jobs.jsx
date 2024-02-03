@@ -25,7 +25,6 @@ const Jobs = () => {
         axios.get(`${baseUrl}/jobs`).then((response) => {
           dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
           dispatch(setPage({ payload: 1 }));
         });
       } else {
@@ -33,7 +32,6 @@ const Jobs = () => {
         axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {
           dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
           //set the page number
           const query = new URLSearchParams(location.search);
           const totalJobs = response.data[1];

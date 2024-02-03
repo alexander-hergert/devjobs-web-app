@@ -48,8 +48,6 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(companyApps);
     try {
       data.app_id = companyApps[selectedApp].app?.app_id;
       const token = await getAccessTokenSilently();
@@ -59,12 +57,10 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(getMessages({ messages: response.data, isLoading: false }));
       setIsMessageOpen(false);
     } catch (error) {
       console.error("Error calling API:", error);
-      console.log(error.response.data);
     }
   };
 

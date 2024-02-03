@@ -16,10 +16,8 @@ const AdminSort = () => {
   const users = useSelector((state) => state.allUsers.allUsers);
 
   const onSubmit = (data) => {
-    console.log(data);
     const { typesort, rowsort } = data;
     const sortedUsers = [...users];
-    console.log(sortedUsers);
 
     if (typesort === "user_id") {
       sortedUsers?.sort((a, b) => {
@@ -46,7 +44,6 @@ const AdminSort = () => {
         }
       });
     }
-    console.log(sortedUsers);
 
     dispatch(
       getUsers({

@@ -21,7 +21,6 @@ const DashboardCompany = ({
   setIsCreateJob,
 }) => {
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
-  console.log(companyJobs);
   const dispatch = useDispatch();
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -43,7 +42,6 @@ const DashboardCompany = ({
     const data = {
       job_id: companyJobs[i].job_id,
     };
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios({
@@ -59,7 +57,6 @@ const DashboardCompany = ({
       dispatch(
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
-      console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
     }
@@ -70,7 +67,6 @@ const DashboardCompany = ({
     const data = {
       job_id: companyJobs[i].job_id,
     };
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios({
@@ -86,7 +82,6 @@ const DashboardCompany = ({
       dispatch(
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
-      console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
     }

@@ -134,7 +134,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
     data.roleItems = roleItems.map((item) => item + "##");
     data.job_id = companyJobs[selectedJob]?.job_id;
     data.posted_at = companyJobs[selectedJob]?.posted_at;
-    console.log(data);
+    
     try {
       const token = await getAccessTokenSilently();
       const response = await axios({
@@ -152,14 +152,12 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
       setIsMainVisible(true);
-      console.log(response.data);
     } catch (error) {
       console.error("Error calling API:", error);
     }
   };
 
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
-  console.log(companyJobs);
 
   useEffect(() => {
     setRequirementsItems(

@@ -50,7 +50,6 @@ const ViewApplications = ({
   const { getAccessTokenSilently } = useAuth0();
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const messages = useSelector((state) => state.messages.messages);
-  console.log(messages);
   const dispatch = useDispatch();
   const companyApps = useSelector((state) => state.jobApps.jobApps);
   const [enlargedApp, setEnlargedApp] = useState(0);
@@ -68,7 +67,6 @@ const ViewApplications = ({
       user_id: companyApps[i]?.user?.user_id,
       status: status,
     };
-    console.log(data);
     try {
       const token = await getAccessTokenSilently();
       const response = await axios.put(
@@ -81,7 +79,6 @@ const ViewApplications = ({
           withCredentials: true,
         }
       );
-      console.log(response.data);
       dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
     } catch (error) {
       console.log(error);
@@ -97,7 +94,6 @@ const ViewApplications = ({
     //on load fetch data of applicants
     const fetchApplicants = async () => {
       const data = { job_id: companyJobs[selectedJob]?.job_id };
-      console.log(data);
       try {
         const token = await getAccessTokenSilently();
         const response = await axios.get(
@@ -109,7 +105,6 @@ const ViewApplications = ({
             withCredentials: true,
           }
         );
-        console.log(response.data);
         dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
       } catch (error) {
         console.log(error);

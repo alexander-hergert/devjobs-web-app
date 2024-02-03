@@ -57,7 +57,6 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(setUser({ user: response.data, isLoading: false }));
       setIsEditProfile(false);
     } catch (error) {
@@ -79,7 +78,6 @@ const EditProfile = ({ setIsEditProfile, user }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(setUser({ payload: undefined }));
       //delete cookie
       document.cookie =

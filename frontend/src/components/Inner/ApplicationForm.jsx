@@ -56,7 +56,6 @@ const ApplicationForm = ({ setIsApplication }) => {
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       data.job_id = param.jobId;
       const token = await getAccessTokenSilently();
@@ -66,12 +65,10 @@ const ApplicationForm = ({ setIsApplication }) => {
         },
         withCredentials: true,
       });
-      console.log(response.data);
       dispatch(getApps({ payload: response.data }));
       navigate(`/dashboard`);
     } catch (error) {
       console.error("Error calling API:", error);
-      console.log(error.response.data);
     }
   };
 
