@@ -8,11 +8,29 @@ import adminRouter from "./routes/adminUserRoutes.js";
 import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 //middlewares
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://a-hergert-devjobs-web-app.netlify.app",
+        "'unsafe-inline'",
+      ],
+      styleSrc: [
+        "'self'",
+        "https://a-hergert-devjobs-web-app.netlify.app",
+        "'unsafe-inline'",
+      ],
+    },
+  })
+);
 app.use(
   cors({
     credentials: true,
