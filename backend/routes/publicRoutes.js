@@ -2,10 +2,15 @@ import express from "express";
 const publicRouter = express.Router();
 import pool from "../config/configDB.js";
 
-//test route
-publicRouter.get("/test", (req, res) => {
-  //json respond
-  res.json({ message: "Public test route" });
+//logout
+publicRouter.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+    res.clearCookie("connect.sid");
+    res.send("logged out");
+  });
 });
 
 // fetch filtered jobs for Homepage

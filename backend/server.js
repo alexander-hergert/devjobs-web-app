@@ -25,10 +25,10 @@ app.use(cookieParser());
 app.use(
   session({
     genid: () => uuidv4(),
-    secret: process.env.SESSION_SECRET || "your-secret-key",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 },
   })
 );
 //routes

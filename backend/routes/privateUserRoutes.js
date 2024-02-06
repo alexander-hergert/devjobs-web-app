@@ -15,7 +15,7 @@ privateRouter.post("/createuser", async (req, res) => {
   } else {
     const user = await authorize(req);
     const user_id = user?.sub;
-    const session_id = user?.session_id;
+    const session_id = req.sessionID;
     if (user_id) {
       const picture = user?.picture;
       //check if user_website has http:// or https://

@@ -6,9 +6,13 @@ import pool from "../config/configDB.js";
 export const authorize = async (req) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  const session_id = req.cookies.session_id;
+  const signed_session_id = req.cookies["connect.sid"];
+  let session_id;
+  if (signed_session_id) {
+    session_id = signed_session_id?.split(":")[1].split(".")[0];
+  }
 
-  if (session_id !== "undefined" && session_id !== "null" && session_id) {
+  if (session_id === req.sessionID) {
     try {
       const client = await pool.connect();
       const result = await client.query(

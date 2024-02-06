@@ -42,7 +42,6 @@ const SignUpPage = () => {
           },
           withCredentials: true,
         });
-        document.cookie = `session_id=${response.data.session_id}; secure; SameSite=None`;
         dispatch(setUser({ user: response.data, isLoading: false }));
         navigate("/dashboard");
       } catch (error) {

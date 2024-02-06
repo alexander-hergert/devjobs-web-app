@@ -1,19 +1,31 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CiLogout } from "react-icons/ci";
+import axios from "axios";
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { logout, getAccessTokenSilently } = useAuth0();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   return (
     <button
       className="p-2 max-md:bg-accent bg-neutral max-md:text-white text-primary rounded-xl"
-      onClick={() => {
-        logout({ logoutParams: { returnTo: window.location.origin } });
-        localStorage.setItem("user", JSON.stringify(false));
-        //delete cookie
-        document.cookie =
-          "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      onClick={async () => {
+        try {
+          const token = await getAccessTokenSilently();
+          const response = await axios.get(`${baseUrl}/logout`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          });
+          const logoutResponse = await logout({
+            logoutParams: { returnTo: window.location.origin },
+          });
+          localStorage.setItem("user", JSON.stringify(false));
+        } catch (error) {
+          console.error("Error calling API:", error);
+        }
       }}
     >
       <div className="justify-center flex gap-2 items-center">
