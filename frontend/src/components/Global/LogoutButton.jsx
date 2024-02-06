@@ -2,10 +2,12 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CiLogout } from "react-icons/ci";
 import axios from "axios";
+import { getCsrfToken } from "../../utils";
 
 const LogoutButton = () => {
   const { logout, getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   return (
     <button
@@ -16,6 +18,7 @@ const LogoutButton = () => {
           const response = await axios.get(`${baseUrl}/logout`, {
             headers: {
               Authorization: `Bearer ${token}`,
+              "X-CSRF-TOKEN": csrfToken,
             },
             withCredentials: true,
           });

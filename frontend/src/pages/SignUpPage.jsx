@@ -8,6 +8,7 @@ import { setUser } from "../slices/userSlice";
 import { IoMdBusiness } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { getCsrfToken } from "../utils";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const SignUpPage = () => {
 
   const user = useSelector((state) => state.user.user);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const onSubmit = (data) => {
     loginWithPopup();
@@ -39,6 +41,7 @@ const SignUpPage = () => {
         const response = await axios.post(`${baseUrl}/createuser`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });

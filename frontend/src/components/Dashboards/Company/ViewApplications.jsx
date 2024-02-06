@@ -5,6 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCompanyApps } from "../../../slices/jobAppsSlice";
 import WriteMessage from "./WriteMessage";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: absolute;
@@ -49,13 +50,13 @@ const ViewApplications = ({
 }) => {
   const { getAccessTokenSilently } = useAuth0();
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
-  const messages = useSelector((state) => state.messages.messages);
   const dispatch = useDispatch();
   const companyApps = useSelector((state) => state.jobApps.jobApps);
   const [enlargedApp, setEnlargedApp] = useState(0);
   const [isMessageOpen, setIsMessageOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState(0);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const handleOpen = (i) => {
     setEnlargedApp(i);
@@ -75,6 +76,7 @@ const ViewApplications = ({
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         }
@@ -101,6 +103,7 @@ const ViewApplications = ({
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              "X-CSRF-TOKEN": csrfToken,
             },
             withCredentials: true,
           }

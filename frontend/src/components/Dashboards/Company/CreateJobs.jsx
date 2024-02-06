@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { getCompanyJobs } from "../../../slices/companyJobsSlice";
 import CharactersUsed from "../../Global/CharactersUsed";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: absolute;
@@ -62,6 +63,7 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const handleAddRequirementsItem = (e) => {
     e.preventDefault();
@@ -140,6 +142,7 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

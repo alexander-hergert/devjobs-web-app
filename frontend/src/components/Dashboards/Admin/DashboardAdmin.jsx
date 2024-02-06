@@ -9,6 +9,7 @@ import { GiCancel } from "react-icons/gi";
 import { getUsers } from "../../../slices/allUsersSlice";
 import AdminFilter from "./AdminFilter";
 import AdminSort from "./AdminSort";
+import { getCsrfToken } from "../../../utils";
 
 const DashboardAdmin = ({
   handleRefresh,
@@ -20,6 +21,7 @@ const DashboardAdmin = ({
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const handleViewUserDetails = (i) => {
     setViewUserDetails(true);
@@ -34,7 +36,13 @@ const DashboardAdmin = ({
       const response = await axios.put(
         `${baseUrl}/banUser`,
         { id: users[i].user_id },
-        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
+          },
+          withCredentials: true,
+        }
       );
       dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       handleRefresh();

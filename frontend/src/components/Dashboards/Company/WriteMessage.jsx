@@ -6,6 +6,7 @@ import axios from "axios";
 import { getMessages } from "../../../slices/messagesSlice";
 import { useDispatch } from "react-redux";
 import CharactersUsed from "../../Global/CharactersUsed";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: fixed;
@@ -46,6 +47,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
   const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const onSubmit = async (data) => {
     try {
@@ -54,6 +56,7 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
       const response = await axios.post(`${baseUrl}/createMessage`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

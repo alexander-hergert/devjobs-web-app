@@ -8,6 +8,7 @@ import { getApps } from "../../../slices/appsSlice";
 import DashboardFilter from "./DashboardFilter";
 import DashboardSort from "./DashboardSort";
 import { FiRefreshCw } from "react-icons/fi";
+import { getCsrfToken } from "../../../utils";
 
 const DashboardPrivate = ({
   setViewDetails,
@@ -18,6 +19,7 @@ const DashboardPrivate = ({
   const dispatch = useDispatch();
   const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
@@ -37,6 +39,7 @@ const DashboardPrivate = ({
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

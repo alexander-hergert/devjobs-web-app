@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: absolute;
@@ -51,6 +52,7 @@ const ViewUserDetails = ({
   const param = user.user_id;
   const [userStats, setUserStats] = useState({});
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   useEffect(() => {
     const getUserStats = async () => {
@@ -59,6 +61,7 @@ const ViewUserDetails = ({
         const response = await axios.get(`${baseUrl}/getUserStats`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
           params: { id: param },

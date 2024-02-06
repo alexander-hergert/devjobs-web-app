@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { getApps } from "../../slices/appsSlice";
 import { useNavigate } from "react-router-dom";
 import CharactersUsed from "../Global/CharactersUsed";
+import { getCsrfToken } from "../../utils";
 
 const Style = styled.section`
   position: fixed;
@@ -54,6 +55,7 @@ const ApplicationForm = ({ setIsApplication }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const onSubmit = async (data) => {
     try {
@@ -62,6 +64,7 @@ const ApplicationForm = ({ setIsApplication }) => {
       const response = await axios.post(`${baseUrl}/apply`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

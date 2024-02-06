@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../Global/Loader";
 import { FaTrashAlt } from "react-icons/fa";
 import { setUser } from "../../../slices/userSlice";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: absolute;
@@ -35,6 +36,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
   const isLoading = useSelector((state) => state.replies.isLoading);
   const [selectedReply, setSelectedReply] = useState(null);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   //load replies
   useEffect(() => {
@@ -45,6 +47,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
       const response = await axios.get(`${baseUrl}/getReplies`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });
@@ -61,6 +64,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
     const response = await axios.delete(`${baseUrl}/deleteReply`, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "X-CSRF-TOKEN": csrfToken,
       },
       data: { reply_id },
       withCredentials: true,

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 const Profile = ({ user, isAuthenticated }) => {
- // const [createUser, { isLoading: isCreatingUser }] = useCreateUserMutation();
 
   useEffect(() => {
     const createUserAsync = async () => {

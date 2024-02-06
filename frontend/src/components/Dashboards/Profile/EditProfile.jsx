@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../slices/userSlice";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: fixed;
@@ -37,6 +38,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
   const { fullname, email, address, location, skills, user_website } = user;
   const [isDeleteProfile, setIsDeleteProfile] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const { getAccessTokenSilently, logout } = useAuth0();
   const {
@@ -54,6 +56,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
       const response = await axios.put(`${baseUrl}/user`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });
@@ -75,6 +78,7 @@ const EditProfile = ({ setIsEditProfile, user }) => {
       const response = await axios.delete(`${baseUrl}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

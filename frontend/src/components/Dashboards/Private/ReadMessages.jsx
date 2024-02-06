@@ -9,6 +9,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import ReplyMessage from "../Private/ReplyMessage";
 import Loader from "../../Global/Loader";
 import { setUser } from "../../../slices/userSlice";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: absolute;
@@ -38,6 +39,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   //load messages
   useEffect(() => {
@@ -48,6 +50,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
       const response = await axios.get(`${baseUrl}/messages`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });
@@ -69,6 +72,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
     const response = await axios.delete(`${baseUrl}/messages`, {
       headers: {
         Authorization: `Bearer ${token}`,
+        "X-CSRF-TOKEN": csrfToken,
       },
       data: { message_id },
     });

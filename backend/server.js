@@ -9,6 +9,7 @@ import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+import csrf from "csurf";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -39,6 +40,13 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(csrf({ cookie: true }));
+app.use((req, res, next) => {
+  res.cookie("XSRF-TOKEN", req.csrfToken());
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 //session
 app.use(
   session({
@@ -46,7 +54,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 },
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24,
+      //sameSite: "secure",
+    },
   })
 );
 //routes

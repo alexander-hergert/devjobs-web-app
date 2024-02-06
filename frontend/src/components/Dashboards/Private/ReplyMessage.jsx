@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import CharactersUsed from "../../Global/CharactersUsed";
+import { getCsrfToken } from "../../../utils";
 
 const Style = styled.section`
   position: fixed;
@@ -43,6 +44,7 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
 
   const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -52,6 +54,7 @@ const ReplyMessage = ({ setIsReplyOpen, selectedMessage }) => {
       const response = await axios.post(`${baseUrl}/createReply`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

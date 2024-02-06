@@ -11,6 +11,7 @@ import CompanyFilter from "./CompanyFilter";
 import CompanySort from "./CompanySort";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
+import { getCsrfToken } from "../../../utils";
 
 const DashboardCompany = ({
   setViewApplications,
@@ -22,8 +23,9 @@ const DashboardCompany = ({
 }) => {
   const companyJobs = useSelector((state) => state.companyJobs.companyJobs);
   const dispatch = useDispatch();
-  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const handleViewApplications = async (i) => {
     setViewApplications(true);
@@ -50,6 +52,7 @@ const DashboardCompany = ({
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });
@@ -75,6 +78,7 @@ const DashboardCompany = ({
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });
