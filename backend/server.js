@@ -10,9 +10,21 @@ import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import csrf from "csurf";
+import cron from "node-cron";
+import fetch from "node-fetch";
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+cron.schedule("*/14 * * * *", async () => {
+  try {
+    const response = await fetch("http://localhost:3000/ping", {
+      timeout: 10000,
+    });
+  } catch (error) {
+    console.error("Fetch error:", error.message);
+  }
+});
 
 //middlewares
 app.use(

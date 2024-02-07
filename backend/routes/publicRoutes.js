@@ -2,6 +2,11 @@ import express from "express";
 const publicRouter = express.Router();
 import pool from "../config/configDB.js";
 
+//ping for keep server awake
+publicRouter.get("/ping", () => {
+  console.log(`ping at ${new Date()}`);
+});
+
 //logout
 publicRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {
