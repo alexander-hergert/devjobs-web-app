@@ -4,6 +4,8 @@ import LoginButton from "../Global/LoginButton";
 import LogoutButton from "../Global/LogoutButton";
 import SignUpButton from "../Global/SignUpButton";
 import DashboardButton from "../Global/DashboardButton";
+import { useLocation } from "react-router-dom";
+import BackToAllJobsNavigation from "../Global/BackToAllJobsNavigation";
 
 const Overlay = styled.section`
   position: fixed;
@@ -23,11 +25,12 @@ const Overlay = styled.section`
 `;
 
 const MobileMenu = ({ handleMenuclick, isAuthenticated }) => {
+  const location = useLocation();
   return (
     <Overlay onClick={handleMenuclick}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="p-4 flex flex-col justify-center gap-8 bg-neutral w-[327px] h-[25vh] 
+        className="p-4 flex flex-col justify-center gap-4 bg-neutral w-[327px] h-[25vh] 
         rounded-lg shadow"
       >
         {!isAuthenticated && (
@@ -38,7 +41,8 @@ const MobileMenu = ({ handleMenuclick, isAuthenticated }) => {
         )}
         {isAuthenticated && (
           <>
-            <DashboardButton />
+            {location.pathname !== "/" && <BackToAllJobsNavigation />}
+            {location.pathname !== "/dashboard" && <DashboardButton />}
             <LogoutButton />
           </>
         )}

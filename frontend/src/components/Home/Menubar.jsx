@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ThemeSwitcher from "../Global/ThemeSwitcher";
 import LoginButton from "../Global/LoginButton";
@@ -10,6 +10,8 @@ import SignUpButton from "../Global/SignUpButton";
 import { TfiMenu } from "react-icons/tfi";
 import MobileMenu from "./MobileMenu";
 import DashboardButton from "../Global/DashboardButton";
+import BackToAllJobsNavigation from "../Global/BackToAllJobsNavigation";
+import { useLocation } from "react-router-dom";
 
 const StyledMenubar = styled.nav`
   background-image: url("../assets/desktop/bg-pattern-header.svg");
@@ -37,6 +39,7 @@ const Menubar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = useSelector((state) => state.user.user);
   const isUserLoading = useSelector((state) => state.user.isLoading);
+  const location = useLocation();
 
   const handleMenuclick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -64,6 +67,7 @@ const Menubar = () => {
               <p className="text-white">Loading...</p>
             ) : (
               <>
+                {location.pathname !== "/" && <BackToAllJobsNavigation />}
                 {!user?.user_id && (
                   <>
                     <SignUpButton />
@@ -72,7 +76,7 @@ const Menubar = () => {
                 )}
                 {user?.user_id && (
                   <>
-                    <DashboardButton />
+                    {location.pathname !== "/dashboard" && <DashboardButton />}
                     <LogoutButton />
                   </>
                 )}
