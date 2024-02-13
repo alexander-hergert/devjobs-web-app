@@ -8,6 +8,7 @@ import { setUser } from "../slices/userSlice";
 import { IoMdBusiness } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { getCsrfToken } from "../utils";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,9 @@ const SignUpPage = () => {
 
   const user = useSelector((state) => state.user.user);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   const onSubmit = (data) => {
-    console.log(data);
     loginWithPopup();
   };
   const formData = watch();
@@ -40,20 +41,25 @@ const SignUpPage = () => {
         const response = await axios.post(`${baseUrl}/createuser`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        dispatch(setUser({ user: response.data[0], isLoading: false }));
+        dispatch(setUser({ user: response.data, isLoading: false }));
         navigate("/dashboard");
       } catch (error) {
         toast.error("Error creating user");
-        logout({ logoutParams: { returnTo: window.location.origin } });
+        //set timeout to logout
+        setTimeout(() => {
+          logout({ logoutParams: { returnTo: window.location.origin } });
+        }, 1000);
         localStorage.setItem("user", JSON.stringify(false));
       }
     };
     if (!user?.user_id && isAuthenticated) {
       callApi();
     }
-  }, [user, isAuthenticated]);
+  }, [isAuthenticated]);
 
   return (
     <>
@@ -183,9 +189,16 @@ const SignUpPage = () => {
               name="user_website"
               id="user_website"
               placeholder="www.example.com"
-              {...register("user_website")}
+              {...register("user_website", {
+                pattern: /^www\.\w+\.\w{2,3}$/,
+              })}
             />
           </div>
+          {errors.user_website?.type === "pattern" && (
+            <p className="text-red-500" role="alert">
+              Please use a valid website url format
+            </p>
+          )}
           <button
             className="btn my-4 duration-0 capitalize text-white bg-accent"
             onSubmit={handleSubmit(onSubmit)}

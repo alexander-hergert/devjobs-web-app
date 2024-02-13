@@ -48,3 +48,15 @@ export function timeSince(date) {
   }
   return `${Math.floor(seconds)} seconds ago`;
 }
+
+//get _crsf token
+export const getCsrfToken = () => {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].split("=");
+    if (cookie[0].trim() === "XSRF-TOKEN") {
+      return cookie[1];
+    }
+  }
+  return "";
+};

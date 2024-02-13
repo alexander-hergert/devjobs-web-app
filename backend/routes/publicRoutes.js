@@ -2,10 +2,20 @@ import express from "express";
 const publicRouter = express.Router();
 import pool from "../config/configDB.js";
 
-//test route
-publicRouter.get("/test", (req, res) => {
-  //json respond
-  res.json({ message: "Public test route" });
+//ping for keep server awake
+publicRouter.get("/ping", () => {
+  console.log(`ping at ${new Date()}`);
+});
+
+//logout
+publicRouter.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    }
+    res.clearCookie("connect.sid");
+    res.send("logged out");
+  });
 });
 
 // fetch filtered jobs for Homepage

@@ -37,7 +37,8 @@ const createTableUsers = async (client) => {
     skills VARCHAR(100),
     user_website VARCHAR(100),
     has_new_message BOOLEAN NOT NULL DEFAULT FALSE,
-    is_banned BOOLEAN NOT NULL DEFAULT FALSE
+    is_banned BOOLEAN NOT NULL DEFAULT FALSE,
+    session_id VARCHAR(255)
   )`
     );
     console.log("Table users created successfully!");
@@ -60,7 +61,8 @@ const fillUsersTable = async (client) => {
     null,
     null,
     false,
-    false
+    false,
+    null
   );
   for (let i = 0; i < companies.length; i++) {
     const company = companies[i];
@@ -76,7 +78,8 @@ const fillUsersTable = async (client) => {
       null,
       null,
       false,
-      false
+      false,
+      null
     );
   }
 };

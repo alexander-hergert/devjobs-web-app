@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import JobHeader from "../components/JobHeader";
-import JobBody from "../components/JobBody";
-import JobFooter from "../components/JobFooter";
+import JobHeader from "../components/Inner/JobHeader";
+import JobBody from "../components/Inner/JobBody";
+import JobFooter from "../components/Inner/JobFooter";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,11 +17,8 @@ const InnerPage = () => {
 
   const params = useParams();
   const jobId = Number(params.jobId);
-  console.log(jobId);
   const dispatch = useDispatch();
   const [job] = useSelector((state) => state.jobs.jobs);
-  const jobs = useSelector((state) => state.totalJobs.totalJobs);
-  console.log(jobs);
   const [isApplication, setIsApplication] = useState(false);
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -34,7 +31,6 @@ const InnerPage = () => {
     try {
       axios.get(`${baseUrl}/${jobId}`).then((response) => {
         dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
-        console.log(response.data);
       });
     } catch {}
   }, []);

@@ -6,7 +6,6 @@ import checkBanStatus from "../auth/banCheck.js";
 
 //create job
 companyRouter.post("/createjob", async (req, res) => {
-  console.log(req.body);
   const {
     position,
     color,
@@ -21,14 +20,14 @@ companyRouter.post("/createjob", async (req, res) => {
   } = req.body;
 
   // Format requirements list to string with line breaks
-  const requirements_list = requirementsItems.join("\n");
+  const requirements_list = requirementsItems.join("");
   // Format role list to string with line breaks
-  const job_role_list = roleItems.join("\n");
+  const job_role_list = roleItems.join("");
 
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
-    const logo = userInfo.picture;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
+    const logo = user?.picture;
     const status = true;
     const posted_at = new Date();
     try {
@@ -79,13 +78,14 @@ companyRouter.post("/createjob", async (req, res) => {
 
 //fetch company jobs
 companyRouter.get("/getCompanyJobs", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
@@ -103,7 +103,6 @@ companyRouter.get("/getCompanyJobs", async (req, res) => {
 
 //edit job
 companyRouter.put("/editjob", async (req, res) => {
-  console.log(req.body);
   const {
     job_id,
     position,
@@ -124,15 +123,16 @@ companyRouter.put("/editjob", async (req, res) => {
   // Format role list to string with line breaks
   const job_role_list = roleItems.join("");
 
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
-    const logo = userInfo.picture;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
+    const logo = user?.picture;
     const status = true;
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //fetch company name
       const company = await client.query(
         "SELECT fullname FROM users WHERE user_id = $1",
@@ -178,13 +178,14 @@ companyRouter.put("/editjob", async (req, res) => {
 //cancel job
 companyRouter.put("/canceljob", async (req, res) => {
   const { job_id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       await client.query("UPDATE jobs SET status = false WHERE job_id = $1", [
         job_id,
       ]);
@@ -206,13 +207,14 @@ companyRouter.put("/canceljob", async (req, res) => {
 //deletejobs
 companyRouter.delete("/deletejob", async (req, res) => {
   const { job_id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //delete job
       await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
       const result = await client.query(
@@ -233,13 +235,14 @@ companyRouter.delete("/deletejob", async (req, res) => {
 //fetch job applications
 companyRouter.get("/getJobApplications", async (req, res) => {
   const { job_id } = req.query;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       const result = await client.query(
         "SELECT * FROM applications WHERE job_id = $1 ORDER BY user_id",
         [job_id]
@@ -273,12 +276,14 @@ companyRouter.get("/getJobApplications", async (req, res) => {
 //update jobapplication
 companyRouter.put("/updateJobApplication", async (req, res) => {
   const { job_id, user_id, status } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
+  const user = await authorize(req);
+  const u_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, userInfo.sub, res);
+      const isBanned = await checkBanStatus(client, u_id, res);
+      if (isBanned) return;
       await client.query(
         "UPDATE applications SET app_status = $1 WHERE job_id = $2 AND user_id = $3",
         [status, job_id, user_id]
@@ -317,19 +322,19 @@ companyRouter.put("/updateJobApplication", async (req, res) => {
 
 companyRouter.post("/createMessage", async (req, res) => {
   const { app_id, content } = req.body;
-
-  const userInfo = await authorize(req);
-  if (userInfo) {
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, userInfo.sub, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //select jobid from applications
       const job = await client.query(
         "SELECT * FROM jobs WHERE job_id = (SELECT job_id FROM applications WHERE app_id = $1)",
         [app_id]
       );
-      console.log(job.rows[0]);
       const subject = `Application for ${job.rows[0].position} at ${job.rows[0].company} in ${job.rows[0].location}`;
       //insert message
       await client.query(
@@ -342,11 +347,11 @@ companyRouter.post("/createMessage", async (req, res) => {
         "SELECT * FROM applications WHERE app_id = $1",
         [app_id]
       );
-      const user_id = resultUsers.rows[0].user_id;
+      const id = resultUsers.rows[0].user_id;
       //update the user
       await client.query(
         "UPDATE users SET has_new_message = true WHERE user_id = $1",
-        [user_id]
+        [id]
       );
       //select all messages (does it make sense?)
       const result = await client.query(
@@ -366,13 +371,14 @@ companyRouter.post("/createMessage", async (req, res) => {
 
 //fetch replies
 companyRouter.get("/getReplies", async (req, res) => {
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //get all jobs_ids from company user
       const resultJobs = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1",
@@ -385,23 +391,18 @@ companyRouter.get("/getReplies", async (req, res) => {
         [job_ids]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
-      console.log(app_ids);
       //get all messages from apps
       const resultMessages = await client.query(
         "SELECT * FROM messages WHERE app_id = ANY($1)",
         [app_ids]
       );
       const messages = resultMessages.rows;
-      console.log(messages);
       //get all replies from messages
-      console.log(messages);
       const resultReplies = await client.query(
         "SELECT * FROM replies WHERE app_id = ANY($1)",
         [app_ids]
       );
       const replies = resultReplies.rows;
-      console.log(replies);
-      console.log(resultReplies.rows);
       //add subject to replies
       replies.forEach((reply, i) => {
         const message = messages.find(
@@ -438,15 +439,15 @@ companyRouter.get("/getReplies", async (req, res) => {
 
 //delete reply
 companyRouter.delete("/deleteReply", async (req, res) => {
-  console.log(req.body);
   const { reply_id } = req.body;
-  const userInfo = await authorize(req);
-  if (userInfo) {
-    const user_id = userInfo.sub;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
       //check if the id is part of users jobs
       //get all jobs_ids from company user
       const resultJobs = await client.query(
@@ -454,21 +455,18 @@ companyRouter.delete("/deleteReply", async (req, res) => {
         [user_id]
       );
       const job_ids = resultJobs.rows.map((row) => row.job_id);
-      console.log(job_ids);
       //get all app_ids from jobs
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE job_id = ANY($1)",
         [job_ids]
       );
       const app_ids = resultApps.rows.map((row) => row.app_id);
-      console.log(app_ids);
       //get all replies with app_ids
       const resultReplies = await client.query(
         "SELECT * FROM replies WHERE app_id = ANY($1)",
         [app_ids]
       );
       const reply_ids = resultReplies.rows.map((row) => row.reply_id);
-      console.log(reply_ids);
       //check if reply_ids contains reply_id
       if (!reply_ids.includes(reply_id)) {
         //if not, unauthorized

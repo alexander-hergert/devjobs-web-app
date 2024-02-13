@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Menubar from "../components/Menubar";
-import Footer from "../components/Footer";
+import Menubar from "../components/Home/Menubar";
+import Footer from "../components/Global/Footer";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,38 +10,44 @@ import { setUser } from "../slices/userSlice";
 import { getUsers } from "../slices/allUsersSlice";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { getTotalJobs } from "../slices/totalJobsSlice";
+import { ToastContainer, toast } from "react-toastify";
+import { getCsrfToken } from "../utils";
 
 //shared code goes into jsx
 const SharedLayout = () => {
   const dispatch = useDispatch();
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
-  //const user = useSelector((state) => state.user.user);
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const user = useSelector((state) => state.user.user);
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  console.log(user);
+  const csrfToken = getCsrfToken();
 
   //public
   useEffect(() => {
     const callApi = async () => {
       try {
         const token = await getAccessTokenSilently();
-        console.log(token);
         const response = await axios.get(`${baseUrl}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data[0]);
-        dispatch(setUser({ user: response.data[0], isLoading: false }));
+        dispatch(setUser({ user: response.data, isLoading: false }));
       } catch (error) {
         dispatch(setUser({ user: undefined, isLoading: false }));
+        if (isAuthenticated)
+          toast.error("Error loading userdata.", {
+            toastId: "userError",
+          });
       }
     };
     if (!user?.user_id) {
       dispatch(setUser({ user: undefined, isLoading: true }));
       callApi();
     }
-  }, []);
+  }, [isAuthenticated]);
 
   //private
   useEffect(() => {
@@ -51,18 +57,19 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   //company
   useEffect(() => {
@@ -72,9 +79,10 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })
         );
@@ -82,10 +90,10 @@ const SharedLayout = () => {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   //admin
   useEffect(() => {
@@ -95,31 +103,30 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
       }
     };
-    if (!user?.user_id && isAuthenticated) {
+    if (user && isAuthenticated) {
       callApi();
     }
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   useEffect(() => {
     try {
       if (!location.search) {
         axios.get(`${baseUrl}/jobs`).then((response) => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
         });
       } else {
         //Query string is present
         axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
-          console.log(response.data);
         });
       }
     } catch (error) {}
@@ -127,6 +134,7 @@ const SharedLayout = () => {
 
   return (
     <>
+      <ToastContainer />
       <Menubar />
       <Outlet />
       <Footer />

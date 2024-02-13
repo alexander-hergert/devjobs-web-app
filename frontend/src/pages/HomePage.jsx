@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Filter from "../components/Filter";
-import Jobs from "../components/Jobs";
-import MobileFilter from "../components/MobileFilter";
+import Filter from "../components/Home/Filter";
+import Jobs from "../components/Home/Jobs";
+import MobileFilter from "../components/Home/MobileFilter";
 
 const HomePage = () => {
   const [isToggleFilter, setIsToggleFilter] = useState(false);

@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import EditProfile from "../components/EditProfile";
-import EditJob from "../components/EditJob";
+import EditProfile from "../components/Dashboards/Profile/EditProfile";
+import EditJob from "../components/Dashboards/Company/EditJob";
 import { useAuth0 } from "@auth0/auth0-react";
-import Loader from "../components/Loader";
+import Loader from "../components/Global/Loader";
 import axios from "axios";
 import { getApps } from "../slices/appsSlice";
-import ViewAppDetails from "../components/ViewAppDetails";
-import CreateJobs from "../components/CreateJobs";
+import ViewAppDetails from "../components/Dashboards/Private/ViewAppDetails";
+import CreateJobs from "../components/Dashboards/Company/CreateJobs";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
-import ViewApplications from "../components/ViewApplications";
-import ReadMessages from "../components/ReadMessages";
-import ReadReplies from "../components/ReadReplies";
+import ViewApplications from "../components/Dashboards/Company/ViewApplications";
+import ReadMessages from "../components/Dashboards/Private/ReadMessages";
+import ReadReplies from "../components/Dashboards/Company/ReadReplies";
 import styled from "styled-components";
-import UploadWidget from "../components/UploadWidget";
+import UploadWidget from "../components/Dashboards/Profile/UploadWidget";
 import { FaEdit } from "react-icons/fa";
-import DashboardAdmin from "../components/Dashboards/DashboardAdmin";
-import DashboardPrivate from "../components/Dashboards/DashboardPrivate";
-import DashboardCompany from "../components/Dashboards/DashboardCompany";
-import MessageButton from "../components/MessageButton";
-import ReplyButton from "../components/ReplyButton";
+import DashboardAdmin from "../components/Dashboards/Admin/DashboardAdmin";
+import DashboardPrivate from "../components/Dashboards/Private/DashboardPrivate";
+import DashboardCompany from "../components/Dashboards/Company/DashboardCompany";
+import MessageButton from "../components/Dashboards/Private/MessageButton";
+import ReplyButton from "../components/Dashboards/Company/ReplyButton";
 import { getUsers } from "../slices/allUsersSlice";
-import ViewUserDetails from "../components/ViewUserDetails";
+import ViewUserDetails from "../components/Dashboards/Admin/ViewUserDetails";
+import { getCsrfToken } from "../utils";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -95,6 +96,7 @@ const Dashboard = () => {
   const [viewApplications, setViewApplications] = useState(false);
   const [viewUserDetails, setViewUserDetails] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
   useEffect(() => {
     handleRefresh();
@@ -108,9 +110,10 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -123,9 +126,10 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
@@ -137,9 +141,10 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
           },
+          withCredentials: true,
         });
-        console.log(response.data);
         dispatch(
           getCompanyJobs({ companyJobs: response.data, isLoading: false })
         );
@@ -162,17 +167,6 @@ const Dashboard = () => {
 
   if (isLoading) {
     return <Loader />;
-  }
-
-  //user banned no access
-  if (user?.is_banned) {
-    return (
-      <section className="flex justify-center items-center h-screen">
-        <h1 className="text-2xl font-bold text-center">
-          You have been banned from Devjobs.
-        </h1>
-      </section>
-    );
   }
 
   if (isAuthenticated && user) {
