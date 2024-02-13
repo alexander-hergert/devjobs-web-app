@@ -51,7 +51,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(csrf({ cookie: true }));
 app.use((req, res, next) => {
-  res.cookie("XSRF-TOKEN", req.csrfToken());
+  res.cookie("XSRF-TOKEN", req.csrfToken(), {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+  });
   res.locals.csrfToken = req.csrfToken();
   next();
 });
@@ -64,10 +68,10 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: false,
+      secure: true,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "secure",
+      sameSite: "none",
     },
   })
 );
