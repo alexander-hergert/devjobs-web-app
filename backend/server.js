@@ -15,10 +15,11 @@ import fetch from "node-fetch";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const baseUrl = process.env.BASE_URL;
 
 cron.schedule("*/14 * * * *", async () => {
   try {
-    const response = await fetch("http://localhost:3000/ping", {
+    const response = await fetch(`${baseUrl}/ping`, {
       timeout: 10000,
     });
   } catch (error) {
@@ -26,30 +27,26 @@ cron.schedule("*/14 * * * *", async () => {
   }
 });
 
+// "http://localhost:3000" for local development
+
 //middlewares
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://a-hergert-devjobs-web-app.netlify.app",
-        "'unsafe-inline'",
-      ],
-      styleSrc: [
-        "'self'",
-        "https://a-hergert-devjobs-web-app.netlify.app",
-        "'unsafe-inline'",
-      ],
+      scriptSrc: ["'self'", "https://a-hergert-devjobs-web-app.netlify.app"],
+      styleSrc: ["'self'", "https://a-hergert-devjobs-web-app.netlify.app"],
     },
   })
 );
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: "https://a-hergert-devjobs-web-app.netlify.app",
   })
 );
+// "http://localhost:5173" for local development
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(csrf({ cookie: true }));
@@ -70,12 +67,12 @@ app.use(
       secure: false,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
-      //sameSite: "secure",
+      sameSite: "secure",
     },
   })
 );
-//routes
 
+//routes
 app.use(adminRouter);
 app.use(privateRouter);
 app.use(companyRouter);
