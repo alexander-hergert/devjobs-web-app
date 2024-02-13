@@ -189,9 +189,16 @@ const SignUpPage = () => {
               name="user_website"
               id="user_website"
               placeholder="www.example.com"
-              {...register("user_website")}
+              {...register("user_website", {
+                pattern: /^www\.\w+\.\w{2,3}$/,
+              })}
             />
           </div>
+          {errors.user_website?.type === "pattern" && (
+            <p className="text-red-500" role="alert">
+              Please use a valid website url format
+            </p>
+          )}
           <button
             className="btn my-4 duration-0 capitalize text-white bg-accent"
             onSubmit={handleSubmit(onSubmit)}

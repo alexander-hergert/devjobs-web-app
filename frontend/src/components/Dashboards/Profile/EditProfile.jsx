@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -187,10 +187,17 @@ const EditProfile = ({ setIsEditProfile, user }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="user_website"
-            {...register("user_website")}
+            {...register("user_website", {
+              pattern: /^www\.\w+\.\w{2,3}$/,
+            })}
             defaultValue={user_website}
           />
         </div>
+        {errors.user_website?.type === "pattern" && (
+          <p className="text-red-500" role="alert">
+            Please use a valid website url format
+          </p>
+        )}
         <input
           type="submit"
           value="Save Changes"
