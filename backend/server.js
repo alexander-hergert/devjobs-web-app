@@ -49,7 +49,15 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(csrf({ cookie: true }));
+app.use(
+  csrf({
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      sameSite: "None",
+    },
+  })
+);
 app.use((req, res, next) => {
   res.cookie("XSRF-TOKEN", req.csrfToken(), {
     secure: true,
