@@ -6,7 +6,8 @@ import privateRouter from "./routes/privateUserRoutes.js";
 import companyRouter from "./routes/companyUserRoutes.js";
 import adminRouter from "./routes/adminUserRoutes.js";
 import session from "express-session";
-import connectRedis from "connect-redis";
+import RedisStore from "connect-redis";
+import { createClient } from "redis";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
@@ -30,11 +31,14 @@ cron.schedule("*/14 * * * *", async () => {
 
 // "http://localhost:3000" for local development
 
-const RedisStore = connectRedis(session);
+// Initialize client.
+const redisClient = createClient({ url: process.env.REDIS_URL });
+redisClient.connect().catch(console.error);
 
-const redisOptions = {
-  url: process.env.REDIS_URL,
-};
+// Initialize store.
+const redisStore = new RedisStore({
+  client: redisClient,
+});
 
 //middlewares
 app.use(
@@ -82,7 +86,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: new RedisStore(redisOptions),
+    store: redisStore,
     cookie: {
       secure: true,
       httpOnly: true,
