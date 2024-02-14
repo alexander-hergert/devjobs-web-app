@@ -6,6 +6,7 @@ import privateRouter from "./routes/privateUserRoutes.js";
 import companyRouter from "./routes/companyUserRoutes.js";
 import adminRouter from "./routes/adminUserRoutes.js";
 import session from "express-session";
+import connectRedis from "connect-redis";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
@@ -28,6 +29,12 @@ cron.schedule("*/14 * * * *", async () => {
 });
 
 // "http://localhost:3000" for local development
+
+const RedisStore = connectRedis(session);
+
+const redisOptions = {
+  url: process.env.REDIS_URL,
+};
 
 //middlewares
 app.use(
@@ -75,6 +82,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    store: new RedisStore(redisOptions),
     cookie: {
       secure: true,
       httpOnly: true,
