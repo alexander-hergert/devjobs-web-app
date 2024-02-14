@@ -54,7 +54,7 @@ app.use((req, res, next) => {
   res.cookie("XSRF-TOKEN", req.csrfToken(), {
     secure: true,
     httpOnly: true,
-    sameSite: "none",
+    sameSite: "None",
   });
   res.locals.csrfToken = req.csrfToken();
   next();
@@ -71,7 +71,7 @@ app.use(
       secure: true,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "none",
+      sameSite: "None",
     },
   })
 );
