@@ -60,6 +60,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(cookieParser());
+
 app.use(
   csrf({
     cookie: {
@@ -79,6 +80,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.set("trust proxy", 1);
+
 //session
 app.use(
   session({
@@ -92,9 +95,17 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: "None",
+      domain: process.env.DOMAIN,
+      path: "/",
     },
   })
 );
+
+// Add logging statements
+app.use((req, res, next) => {
+  console.log("Session ID:", req.sessionID);
+  next();
+});
 
 //routes
 app.use(adminRouter);
