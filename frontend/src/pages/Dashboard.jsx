@@ -23,7 +23,6 @@ import MessageButton from "../components/Dashboards/Private/MessageButton";
 import ReplyButton from "../components/Dashboards/Company/ReplyButton";
 import { getUsers } from "../slices/allUsersSlice";
 import ViewUserDetails from "../components/Dashboards/Admin/ViewUserDetails";
-import { getCsrfToken } from "../utils";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -96,7 +95,6 @@ const Dashboard = () => {
   const [viewApplications, setViewApplications] = useState(false);
   const [viewUserDetails, setViewUserDetails] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  const csrfToken = getCsrfToken();
 
   useEffect(() => {
     handleRefresh();
@@ -110,7 +108,6 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });
@@ -126,7 +123,6 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });
@@ -141,7 +137,6 @@ const Dashboard = () => {
         const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });

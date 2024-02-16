@@ -21,24 +21,34 @@ const baseUrl = process.env.BASE_URL;
 
 cron.schedule("*/14 * * * *", async () => {
   try {
-    const response = await fetch(`${baseUrl}/ping`, {
-      timeout: 10000,
-    });
+    const response = await fetch(
+      process.env.ENVIRONMENT === "production"
+        ? `${baseUrl}/ping`
+        : "http://localhost:3000/ping",
+      {
+        timeout: 10000,
+      }
+    );
   } catch (error) {
     console.error("Fetch error:", error.message);
   }
 });
 
-// "http://localhost:3000" for local development
+let redisClient;
+let redisStore;
 
-// Initialize client.
-const redisClient = createClient({ url: process.env.REDIS_URL });
-redisClient.connect().catch(console.error);
+if (process.env.ENVIRONMENT === "production") {
+  app.set("trust proxy", 1);
 
-// Initialize store.
-const redisStore = new RedisStore({
-  client: redisClient,
-});
+  // Initialize client.
+  redisClient = createClient({ url: process.env.REDIS_URL });
+  redisClient.connect().catch(console.error);
+
+  // Initialize store.
+  redisStore = new RedisStore({
+    client: redisClient,
+  });
+}
 
 //middlewares
 app.use(
@@ -53,10 +63,12 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "https://a-hergert-devjobs-web-app.netlify.app",
+    origin:
+      process.env.ENVIRONMENT === "production"
+        ? "https://a-hergert-devjobs-web-app.netlify.app"
+        : "http://localhost:5173",
   })
 );
-// "http://localhost:5173" for local development
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -70,32 +82,34 @@ app.use(
     },
   })
 );
+
 app.use((req, res, next) => {
   res.cookie("XSRF-TOKEN", req.csrfToken(), {
     secure: true,
-    httpOnly: true,
+    httpOnly: process.env.ENVIRONMENT === "production" ? true : false,
     sameSite: "None",
   });
   res.locals.csrfToken = req.csrfToken();
   next();
 });
 
-app.set("trust proxy", 1);
-
-//session
+session;
 app.use(
   session({
     genid: () => uuidv4(),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    store: redisStore,
+    store: process.env.ENVIRONMENT === "production" ? redisStore : null,
     cookie: {
-      secure: true,
+      secure: process.env.ENVIRONMENT === "production" ? true : false,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
-      sameSite: "None",
-      domain: process.env.DOMAIN,
+      sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
+      domain:
+        process.env.ENVIRONMENT === "production"
+          ? process.env.DOMAIN
+          : "localhost",
       path: "/",
     },
   })
@@ -103,7 +117,9 @@ app.use(
 
 // Add logging statements
 app.use((req, res, next) => {
-  console.log("Session ID:", req.sessionID);
+  console.log("XSRF-TOKEN incoming:", req.cookies["XSRF-TOKEN"]);
+  console.log("XSRF-TOKEN outgoing:", req.csrfToken());
+  console.log(req.cookies);
   next();
 });
 
