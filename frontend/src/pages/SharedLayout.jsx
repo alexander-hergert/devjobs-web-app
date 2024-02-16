@@ -30,7 +30,6 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });
@@ -57,7 +56,6 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/appliedJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });
@@ -79,7 +77,6 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/getCompanyJobs`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });
@@ -103,7 +100,6 @@ const SharedLayout = () => {
         const response = await axios.get(`${baseUrl}/getUsers`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
         });

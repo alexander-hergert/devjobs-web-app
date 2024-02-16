@@ -18,7 +18,6 @@ const LogoutButton = () => {
           const response = await axios.get(`${baseUrl}/logout`, {
             headers: {
               Authorization: `Bearer ${token}`,
-              "X-CSRF-TOKEN": csrfToken,
             },
             withCredentials: true,
           });

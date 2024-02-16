@@ -86,7 +86,7 @@ app.use(
 app.use((req, res, next) => {
   res.cookie("XSRF-TOKEN", req.csrfToken(), {
     secure: true,
-    httpOnly: process.env.ENVIRONMENT === "production" ? true : false,
+    httpOnly: false,
     sameSite: "None",
   });
   res.locals.csrfToken = req.csrfToken();

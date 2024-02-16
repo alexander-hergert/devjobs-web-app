@@ -47,7 +47,6 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
       const response = await axios.get(`${baseUrl}/getReplies`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "X-CSRF-TOKEN": csrfToken,
         },
         withCredentials: true,
       });

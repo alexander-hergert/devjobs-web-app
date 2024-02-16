@@ -103,7 +103,6 @@ const ViewApplications = ({
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "X-CSRF-TOKEN": csrfToken,
             },
             withCredentials: true,
           }

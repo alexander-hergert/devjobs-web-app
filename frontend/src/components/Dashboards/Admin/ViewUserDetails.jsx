@@ -61,7 +61,6 @@ const ViewUserDetails = ({
         const response = await axios.get(`${baseUrl}/getUserStats`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            "X-CSRF-TOKEN": csrfToken,
           },
           withCredentials: true,
           params: { id: param },
