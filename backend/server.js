@@ -73,25 +73,25 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(
-  csrf({
-    cookie: {
-      secure: true,
-      httpOnly: true,
-      sameSite: "None",
-    },
-  })
-);
+// app.use(
+//   csrf({
+//     cookie: {
+//       secure: true,
+//       httpOnly: true,
+//       sameSite: "None",
+//     },
+//   })
+// );
 
-app.use((req, res, next) => {
-  res.cookie("XSRF-TOKEN", req.csrfToken(), {
-    secure: true,
-    httpOnly: false,
-    sameSite: "None",
-  });
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
+// app.use((req, res, next) => {
+//   res.cookie("XSRF-TOKEN", req.csrfToken(), {
+//     secure: true,
+//     httpOnly: false,
+//     sameSite: "None",
+//   });
+//   res.locals.csrfToken = req.csrfToken();
+//   next();
+// });
 
 session;
 app.use(
@@ -116,12 +116,12 @@ app.use(
 );
 
 // Add logging statements
-app.use((req, res, next) => {
-  console.log("XSRF-TOKEN incoming:", req.cookies["XSRF-TOKEN"]);
-  console.log("XSRF-TOKEN outgoing:", req.csrfToken());
-  console.log(req.cookies);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("XSRF-TOKEN incoming:", req.cookies["XSRF-TOKEN"]);
+//   console.log("XSRF-TOKEN outgoing:", req.csrfToken());
+//   console.log(req.cookies);
+//   next();
+// });
 
 //routes
 app.use(adminRouter);

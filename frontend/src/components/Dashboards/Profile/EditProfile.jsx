@@ -34,7 +34,7 @@ const Style = styled.section`
   }
 `;
 
-const EditProfile = ({ setIsEditProfile, user }) => {
+const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
   const { fullname, email, address, location, skills, user_website } = user;
   const [isDeleteProfile, setIsDeleteProfile] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -98,7 +98,10 @@ const EditProfile = ({ setIsEditProfile, user }) => {
     <Style>
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
-        onClick={() => setIsEditProfile(false)}
+        onClick={() => {
+          setIsEditProfile(false);
+          setIsMainVisible(true);
+        }}
       >
         close
       </button>

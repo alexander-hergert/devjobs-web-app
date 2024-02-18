@@ -151,6 +151,7 @@ const Dashboard = () => {
 
   const handleEditProfile = () => {
     setIsEditProfile(!isEditProfile);
+    setIsMainVisible(false);
   };
 
   //Route Protection
@@ -168,7 +169,11 @@ const Dashboard = () => {
     return (
       <>
         {isEditProfile && (
-          <EditProfile setIsEditProfile={setIsEditProfile} user={user} />
+          <EditProfile
+            setIsEditProfile={setIsEditProfile}
+            user={user}
+            setIsMainVisible={setIsMainVisible}
+          />
         )}
         {isReadingMessages && (
           <ReadMessages
