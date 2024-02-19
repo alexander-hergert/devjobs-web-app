@@ -11,9 +11,9 @@ import { createClient } from "redis";
 import { v4 as uuidv4 } from "uuid";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import csrf from "csurf";
 import cron from "node-cron";
 import fetch from "node-fetch";
+import Token from "csrf";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -73,25 +73,31 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// app.use(
-//   csrf({
-//     cookie: {
-//       secure: true,
-//       httpOnly: true,
-//       sameSite: "None",
-//     },
-//   })
-// );
+const csrfToken = new Token();
+const secret = csrfToken.secretSync();
 
-// app.use((req, res, next) => {
-//   res.cookie("XSRF-TOKEN", req.csrfToken(), {
-//     secure: true,
-//     httpOnly: false,
-//     sameSite: "None",
-//   });
-//   res.locals.csrfToken = req.csrfToken();
-//   next();
-// });
+// Create a new token
+app.use((req, res, next) => {
+  const token = csrfToken.create(secret);
+  res.cookie("XSRF-TOKEN", token, {
+    secure: true,
+    httpOnly: true,
+    sameSite: "None",
+  });
+  next();
+});
+
+// Read and verify the token
+app.use((req, res, next) => {
+  // Check if the request is not a GET request
+  if (req.method !== "GET") {
+    const token = req.cookies["XSRF-TOKEN"];
+    if (!csrfToken.verify(secret, token)) {
+      res.status(403).send("Invalid token");
+    }
+  }
+  next();
+});
 
 session;
 app.use(
@@ -114,14 +120,6 @@ app.use(
     },
   })
 );
-
-// Add logging statements
-// app.use((req, res, next) => {
-//   console.log("XSRF-TOKEN incoming:", req.cookies["XSRF-TOKEN"]);
-//   console.log("XSRF-TOKEN outgoing:", req.csrfToken());
-//   console.log(req.cookies);
-//   next();
-// });
 
 //routes
 app.use(adminRouter);
