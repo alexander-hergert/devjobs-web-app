@@ -24,10 +24,10 @@ const LogoutButton = () => {
           const logoutResponse = await logout({
             logoutParams: { returnTo: window.location.origin },
           });
-          localStorage.setItem("user", JSON.stringify(false));
         } catch (error) {
           console.error("Error calling API:", error);
         }
+        localStorage.setItem("user", JSON.stringify(false));
       }}
     >
       <div className="justify-center flex gap-2 items-center">

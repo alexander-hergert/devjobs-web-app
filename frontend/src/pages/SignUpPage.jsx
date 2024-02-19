@@ -49,10 +49,21 @@ const SignUpPage = () => {
         navigate("/dashboard");
       } catch (error) {
         toast.error("Error creating user");
-        //set timeout to logout
-        setTimeout(() => {
-          logout({ logoutParams: { returnTo: window.location.origin } });
-        }, 1000);
+        try {
+          const token = await getAccessTokenSilently();
+          const response = await axios.get(`${baseUrl}/logout`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          });
+          const logoutResponse = await logout({
+            logoutParams: { returnTo: window.location.origin },
+          });
+          localStorage.setItem("user", JSON.stringify(false));
+        } catch (error) {
+          console.error("Error calling API:", error);
+        }
         localStorage.setItem("user", JSON.stringify(false));
       }
     };

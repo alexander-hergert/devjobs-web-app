@@ -60,6 +60,7 @@ app.use(
     },
   })
 );
+
 app.use(
   cors({
     credentials: true,
@@ -76,7 +77,7 @@ app.use(cookieParser());
 const csrfToken = new Token();
 const secret = csrfToken.secretSync();
 
-// Create a new token
+//Create a new token
 app.use((req, res, next) => {
   const token = csrfToken.create(secret);
   res.cookie("XSRF-TOKEN", token, {
@@ -94,6 +95,7 @@ app.use((req, res, next) => {
     const token = req.cookies["XSRF-TOKEN"];
     if (!csrfToken.verify(secret, token)) {
       res.status(403).send("Invalid token");
+      return;
     }
   }
   next();

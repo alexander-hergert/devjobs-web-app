@@ -11,7 +11,6 @@ import { getUsers } from "../slices/allUsersSlice";
 import { getCompanyJobs } from "../slices/companyJobsSlice";
 import { getTotalJobs } from "../slices/totalJobsSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { getCsrfToken } from "../utils";
 
 //shared code goes into jsx
 const SharedLayout = () => {
@@ -20,7 +19,7 @@ const SharedLayout = () => {
   const user = useSelector((state) => state.user.user);
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
-  const csrfToken = getCsrfToken();
+
 
   //public
   useEffect(() => {

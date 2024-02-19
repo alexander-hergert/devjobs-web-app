@@ -85,10 +85,22 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
       });
       dispatch(setUser({ payload: undefined }));
       //delete cookie
-      document.cookie =
-        "session_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       setIsEditProfile(false);
-      logout({ logoutParams: { returnTo: window.location.origin } });
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get(`${baseUrl}/logout`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
+        const logoutResponse = await logout({
+          logoutParams: { returnTo: window.location.origin },
+        });
+        localStorage.setItem("user", JSON.stringify(false));
+      } catch (error) {
+        console.error("Error calling API:", error);
+      }
       localStorage.setItem("user", JSON.stringify(false));
     } catch (error) {
       console.error("Error calling API:", error);
