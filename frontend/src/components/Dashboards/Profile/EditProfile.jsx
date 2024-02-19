@@ -62,6 +62,7 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
       });
       dispatch(setUser({ user: response.data, isLoading: false }));
       setIsEditProfile(false);
+      setIsMainVisible(true);
     } catch (error) {
       console.error("Error calling API:", error);
     }
@@ -191,7 +192,7 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
             type="text"
             id="user_website"
             {...register("user_website", {
-              pattern: /^www\.\w+\.\w{2,3}$/,
+              pattern: /^(https?:\/\/)?(www\.\w+\.\w{2,3})$/,
             })}
             defaultValue={user_website}
           />
