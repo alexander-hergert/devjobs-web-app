@@ -20,7 +20,6 @@ const SharedLayout = () => {
   const location = useLocation();
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
-
   //public
   useEffect(() => {
     const callApi = async () => {

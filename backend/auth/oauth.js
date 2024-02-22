@@ -24,6 +24,7 @@ export const authorize = async (req) => {
       return user;
     } catch (err) {
       console.error(err.message);
+      res.status(401).send("Unauthorized");
     }
   } else if (token) {
     try {
@@ -63,13 +64,14 @@ export const authorize = async (req) => {
         return user;
       } catch (err) {
         console.error(err.message);
+        res.status(401).send("Unauthorized");
       }
       return response.data;
     } catch (error) {
       console.error("Error fetching user info:", error);
-      throw new Error("Error fetching user info");
+      res.status(401).send("Unauthorized");
     }
-  } else {
-    throw new Error("Unauthorized");
+  } else if (!token && !session_id) {
+    res.status(401).send("Unauthorized");
   }
 };
