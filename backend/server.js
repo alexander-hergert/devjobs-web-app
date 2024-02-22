@@ -94,6 +94,11 @@ app.use((req, res, next) => {
   if (req.method !== "GET") {
     const token = req.cookies["XSRF-TOKEN"];
     if (!csrfToken.verify(secret, token)) {
+      res.cookie("XSRF-TOKEN", token, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+      });
       res.status(403).send("Invalid token");
       return;
     }
