@@ -84,6 +84,7 @@ app.use((req, res, next) => {
     secure: true,
     httpOnly: true,
     sameSite: "None",
+    partitioned: true,
   });
   next();
 });
@@ -98,6 +99,7 @@ app.use((req, res, next) => {
         secure: true,
         httpOnly: true,
         sameSite: "None",
+        partitioned: true,
       });
       res.status(403).send("Invalid token");
       return;
@@ -119,6 +121,7 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
+      partitioned: process.env.ENVIRONMENT === "production" ? true : false,
       domain:
         process.env.ENVIRONMENT === "production"
           ? process.env.DOMAIN
