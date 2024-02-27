@@ -51,6 +51,7 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
   const isApplied = apps?.applications?.some(
     (app) => app.job_id === Number(job_id)
   );
+  const isOpen = job?.status;
 
   const user = useSelector((state) => state.user.user);
 
@@ -83,16 +84,22 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
             </h1>
             <p className="text-[#5964e0] text-md font-bold">{job?.location}</p>
           </div>
-          {!isApplied ? (
+          {!isApplied && isOpen && (
             <button
               onClick={handleClick}
               className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8 hover:bg-info"
             >
               Apply Now
             </button>
-          ) : (
+          )}
+          {isApplied && (
             <button className="btn max-md:mt-8 bg-slate-500 text-white">
               Already Applied
+            </button>
+          )}
+          {!isApplied && !isOpen && (
+            <button className="btn max-md:mt-8 bg-slate-500 text-white">
+              Closed
             </button>
           )}
         </div>

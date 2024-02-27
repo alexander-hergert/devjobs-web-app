@@ -12,6 +12,8 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
     (app) => app.job_id === Number(job_id)
   );
 
+  const isOpen = job?.status;
+
   const handleClick = () => {
     if (user?.role === "private") {
       setIsApplication(true);
@@ -36,16 +38,22 @@ const JobFooter = ({ job, isApplication, setIsApplication }) => {
             <p className="text-primary text-xl font-bold">{job?.position}</p>
             <p className="text-slate-500 mt-2">So Digital Inc.</p>
           </div>
-          {!isApplied ? (
+          {!isApplied && isOpen && (
             <button
               onClick={handleClick}
-              className="btn text-white capitalize bg-[#5964e0] max-md:w-full hover:bg-info"
+              className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8 hover:bg-info"
             >
               Apply Now
             </button>
-          ) : (
-            <button className="btn bg-slate-500 text-white max-md:w-full">
+          )}
+          {isApplied && (
+            <button className="btn max-md:mt-8 bg-slate-500 text-white">
               Already Applied
+            </button>
+          )}
+          {!isApplied && !isOpen && (
+            <button className="btn max-md:mt-8 bg-slate-500 text-white">
+              Closed
             </button>
           )}
         </div>
