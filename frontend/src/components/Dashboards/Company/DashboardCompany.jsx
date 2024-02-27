@@ -74,7 +74,7 @@ const DashboardCompany = ({
       const token = await getAccessTokenSilently();
       const response = await axios({
         method: "put",
-        url: `${baseUrl}/canceljob`,
+        url: `${baseUrl}/statusjob`,
         data: data,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -164,11 +164,15 @@ const DashboardCompany = ({
                   </div>
                 </button>
                 <button
-                  className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
+                  className={`btn border-0 duration-0 capitalize text-white min-w-[4rem] ${
+                    job.status
+                      ? "bg-red-500 hover:bg-red-200"
+                      : "bg-green-500 hover:bg-green-200"
+                  }`}
                   onClick={() => handleCancelJob(i)}
                 >
                   <div className="flex gap-2 items-center">
-                    Close
+                    {job.status ? "Close" : "Open"}
                     <FaDoorClosed className="max-md:hidden text-xl" />
                   </div>
                 </button>

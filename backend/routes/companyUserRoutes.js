@@ -197,7 +197,7 @@ companyRouter.put("/editjob", async (req, res) => {
 });
 
 //cancel job
-companyRouter.put("/canceljob", async (req, res) => {
+companyRouter.put("/statusjob", async (req, res) => {
   const { job_id } = req.body;
   const user = await authorize(req);
   const user_id = user?.user_id;
@@ -207,7 +207,14 @@ companyRouter.put("/canceljob", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
-      await client.query("UPDATE jobs SET status = false WHERE job_id = $1", [
+      //checkstatus of job
+      const resultStatus = await client.query(
+        "SELECT status FROM jobs WHERE job_id = $1",
+        [job_id]
+      );
+      //change status of the job
+      await client.query("UPDATE jobs SET status = $1 WHERE job_id = $2", [
+        !resultStatus.rows[0].status,
         job_id,
       ]);
       const result = await client.query(
