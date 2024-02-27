@@ -20,11 +20,17 @@ const Job = ({ job }) => {
     (app) => app.job_id === Number(job_id)
   );
 
+  const isOpen = job?.status;
+
   return (
     <Link to={`/${job_id}`}>
       <div
         className={`xl:w-[350px] md:w-[339px] h-[228px] bg-neutral rounded-xl pl-8 shadow relative ${
-          isApplied ? "border-slate-500 border-4" : ""
+          isApplied
+            ? "border-slate-500 border-4"
+            : !isApplied && !isOpen
+            ? "border-red-500 border-4"
+            : ""
         }`}
       >
         <div
@@ -42,6 +48,11 @@ const Job = ({ job }) => {
         {isApplied && (
           <div className="absolute bottom-0 right-0 bg-slate-500 rounded-tl-lg p-2">
             <p className="capitalize text-white">already applied</p>
+          </div>
+        )}
+        {!isApplied && !isOpen && (
+          <div className="absolute bottom-0 right-0 bg-red-500 rounded-tl-lg p-2">
+            <p className="capitalize text-white">closed</p>
           </div>
         )}
       </div>
