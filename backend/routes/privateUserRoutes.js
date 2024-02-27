@@ -120,7 +120,7 @@ privateRouter.put("/user", async (req, res) => {
       ) {
         user_website = "https://" + user_website;
       } else if (!user_website) {
-        user_website = null;
+        user_website = "";
       }
       await client.query(
         "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",

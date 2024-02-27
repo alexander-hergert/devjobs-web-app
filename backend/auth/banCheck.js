@@ -11,6 +11,7 @@ const checkBanStatus = async (client, user_id, res) => {
     }
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ error: "Server error" });
   }
 };
 

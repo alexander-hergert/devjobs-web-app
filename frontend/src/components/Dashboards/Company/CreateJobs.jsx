@@ -259,10 +259,20 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="website"
-            {...register("website")}
+            {...register("website", {
+              pattern:
+                /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+            })}
             aria-label="website"
             placeholder="e.g. https://www.company.com"
           />
+        </div>
+        <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
+          {errors.website?.type === "pattern" && (
+            <p className="text-red-500" role="alert">
+              Please use a valid website url format
+            </p>
+          )}
         </div>
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           <label htmlFor="description">Description*</label>

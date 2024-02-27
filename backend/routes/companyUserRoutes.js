@@ -6,7 +6,7 @@ import checkBanStatus from "../auth/banCheck.js";
 
 //create job
 companyRouter.post("/createjob", async (req, res) => {
-  const {
+  let {
     position,
     color,
     location,
@@ -33,7 +33,18 @@ companyRouter.post("/createjob", async (req, res) => {
     try {
       const client = await pool.connect();
       //fetch user and check for banned status
-      await checkBanStatus(client, user_id, res);
+      const isBanned = await checkBanStatus(client, user_id, res);
+      if (isBanned) return;
+      //check if user_website has http:// or https://
+      if (
+        website &&
+        !website?.startsWith("http://") &&
+        !website?.startsWith("https://")
+      ) {
+        website = "https://" + website;
+      } else if (!website) {
+        website = "";
+      }
       //fetch company name
       const company = await client.query(
         "SELECT fullname FROM users WHERE user_id = $1",
@@ -103,7 +114,7 @@ companyRouter.get("/getCompanyJobs", async (req, res) => {
 
 //edit job
 companyRouter.put("/editjob", async (req, res) => {
-  const {
+  let {
     job_id,
     position,
     color,
@@ -133,6 +144,16 @@ companyRouter.put("/editjob", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //check if user_website has http:// or https://
+      if (
+        website &&
+        !website?.startsWith("http://") &&
+        !website?.startsWith("https://")
+      ) {
+        website = "https://" + website;
+      } else if (!website) {
+        website = "";
+      }
       //fetch company name
       const company = await client.query(
         "SELECT fullname FROM users WHERE user_id = $1",

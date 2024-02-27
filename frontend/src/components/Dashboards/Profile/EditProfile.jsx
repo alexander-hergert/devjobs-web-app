@@ -204,7 +204,8 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
             type="text"
             id="user_website"
             {...register("user_website", {
-              pattern: /^(https?:\/\/)?(www\.\w+\.\w{2,3})$/,
+              pattern:
+                /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/,
             })}
             defaultValue={user_website}
           />
