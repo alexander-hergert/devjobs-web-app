@@ -114,11 +114,12 @@ privateRouter.put("/user", async (req, res) => {
       if (isBanned) return;
       //check if user_website has http:// or https://
       if (
+        user_website &&
         !user_website?.startsWith("http://") &&
         !user_website?.startsWith("https://")
       ) {
         user_website = "https://" + user_website;
-      } else if (user_website === "") {
+      } else if (!user_website) {
         user_website = null;
       }
       await client.query(
