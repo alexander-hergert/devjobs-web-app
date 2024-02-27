@@ -250,6 +250,15 @@ privateRouter.post("/apply", async (req, res) => {
         res.status(400).json({ error: "Already applied" });
         return;
       }
+      //test if job is open
+      const resultJob = await client.query(
+        "SELECT * FROM jobs WHERE job_id = $1",
+        [Number(job_id)]
+      );
+      if (!resultJob.rows[0].status) {
+        res.status(400).json({ error: "Job is closed" });
+        return;
+      }
       await client.query(
         "INSERT INTO applications (user_id, job_id, content) VALUES ($1, $2, $3)",
         [user_id, Number(job_id), content]
