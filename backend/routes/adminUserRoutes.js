@@ -151,4 +151,35 @@ adminRouter.put("/banUser", async (req, res) => {
   }
 });
 
+//delete job not tested yet
+adminRouter.delete("/deleteJobAdmin", async (req, res) => {
+  const { job_id } = req.body;
+  const user = await authorize(req);
+  const user_id = user?.user_id;
+  if (user) {
+    //test if user is admin
+    const client = await pool.connect();
+    const result = await client.query(
+      "SELECT * FROM users WHERE user_id = $1",
+      [user_id]
+    );
+    const user = result.rows[0];
+    if (!user?.role == "admin") {
+      res.status(401).send("Unauthorized");
+    }
+    client.release();
+    try {
+      const client = await pool.connect();
+      await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
+      res.status(200).send("Job deleted");
+      client.release();
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Could not delete Job");
+    }
+  } else {
+    res.status(401).send("Unauthorized");
+  }
+});
+
 export default adminRouter;

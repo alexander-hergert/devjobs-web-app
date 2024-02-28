@@ -5,6 +5,10 @@ import ApplicationForm from "./ApplicationForm";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import { getCsrfToken } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const Style = styled.section`
   white-space: pre-wrap;
@@ -42,6 +46,9 @@ const LiOl = styled.li`
 `;
 
 const JobBody = ({ job, isApplication, setIsApplication }) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const navigate = useNavigate();
+
   const requirementsString = job?.requirements_list;
   const requirementsArray = requirementsString?.split("##");
   const roleString = job?.job_role_list;
@@ -52,16 +59,37 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
     (app) => app.job_id === Number(job_id)
   );
   const isOpen = job?.status;
-
   const user = useSelector((state) => state.user.user);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  const csrfToken = getCsrfToken();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (user?.role === "private") {
       setIsApplication(true);
-    } else if (user?.role === "company" || user?.role === "admin") {
+    } else if (user?.role === "company") {
       toast.error("This feature is only for candidates", {
         toastId: "applicationError",
       });
+    } else if (user?.role === "admin") {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.delete(`${baseUrl}/deleteJobAdmin`, {
+          data: {
+            job_id: job_id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-CSRF-TOKEN": csrfToken,
+          },
+          withCredentials: true,
+        });
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+        toast.error("Error deleting job", {
+          toastId: "applicationError",
+        });
+      }
     } else {
       toast.error("You must be logged in to apply", {
         toastId: "applicationError",
@@ -84,7 +112,15 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
             </h1>
             <p className="text-[#5964e0] text-md font-bold">{job?.location}</p>
           </div>
-          {!isApplied && isOpen && (
+          {user?.role === "admin" && (
+            <button
+              onClick={handleClick}
+              className="btn text-white capitalize bg-red-500 max-md:w-full max-md:mt-8 hover:bg-red-200"
+            >
+              Delete Job
+            </button>
+          )}
+          {!isApplied && isOpen && user?.role !== "admin" && (
             <button
               onClick={handleClick}
               className="btn text-white capitalize bg-[#5964e0] max-md:w-full max-md:mt-8 hover:bg-info"
@@ -92,12 +128,12 @@ const JobBody = ({ job, isApplication, setIsApplication }) => {
               Apply Now
             </button>
           )}
-          {isApplied && (
+          {isApplied && user?.role !== "admin" && (
             <button className="btn max-md:mt-8 bg-slate-500 text-white">
               Already Applied
             </button>
           )}
-          {!isApplied && !isOpen && (
+          {!isApplied && !isOpen && user?.role !== "admin" && (
             <button className="btn max-md:mt-8 bg-slate-500 text-white">
               Closed
             </button>
