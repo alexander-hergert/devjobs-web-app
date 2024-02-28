@@ -60,6 +60,9 @@ const SharedLayout = () => {
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error loading applications", {
+          toastId: "appsError",
+        });
       }
     };
     if (user && isAuthenticated) {
@@ -83,6 +86,9 @@ const SharedLayout = () => {
         );
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error loading company jobs", {
+          toastId: "companyJobsError",
+        });
       }
     };
     if (user && isAuthenticated) {
@@ -104,6 +110,9 @@ const SharedLayout = () => {
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error loading users", {
+          toastId: "usersError",
+        });
       }
     };
     if (user && isAuthenticated) {
@@ -123,7 +132,12 @@ const SharedLayout = () => {
           dispatch(getTotalJobs({ payload: response.data[1] }));
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching jobs");
+      toast.error("Error fetching jobs", {
+        toastId: "jobsError",
+      });
+    }
   }, [location.search]);
 
   return (

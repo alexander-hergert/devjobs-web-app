@@ -9,6 +9,7 @@ import DashboardFilter from "./DashboardFilter";
 import DashboardSort from "./DashboardSort";
 import { FiRefreshCw } from "react-icons/fi";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const DashboardPrivate = ({
   setViewDetails,
@@ -47,11 +48,15 @@ const DashboardPrivate = ({
       dispatch(getApps({ apps: response.data, isLoading: false }));
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error cancelling application", {
+        toastId: "error-cancelling-application",
+      });
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <div className="flex gap-4 items-center">
           <h2 className="mt-5 text-center font-bold">Applications</h2>

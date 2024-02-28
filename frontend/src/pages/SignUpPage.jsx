@@ -48,7 +48,9 @@ const SignUpPage = () => {
         dispatch(setUser({ user: response.data, isLoading: false }));
         navigate("/dashboard");
       } catch (error) {
-        toast.error("Error creating user");
+        toast.error("Error creating user", {
+          toastId: "userError",
+        });
         try {
           const token = await getAccessTokenSilently();
           const response = await axios.get(`${baseUrl}/logout`, {
@@ -63,6 +65,9 @@ const SignUpPage = () => {
           localStorage.setItem("user", JSON.stringify(false));
         } catch (error) {
           console.error("Error calling API:", error);
+          toast.error("Error logging out", {
+            toastId: "logoutError",
+          });
         }
         localStorage.setItem("user", JSON.stringify(false));
       }

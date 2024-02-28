@@ -12,6 +12,7 @@ import CompanySort from "./CompanySort";
 import { FiRefreshCw } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const DashboardCompany = ({
   setViewApplications,
@@ -62,6 +63,9 @@ const DashboardCompany = ({
       );
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error deleting job", {
+        toastId: "error-deleting-job",
+      });
     }
   };
 
@@ -88,6 +92,7 @@ const DashboardCompany = ({
       );
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error updating job status");
     }
   };
 
@@ -98,6 +103,7 @@ const DashboardCompany = ({
 
   return (
     <>
+      <ToastContainer />
       <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <div className="flex gap-4 items-center">
           <h2 className="mt-5 text-center font-bold">Jobs</h2>

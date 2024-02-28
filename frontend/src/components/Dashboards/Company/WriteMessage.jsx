@@ -7,6 +7,7 @@ import { getMessages } from "../../../slices/messagesSlice";
 import { useDispatch } from "react-redux";
 import CharactersUsed from "../../Global/CharactersUsed";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: fixed;
@@ -64,11 +65,15 @@ const WriteMessage = ({ setIsMessageOpen, companyApps, selectedApp }) => {
       setIsMessageOpen(false);
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error sending message", {
+        toastId: "error-sending-message",
+      });
     }
   };
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => setIsMessageOpen(false)}

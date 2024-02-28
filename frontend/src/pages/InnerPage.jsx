@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleJob } from "../slices/jobsSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const InnerPage = () => {
   //scroll window to top
@@ -32,7 +33,10 @@ const InnerPage = () => {
       axios.get(`${baseUrl}/${jobId}`).then((response) => {
         dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
       });
-    } catch {}
+    } catch {
+      console.error("Error fetching job");
+      toast.error("Error fetching job");
+    }
   }, []);
 
   if (!job) {
@@ -48,19 +52,22 @@ const InnerPage = () => {
 
   //fetch the job from the backend
   return (
-    <main className="flex flex-col justify-center">
-      <JobHeader job={job} />
-      <JobBody
-        job={job}
-        isApplication={isApplication}
-        setIsApplication={setIsApplication}
-      />
-      <JobFooter
-        job={job}
-        isApplication={isApplication}
-        setIsApplication={setIsApplication}
-      />
-    </main>
+    <>
+      <ToastContainer />
+      <main className="flex flex-col justify-center">
+        <JobHeader job={job} />
+        <JobBody
+          job={job}
+          isApplication={isApplication}
+          setIsApplication={setIsApplication}
+        />
+        <JobFooter
+          job={job}
+          isApplication={isApplication}
+          setIsApplication={setIsApplication}
+        />
+      </main>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import Loader from "../../Global/Loader";
 import { FaTrashAlt } from "react-icons/fa";
 import { setUser } from "../../../slices/userSlice";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: absolute;
@@ -43,32 +44,46 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
     const loadMessages = async () => {
       //dispatch isLoading
       dispatch(getReplies({ replies: [], isLoading: true }));
-      const token = await getAccessTokenSilently();
-      const response = await axios.get(`${baseUrl}/getReplies`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      });
-      dispatch(
-        getReplies({ replies: response.data.replies, isLoading: false })
-      );
-      dispatch(setUser({ user: response.data.user, isLoading: false }));
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.get(`${baseUrl}/getReplies`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        });
+        dispatch(
+          getReplies({ replies: response.data.replies, isLoading: false })
+        );
+        dispatch(setUser({ user: response.data.user, isLoading: false }));
+      } catch (error) {
+        console.error("Error calling API:", error);
+        toast.error("Error loading messages", {
+          toastId: "error-loading-messages",
+        });
+      }
     };
     loadMessages();
   }, []);
 
   const handleDelete = async (reply_id) => {
-    const token = await getAccessTokenSilently();
-    const response = await axios.delete(`${baseUrl}/deleteReply`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-CSRF-TOKEN": csrfToken,
-      },
-      data: { reply_id },
-      withCredentials: true,
-    });
-    dispatch(getReplies({ replies: response.data, isLoading: false }));
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.delete(`${baseUrl}/deleteReply`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        data: { reply_id },
+        withCredentials: true,
+      });
+      dispatch(getReplies({ replies: response.data, isLoading: false }));
+    } catch (error) {
+      console.error("Error calling API:", error);
+      toast.error("Error deleting reply", {
+        toastId: "error-deleting-reply",
+      });
+    }
   };
 
   if (isLoading) {
@@ -85,6 +100,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => {

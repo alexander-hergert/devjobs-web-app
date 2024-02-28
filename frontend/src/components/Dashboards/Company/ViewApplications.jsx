@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCompanyApps } from "../../../slices/jobAppsSlice";
 import WriteMessage from "./WriteMessage";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: absolute;
@@ -84,6 +85,9 @@ const ViewApplications = ({
       dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
     } catch (error) {
       console.log(error);
+      toast.error("Error updating application status", {
+        toastId: "error-updating-application-status",
+      });
     }
   };
 
@@ -110,6 +114,9 @@ const ViewApplications = ({
         dispatch(getCompanyApps({ jobApps: response.data, isLoading: false }));
       } catch (error) {
         console.log(error);
+        toast.error("Error fetching applications", {
+          toastId: "error-fetching-applications",
+        });
       }
     };
     fetchApplicants();
@@ -117,6 +124,7 @@ const ViewApplications = ({
 
   return (
     <>
+      <ToastContainer />
       {isMessageOpen && (
         <WriteMessage
           setIsMessageOpen={setIsMessageOpen}

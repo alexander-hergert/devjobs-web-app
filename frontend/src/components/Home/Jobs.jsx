@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { setPage } from "../../slices/paginationSlice";
 import JobLoader from "../Home/JobLoader";
 import ScrollUpButton from "../Home/ScrollUpButton";
+import { toast, ToastContainer } from "react-toastify";
 
 const Jobs = () => {
   const dispatch = useDispatch();
@@ -50,7 +51,12 @@ const Jobs = () => {
           }
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching jobs");
+      toast.error("Error fetching jobs", {
+        toastId: "error-fetching-jobs",
+      });
+    }
   }, [location.search]);
 
   if (isLoading) {
@@ -80,6 +86,7 @@ const Jobs = () => {
 
   return (
     <>
+      <ToastContainer />
       <section className="flex justify-center font-bold">
         <h2>Found {totalJobs} jobs</h2>
       </section>

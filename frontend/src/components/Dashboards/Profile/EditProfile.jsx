@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../slices/userSlice";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: fixed;
@@ -65,6 +66,9 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
       setIsMainVisible(true);
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error updating profile", {
+        toastId: "error-updating-profile",
+      });
     }
   };
 
@@ -100,15 +104,22 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
         localStorage.setItem("user", JSON.stringify(false));
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error logging out", {
+          toastId: "error-logging-out",
+        });
       }
       localStorage.setItem("user", JSON.stringify(false));
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error deleting profile", {
+        toastId: "error-deleting-profile",
+      });
     }
   };
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => {

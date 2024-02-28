@@ -9,6 +9,7 @@ import { getApps } from "../../slices/appsSlice";
 import { useNavigate } from "react-router-dom";
 import CharactersUsed from "../Global/CharactersUsed";
 import { getCsrfToken } from "../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: fixed;
@@ -72,11 +73,15 @@ const ApplicationForm = ({ setIsApplication }) => {
       navigate(`/dashboard`);
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error sending application", {
+        toastId: "error-sending-application",
+      });
     }
   };
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => setIsApplication(false)}

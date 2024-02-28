@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getCompanyJobs } from "../../../slices/companyJobsSlice";
 import CharactersUsed from "../../Global/CharactersUsed";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: absolute;
@@ -154,11 +155,15 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
       setIsMainVisible(true);
     } catch (error) {
       console.error("Error calling API:", error);
+      toast.error("Error creating job", {
+        toastId: "error-creating-job",
+      });
     }
   };
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => {

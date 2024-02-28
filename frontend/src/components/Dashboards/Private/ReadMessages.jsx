@@ -10,6 +10,7 @@ import ReplyMessage from "../Private/ReplyMessage";
 import Loader from "../../Global/Loader";
 import { setUser } from "../../../slices/userSlice";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: absolute;
@@ -67,15 +68,22 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
   };
 
   const handleDelete = async (message_id) => {
-    const token = await getAccessTokenSilently();
-    const response = await axios.delete(`${baseUrl}/messages`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-CSRF-TOKEN": csrfToken,
-      },
-      data: { message_id },
-    });
-    dispatch(getMessages({ messages: response.data, isLoading: false }));
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await axios.delete(`${baseUrl}/messages`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-CSRF-TOKEN": csrfToken,
+        },
+        data: { message_id },
+      });
+      dispatch(getMessages({ messages: response.data, isLoading: false }));
+    } catch (error) {
+      console.error("Error calling API:", error);
+      toast.error("Error deleting message", {
+        toastId: "error-deleting-message",
+      });
+    }
   };
 
   const handleExpand = (message_id) => {
@@ -92,6 +100,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
 
   return (
     <>
+      <ToastContainer />
       {isReplyOpen && (
         <ReplyMessage
           setIsReplyOpen={setIsReplyOpen}

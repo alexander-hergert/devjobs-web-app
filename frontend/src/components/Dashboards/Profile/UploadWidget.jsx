@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../slices/userSlice";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const UploadWidget = () => {
   const cloudinaryRef = useRef();
@@ -15,7 +16,6 @@ const UploadWidget = () => {
   const preset = import.meta.env.VITE_UPLOAD_PRESET;
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const csrfToken = getCsrfToken();
-
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;
@@ -49,6 +49,9 @@ const UploadWidget = () => {
           dispatch(setUser({ user: response.data[0], isLoading: false }));
         } catch (error) {
           console.error(error);
+          toast.error("Error updating profile picture", {
+            toastId: "error-updating-profile-picture",
+          });
         }
       }
     };
@@ -56,13 +59,16 @@ const UploadWidget = () => {
   }, [url]);
 
   return (
-    <button
-      aria-label="upload-profile-picture"
-      className="cursor-pointer"
-      onClick={() => widgetRef.current.open()}
-    >
-      Upload Image
-    </button>
+    <>
+      <ToastContainer />
+      <button
+        aria-label="upload-profile-picture"
+        className="cursor-pointer"
+        onClick={() => widgetRef.current.open()}
+      >
+        Upload Image
+      </button>
+    </>
   );
 };
 

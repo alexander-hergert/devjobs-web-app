@@ -23,6 +23,7 @@ import MessageButton from "../components/Dashboards/Private/MessageButton";
 import ReplyButton from "../components/Dashboards/Company/ReplyButton";
 import { getUsers } from "../slices/allUsersSlice";
 import ViewUserDetails from "../components/Dashboards/Admin/ViewUserDetails";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProfileImage = styled.div`
   position: relative;
@@ -114,6 +115,9 @@ const Dashboard = () => {
         dispatch(getUsers({ allUsers: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error fetching users", {
+          toastId: "error-fetching-users",
+        });
       }
     }
     //if user is private
@@ -129,6 +133,9 @@ const Dashboard = () => {
         dispatch(getApps({ apps: response.data, isLoading: false }));
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error fetching applications", {
+          toastId: "error-fetching-applications",
+        });
       }
     } //if user is company
     else if (user?.role === "company") {
@@ -145,6 +152,9 @@ const Dashboard = () => {
         );
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error fetching company jobs", {
+          toastId: "error-fetching-company-jobs",
+        });
       }
     }
   };
@@ -168,6 +178,7 @@ const Dashboard = () => {
   if (isAuthenticated && user) {
     return (
       <>
+        <ToastContainer />
         {isEditProfile && (
           <EditProfile
             setIsEditProfile={setIsEditProfile}

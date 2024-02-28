@@ -10,6 +10,7 @@ import { getUsers } from "../../../slices/allUsersSlice";
 import AdminFilter from "./AdminFilter";
 import AdminSort from "./AdminSort";
 import { getCsrfToken } from "../../../utils";
+import { toast, ToastContainer } from "react-toastify";
 
 const DashboardAdmin = ({
   handleRefresh,
@@ -48,6 +49,9 @@ const DashboardAdmin = ({
       handleRefresh();
     } catch (error) {
       console.error(error);
+      toast.error("Error banning user", {
+        toastId: "error-banning-user",
+      });
     }
   };
 
@@ -63,6 +67,7 @@ const DashboardAdmin = ({
 
   return (
     <>
+      <ToastContainer />
       <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <div className="flex gap-4 items-center">
           <h2 className="mt-5 text-center font-bold">Users</h2>

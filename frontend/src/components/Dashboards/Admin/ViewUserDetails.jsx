@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast, ToastContainer } from "react-toastify";
 
 const Style = styled.section`
   position: absolute;
@@ -66,6 +67,9 @@ const ViewUserDetails = ({
         setUserStats(response.data);
       } catch (error) {
         console.error("Error calling API:", error);
+        toast.error("Error getting user stats", {
+          toastId: "error-getting-user-stats",
+        });
       }
     };
     getUserStats();
@@ -73,6 +77,7 @@ const ViewUserDetails = ({
 
   return (
     <Style>
+      <ToastContainer />
       <button
         className="btn block m-auto border-0 text-white capitalize my-4 bg-red-500 hover:bg-red-200"
         onClick={() => {
