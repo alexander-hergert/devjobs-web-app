@@ -72,11 +72,12 @@ companyRouter.post("/createjob", async (req, res) => {
           website,
         ]
       );
+      //fetch all jobs from user
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (error) {
       console.error("Error creating job:", error);
@@ -97,11 +98,12 @@ companyRouter.get("/getCompanyJobs", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //fetch all jobs from user
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
@@ -181,11 +183,12 @@ companyRouter.put("/editjob", async (req, res) => {
           website,
         ]
       );
+      //fetch all jobs from user
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (error) {
       console.error("Error updating job:", error);
@@ -217,11 +220,12 @@ companyRouter.put("/statusjob", async (req, res) => {
         !resultStatus.rows[0].status,
         job_id,
       ]);
+      //fetch all jobs from user
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (error) {
       console.error("Error cancelling job:", error);
@@ -245,11 +249,12 @@ companyRouter.delete("/deletejob", async (req, res) => {
       if (isBanned) return;
       //delete job
       await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
+      //fetch all jobs from user
       const result = await client.query(
         "SELECT * FROM jobs WHERE user_id = $1 ORDER BY job_id",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (error) {
       console.error("Error deleting job:", error);
@@ -271,6 +276,7 @@ companyRouter.get("/getJobApplications", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //fetch all applications from job
       const result = await client.query(
         "SELECT * FROM applications WHERE job_id = $1 ORDER BY user_id",
         [job_id]
@@ -312,10 +318,12 @@ companyRouter.put("/updateJobApplication", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, u_id, res);
       if (isBanned) return;
+      //update application status
       await client.query(
         "UPDATE applications SET app_status = $1 WHERE job_id = $2 AND user_id = $3",
         [status, job_id, user_id]
       );
+      //fetch all applications from job
       const result = await client.query(
         "SELECT * FROM applications WHERE job_id = $1 ORDER BY user_id",
         [job_id]
@@ -451,7 +459,7 @@ companyRouter.get("/getReplies", async (req, res) => {
         [user_id]
       );
       //send replies and user
-      res.json({
+      res.status(200).json({
         replies: replies,
         user: resultUser.rows[0],
       });
@@ -511,7 +519,7 @@ companyRouter.delete("/deleteReply", async (req, res) => {
         "SELECT * FROM replies WHERE reply_id = ANY($1)",
         [reply_ids]
       );
-      res.json(replies.rows);
+      res.status(200).json(replies.rows);
       client.release();
     } catch (error) {
       console.error("Error deleting message:", error);
