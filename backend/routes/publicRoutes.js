@@ -14,7 +14,7 @@ publicRouter.get("/logout", (req, res) => {
       console.log(err);
     }
     res.clearCookie("connect.sid");
-    res.send("logged out");
+    res.status(200).send("logged out");
   });
 });
 
@@ -66,7 +66,7 @@ publicRouter.get("/jobs", async (req, res) => {
     const result = await client.query(query, queryParams);
     const resultAll = await client.query(queryAll, queryParamsAll);
     const jobs = [result.rows, resultAll.rows.length];
-    res.json(jobs);
+    res.status(200).json(jobs);
     client.release();
   } catch (err) {
     console.error("Error executing query", err);
@@ -82,7 +82,7 @@ publicRouter.get("/:jobId", async (req, res) => {
     const result = await client.query("SELECT * FROM jobs WHERE job_id = $1", [
       jobId,
     ]);
-    res.json(result.rows);
+    res.status(200).json(result.rows);
     client.release();
   } catch (err) {
     console.error("Error executing query", err);
