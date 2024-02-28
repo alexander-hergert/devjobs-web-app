@@ -13,16 +13,19 @@ adminRouter.get("/getUsers", async (req, res) => {
     if ((await testAdmin(user_id, res)) === false) {
       return;
     }
+    //get all users
     try {
       const client = await pool.connect();
       const result = await client.query(
         "SELECT * FROM users WHERE role != 'admin' ORDER BY user_id ASC"
       );
       const users = result.rows;
-      res.json(users);
+      res.status(200).json(users);
       client.release();
     } catch (err) {
       console.error(err.message);
+      res.status(500).send("Server Error. Could not get users");
+      client.release();
     }
   } else {
     res.status(401).send("Unauthorized");
@@ -39,6 +42,7 @@ adminRouter.get("/getUserStats", async (req, res) => {
     if ((await testAdmin(user_id, res)) === false) {
       return;
     }
+    //get user stats
     try {
       const client = await pool.connect();
       //fetch user and find role
@@ -61,7 +65,7 @@ adminRouter.get("/getUserStats", async (req, res) => {
           [appIds]
         );
         const messages = resultMessages.rows;
-        res.json({ applications, messages });
+        res.status(200).json({ applications, messages });
       } else if (userRole === "company") {
         //if user is company then get jobs and replies
         const resultJobs = await client.query(
@@ -84,11 +88,13 @@ adminRouter.get("/getUserStats", async (req, res) => {
         );
         const jobs = resultJobs.rows;
         const replies = resultReplies.rows;
-        res.json({ jobs, replies });
+        res.status(200).json({ jobs, replies });
       }
       client.release();
     } catch (err) {
       console.error(err.message);
+      res.status(500).send("Server Error. Could not get user stats");
+      client.release();
     }
   } else {
     res.status(401).send("Unauthorized");
@@ -105,6 +111,7 @@ adminRouter.put("/banUser", async (req, res) => {
     if ((await testAdmin(user_id, res)) === false) {
       return;
     }
+    //ban or unban user
     try {
       const client = await pool.connect();
       //fetch user to see if banned
@@ -113,18 +120,22 @@ adminRouter.put("/banUser", async (req, res) => {
         [id]
       );
       const is_user_banned = resultUser.rows[0].is_banned;
+      //update user to banned or unbanned
       await client.query("UPDATE users SET is_banned = $1 WHERE user_id = $2", [
         !is_user_banned,
         id,
       ]);
+      //get all users
       const resultUsers = await client.query(
         "SELECT * FROM users WHERE role != 'admin' ORDER BY user_id ASC"
       );
       const users = resultUsers.rows;
-      res.json(users);
+      res.status(200).json(users);
       client.release();
     } catch (err) {
       console.error(err.message);
+      res.status(500).send("Server Error. Could not ban user");
+      client.release();
     }
   } else {
     res.status(401).send("Unauthorized");
@@ -138,16 +149,10 @@ adminRouter.delete("/deleteJobAdmin", async (req, res) => {
   const user_id = user?.user_id;
   if (user) {
     //test if user is admin
-    const client = await pool.connect();
-    const result = await client.query(
-      "SELECT * FROM users WHERE user_id = $1",
-      [user_id]
-    );
-    const user = result.rows[0];
-    if (!user?.role == "admin") {
-      res.status(401).send("Unauthorized");
+    if ((await testAdmin(user_id, res)) === false) {
+      return;
     }
-    client.release();
+    //delete job
     try {
       const client = await pool.connect();
       await client.query("DELETE FROM jobs WHERE job_id = $1", [job_id]);
@@ -156,6 +161,7 @@ adminRouter.delete("/deleteJobAdmin", async (req, res) => {
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Could not delete Job");
+      client.release();
     }
   } else {
     res.status(401).send("Unauthorized");
