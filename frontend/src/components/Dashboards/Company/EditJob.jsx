@@ -18,6 +18,7 @@ const Style = styled.section`
   width: 100%;
   height: 100dvh;
   white-space: pre-wrap;
+  word-wrap: break-word;
 
   @media screen and (min-width: 767px) {
     input,

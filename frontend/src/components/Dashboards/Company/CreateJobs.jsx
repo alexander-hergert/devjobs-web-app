@@ -17,6 +17,8 @@ const Style = styled.section`
   z-index: 10;
   width: 100%;
   height: 100dvh;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 
   @media screen and (min-width: 767px) {
     input,

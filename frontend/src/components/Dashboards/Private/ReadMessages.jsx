@@ -21,6 +21,7 @@ const Style = styled.section`
   width: 100%;
   min-height: 100dvh;
   white-space: pre-wrap;
+  word-wrap: break-word;
 
   input {
     width: 100%;

@@ -19,6 +19,8 @@ const Style = styled.section`
   width: 100%;
   min-height: 100vh;
   padding-top: 5rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 
   input,
   textarea {

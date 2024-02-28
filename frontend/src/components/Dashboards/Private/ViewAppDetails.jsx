@@ -11,6 +11,7 @@ const Style = styled.section`
   width: 100%;
   min-height: 100dvh;
   white-space: pre-wrap;
+  word-wrap: break-word;
 
   h2 {
     width: 15rem;

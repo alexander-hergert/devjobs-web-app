@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 const Style = styled.section`
   white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const LiUl = styled.li`
