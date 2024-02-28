@@ -27,7 +27,6 @@ privateRouter.post("/createuser", async (req, res) => {
       } else if (user_website === "") {
         user_website = null;
       }
-
       try {
         const client = await pool.connect();
         const isBanned = await checkBanStatus(client, user_id, res);
@@ -41,6 +40,7 @@ privateRouter.post("/createuser", async (req, res) => {
           res.status(400).json({ error: "User exists" });
           return;
         } else {
+          //create user
           await client.query(
             "INSERT INTO users (user_id, role, email, fullname, picture, address, location, skills, user_website, is_banned, session_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
             [
@@ -58,12 +58,13 @@ privateRouter.post("/createuser", async (req, res) => {
             ]
           );
         }
+        //select user
         const result = await client.query(
           "SELECT * FROM users WHERE user_id = $1",
           [user_id]
         );
         const user = result.rows[0];
-        res.json(user);
+        res.status(200).json(user);
         client.release();
       } catch (error) {
         console.error("Error creating user:", error);
@@ -85,12 +86,13 @@ privateRouter.get("/user", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //select user
       const result = await client.query(
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
       );
       const user = result.rows[0];
-      res.json(user);
+      res.status(200).json(user);
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
@@ -122,16 +124,18 @@ privateRouter.put("/user", async (req, res) => {
       } else if (!user_website) {
         user_website = "";
       }
+      //update user
       await client.query(
         "UPDATE users SET email = $2, fullname = $3, address = $4, location = $5, skills = $6, user_website = $7 WHERE user_id = $1",
         [user_id, email, fullname, address, location, skills, user_website]
       );
+      //select user
       const result = await client.query(
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
       );
       const user = result.rows[0];
-      res.json(user);
+      res.status(200).json(user);
       client.release();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -153,15 +157,17 @@ privateRouter.put("/userprofile", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //update user picture
       await client.query("UPDATE users SET picture = $2 WHERE user_id = $1", [
         user_id,
         url,
       ]);
+      //select user
       const result = await client.query(
         "SELECT * FROM users WHERE user_id = $1",
         [user_id]
       );
-      res.json(result.rows);
+      res.status(200).json(result.rows);
       client.release();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -182,11 +188,13 @@ privateRouter.delete("/user", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //delete applications
       await client.query("DELETE FROM applications WHERE user_id = $1", [
         user_id,
       ]);
+      //delete user
       await client.query("DELETE FROM users WHERE user_id = $1", [user_id]);
-      res.json({ message: "User deleted" });
+      res.status(200).json({ message: "User deleted" });
       client.release();
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -207,6 +215,7 @@ privateRouter.get("/appliedJobs", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //select all applications from user
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1 ORDER BY job_id ASC",
         [user_id]
@@ -214,12 +223,15 @@ privateRouter.get("/appliedJobs", async (req, res) => {
       const jobsIds = resultApps.rows.map((row) => row.job_id);
       const resultJobs =
         jobsIds.length > 0
-          ? await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
+          ? //find jobs with all jobsIds
+            await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
               jobsIds,
             ])
           : { rows: [] };
 
-      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
+      res
+        .status(200)
+        .json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
     } catch (err) {
       console.error("Error executing query", err);
@@ -259,6 +271,7 @@ privateRouter.post("/apply", async (req, res) => {
         res.status(400).json({ error: "Job is closed" });
         return;
       }
+      //insert application
       await client.query(
         "INSERT INTO applications (user_id, job_id, content) VALUES ($1, $2, $3)",
         [user_id, Number(job_id), content]
@@ -274,7 +287,9 @@ privateRouter.post("/apply", async (req, res) => {
         "SELECT * FROM jobs WHERE job_id = ANY($1)",
         [jobsIds]
       );
-      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
+      res
+        .status(200)
+        .json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
     } catch (error) {
       console.error("Error sending application:", error);
@@ -296,10 +311,12 @@ privateRouter.delete("/application", async (req, res) => {
       //fetch user and check for banned status
       const isBanned = await checkBanStatus(client, user_id, res);
       if (isBanned) return;
+      //delete application
       await client.query(
         "DELETE FROM applications WHERE user_id = $1 AND app_id = $2",
         [user_id, app_id]
       );
+      //select all applications from user
       const resultApps = await client.query(
         "SELECT * FROM applications WHERE user_id = $1",
         [user_id]
@@ -308,11 +325,14 @@ privateRouter.delete("/application", async (req, res) => {
       //find jobs with all jobsIds
       const resultJobs =
         jobsIds.length > 0
-          ? await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
+          ? //find jobs with all jobsIds
+            await client.query("SELECT * FROM jobs WHERE job_id = ANY($1)", [
               jobsIds,
             ])
           : { rows: [] };
-      res.json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
+      res
+        .status(200)
+        .json({ appliedJobs: resultJobs.rows, applications: resultApps.rows });
       client.release();
     } catch (error) {
       console.error("Error deleting application:", error);
@@ -355,7 +375,7 @@ privateRouter.get("/messages", async (req, res) => {
         [user_id]
       );
       //send messages and user
-      res.json({
+      res.status(200).json({
         messages: messages.rows,
         user: resultUser.rows[0],
       });
@@ -408,7 +428,7 @@ privateRouter.delete("/messages", async (req, res) => {
         "SELECT * FROM messages WHERE app_id = ANY($1)",
         [app_ids]
       );
-      res.json(messages.rows);
+      res.status(200).json(messages.rows);
       client.release();
     } catch (error) {
       console.error("Error deleting message:", error);
