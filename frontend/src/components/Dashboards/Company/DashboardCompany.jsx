@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { TbListDetails } from "react-icons/tb";
 import { FaEdit } from "react-icons/fa";
@@ -13,6 +13,8 @@ import { FiRefreshCw } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 import { getCsrfToken } from "../../../utils";
 import { toast, ToastContainer } from "react-toastify";
+import DeleteModal from "../DeleteModal";
+import { set } from "react-hook-form";
 
 const DashboardCompany = ({
   setViewApplications,
@@ -28,6 +30,10 @@ const DashboardCompany = ({
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const csrfToken = getCsrfToken();
 
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
+  const user = useSelector((state) => state.user.user);
+
   const handleViewApplications = async (i) => {
     setViewApplications(true);
     setSelectedJob(i);
@@ -40,7 +46,7 @@ const DashboardCompany = ({
     setIsMainVisible(false);
   };
 
-  const handleDeleteJob = async (i) => {
+  const handleDelete = async (i) => {
     //get job id
     const data = {
       job_id: companyJobs[i].job_id,
@@ -61,6 +67,7 @@ const DashboardCompany = ({
       dispatch(
         getCompanyJobs({ companyJobs: response.data, isLoading: false })
       );
+      setIsDeleteModalVisible(false);
     } catch (error) {
       console.error("Error calling API:", error);
       toast.error("Error deleting job", {
@@ -182,9 +189,17 @@ const DashboardCompany = ({
                     <FaDoorClosed className="max-md:hidden text-xl" />
                   </div>
                 </button>
+                {isDeleteModalVisible && (
+                  <DeleteModal
+                    id={i}
+                    handleDelete={handleDelete}
+                    setIsDeleteModalVisible={setIsDeleteModalVisible}
+                    user={user}
+                  />
+                )}
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
-                  onClick={() => handleDeleteJob(i)}
+                  onClick={() => setIsDeleteModalVisible(true)}
                 >
                   <div className="flex gap-2 items-center">
                     Delete

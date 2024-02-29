@@ -1,4 +1,4 @@
-# Template for React Vite setup with JavaScript
+# Fullstack Job Application using React, Vite and PostgreSQL
 
 This is the setup I use for bigger React projects in JavaScript.
 The projects have multiple pages and have a lot of functionality and complex state manipulation across the project.

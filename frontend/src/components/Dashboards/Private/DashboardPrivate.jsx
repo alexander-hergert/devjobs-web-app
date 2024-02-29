@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -10,6 +10,7 @@ import DashboardSort from "./DashboardSort";
 import { FiRefreshCw } from "react-icons/fi";
 import { getCsrfToken } from "../../../utils";
 import { toast, ToastContainer } from "react-toastify";
+import DeleteModal from "../DeleteModal";
 
 const DashboardPrivate = ({
   setViewDetails,
@@ -22,12 +23,16 @@ const DashboardPrivate = ({
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const csrfToken = getCsrfToken();
 
+  const user = useSelector((state) => state.user.user);
+
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+
   const handleViewDetails = (i) => {
     setViewDetails({ data: i, isViewDetails: true });
     setIsMainVisible(false);
   };
 
-  const handleCancel = async (i) => {
+  const handleDelete = async (i) => {
     //get application id
     const data = {
       app_id: apps?.applications[i].app_id,
@@ -46,6 +51,7 @@ const DashboardPrivate = ({
       });
       //update apps state
       dispatch(getApps({ apps: response.data, isLoading: false }));
+      setIsDeleteModalVisible(false);
     } catch (error) {
       console.error("Error calling API:", error);
       toast.error("Error cancelling application", {
@@ -153,12 +159,20 @@ const DashboardPrivate = ({
                     <TbListDetails className="max-md:hidden text-xl" />
                   </div>
                 </button>
+                {isDeleteModalVisible && (
+                  <DeleteModal
+                    id={i}
+                    handleDelete={handleDelete}
+                    setIsDeleteModalVisible={setIsDeleteModalVisible}
+                    user={user}
+                  />
+                )}
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-red-500  hover:bg-red-200 min-w-[4rem]"
-                  onClick={() => handleCancel(i)}
+                  onClick={() => setIsDeleteModalVisible(true)}
                 >
                   <div className="flex gap-2 items-center">
-                    Cancel
+                    Delete
                     <GiCancel className="max-md:hidden text-xl" />
                   </div>
                 </button>
