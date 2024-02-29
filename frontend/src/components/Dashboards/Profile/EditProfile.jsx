@@ -163,7 +163,11 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="fullname"
-            {...register("fullname", { required: true, minLength: 3 })}
+            {...register("fullname", {
+              required: true,
+              minLength: 3,
+              maxLength: 40,
+            })}
             aria-invalid={errors.fullname ? "true" : "false"}
             defaultValue={fullname}
           />
@@ -178,36 +182,56 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
             Name has to be at least 3 characters long
           </p>
         )}
+        {errors.fullname?.type === "maxLength" && (
+          <p className="text-red-500" role="alert">
+            Name has to be at most 40 characters long
+          </p>
+        )}
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="address">Address</label>
           <input
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="address"
-            {...register("address")}
+            {...register("address", { maxLength: 100 })}
             defaultValue={address}
           />
         </div>
+        {errors.address?.type === "maxLength" && (
+          <p className="text-red-500" role="alert">
+            Address has to be at most 100 characters long
+          </p>
+        )}
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="location">Location</label>
           <input
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="location"
-            {...register("location")}
+            {...register("location", { maxLength: 100 })}
             defaultValue={location}
           />
         </div>
+        {errors.location?.type === "maxLength" && (
+          <p className="text-red-500" role="alert">
+            Location has to be at most 100 characters long
+          </p>
+        )}
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="skills">Skills</label>
           <input
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="skills"
-            {...register("skills")}
+            {...register("skills", { maxLength: 100 })}
             defaultValue={skills}
           />
         </div>
+        {errors.skills?.type === "maxLength" && (
+          <p className="text-red-500" role="alert">
+            Skills has to be at most 100 characters long
+          </p>
+        )}
         <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
           <label htmlFor="website">Website</label>
           <input
@@ -217,6 +241,7 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
             {...register("user_website", {
               pattern:
                 /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+              maxLength: 100,
             })}
             defaultValue={user_website}
           />
@@ -224,6 +249,11 @@ const EditProfile = ({ setIsEditProfile, user, setIsMainVisible }) => {
         {errors.user_website?.type === "pattern" && (
           <p className="text-red-500" role="alert">
             Please use a valid website url format
+          </p>
+        )}
+        {errors.user_website?.type === "maxLength" && (
+          <p className="text-red-500" role="alert">
+            Website has to be at most 100 characters long
           </p>
         )}
         <input

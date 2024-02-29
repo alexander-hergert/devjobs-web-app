@@ -150,7 +150,11 @@ const SignUpPage = () => {
               name="fullname"
               id="fullname"
               placeholder="John Doe"
-              {...register("fullname", { required: true, minLength: 3 })}
+              {...register("fullname", {
+                required: true,
+                minLength: 3,
+                maxLength: 40,
+              })}
               aria-invalid={errors.fullname ? "true" : "false"}
             />
           </div>
@@ -164,6 +168,11 @@ const SignUpPage = () => {
               Name has to be at least 3 characters long
             </p>
           )}
+          {errors.fullname?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Name has to be at most 40 characters long
+            </p>
+          )}
           <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
             <label htmlFor="address">Address</label>
             <input
@@ -172,9 +181,14 @@ const SignUpPage = () => {
               name="address"
               id="address"
               placeholder="123 Main St"
-              {...register("address")}
+              {...register("address", { maxLength: 100 })}
             />
           </div>
+          {errors.address?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Address has to be at most 100 characters long
+            </p>
+          )}
           <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
             <label htmlFor="location">Location</label>
             <input
@@ -183,9 +197,14 @@ const SignUpPage = () => {
               name="location"
               id="location"
               placeholder="New York, USA"
-              {...register("location")}
+              {...register("location", { maxLength: 100 })}
             />
           </div>
+          {errors.location?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Location has to be at most 100 characters long
+            </p>
+          )}
           <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
             <label htmlFor="skills">Skills</label>
             <input
@@ -194,9 +213,14 @@ const SignUpPage = () => {
               name="skills"
               id="skills"
               placeholder="HTML, CSS, JavaScript"
-              {...register("skills")}
+              {...register("skills", { maxLength: 100 })}
             />
           </div>
+          {errors.skills?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Skills has to be at most 100 characters long
+            </p>
+          )}
           <div className="max-md:flex-col gap-2 md:w-[30rem] flex justify-between items-center my-2">
             <label htmlFor="user_website">Website</label>
             <input
@@ -207,12 +231,18 @@ const SignUpPage = () => {
               placeholder="www.example.com"
               {...register("user_website", {
                 pattern: /^www\.\w+\.\w{2,3}$/,
+                maxLength: 100,
               })}
             />
           </div>
           {errors.user_website?.type === "pattern" && (
             <p className="text-red-500" role="alert">
               Please use a valid website url format
+            </p>
+          )}
+          {errors.user_website?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Website has to be at most 100 characters long
             </p>
           )}
           <button
