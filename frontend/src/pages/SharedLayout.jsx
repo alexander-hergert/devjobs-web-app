@@ -65,7 +65,7 @@ const SharedLayout = () => {
         });
       }
     };
-    if (user && isAuthenticated) {
+    if (user?.role === "private" && isAuthenticated) {
       callApi();
     }
   }, [user, isAuthenticated]);
@@ -91,7 +91,7 @@ const SharedLayout = () => {
         });
       }
     };
-    if (user && isAuthenticated) {
+    if (user?.role === "company" && isAuthenticated) {
       callApi();
     }
   }, [user, isAuthenticated]);
@@ -115,7 +115,7 @@ const SharedLayout = () => {
         });
       }
     };
-    if (user && isAuthenticated) {
+    if (user?.role === "admin" && isAuthenticated) {
       callApi();
     }
   }, [user, isAuthenticated]);
