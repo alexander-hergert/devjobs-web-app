@@ -70,7 +70,7 @@ const Menubar = () => {
                 {location.pathname !== "/" && <BackToAllJobsNavigation />}
                 {!user?.user_id && (
                   <>
-                    <SignUpButton />
+                    {location.pathname !== "/signup" && <SignUpButton />}
                     <LoginButton />
                   </>
                 )}
