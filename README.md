@@ -80,73 +80,73 @@ The project is representing a role based jobportal for developers with various f
 ## Paths of the application
 
 --Root
-    --Signup
-    --Inner (represented by jobId)
-    --Dashboard
-    --Errorpage (for not existing paths)
+--Signup
+--Inner (represented by jobId)
+--Dashboard
+--Errorpage (for not existing paths)
 
 ## General overview of the app
 
-![Home](/public/home.png)
+![Home](/frontend/public/home.png)
 
 On the Rootpage of the application the app is fetching existing jobs from the database and renders the job components. On top is a filter functionality tofilter the jobs.
 The app can be displayed in light and dark mode. Clicking on the job components will
 link you to the details of the jobs.
 
-![JobDetails](/public/inner.png)
+![JobDetails](/frontend/public/inner.png)
 
 On the inner path more details of the job are displayed. This is also the place where users can send an application to the jobcreator or visit the website.
 
-![SignUp](/public/signup.png)
+![SignUp](/frontend/public/signup.png)
 
 On the signup page the user is able to decide if they want to create a private or company account. The registration of the profile is handle with auth0 from Okta. Only users with github account are able to register.
 
 ## Overview private user
 
-![dashboardPrivate](/public/dashboardPrivate.png)
+![dashboardPrivate](/frontend/public/dashboardPrivate.png)
 
 On the private dashboard page as private user you can see some Profile data. Here the user can check his application to other jobs and check the state. The user also can edit the profile and read the messages from companies on the applications. The applications can be sorted or filtered. The user can also upload another picture powered by cloudinary by clicking on the profile picture.
 
-![editProfile](/public/editProfile.png)
+![editProfile](/frontend/public/editProfile.png)
 
 On the edit popup the user can modify the user data or delete the profile.
 
-![viewApplications](/public/viewApplications.png)
+![viewApplications](/frontend/public/viewApplications.png)
 
 On the view applications popup the user can check the job description and the application text as also some statistics and link to original page.
 
-![readMessages](/public/readMessages.png)
+![readMessages](/frontend/public/readMessages.png)
 
 In this part the user can see the answers on the applications from the companies and can also answer back to the company.
 
 ## Overview company user
 
-![dashboardCompany](/public/dashboardCompany.png)
+![dashboardCompany](/frontend/public/dashboardCompany.png)
 
 On the company dashboard the company user can create and edit new and existing jobs. Also the user can check the applications from the users and respond to them or change the status of their application. The job can also be closed without deleting them changing their status.
 
-![createJobs](/public/createJobs.png)
+![createJobs](/frontend/public/createJobs.png)
 
 In this popup the user can fill out a form to submit a job wich then can be seen by other users.
 
-![editJobs](/public/editJobs.png)
+![editJobs](/frontend/public/editJobs.png)
 
 To make changes on the existing joboffer the user can edit the single job with the edit button and make changes.
 
-![appsCompany](/public/appsCompany.png)
+![appsCompany](/frontend/public/appsCompany.png)
 
 The company user can also inspect the applications related to the jobs and see the applicants user data and text. Here the company user can change the status of the application to accepted or denied and also can answer to the applicant.
 
-![readReplies](/public/readReplies.png)
+![readReplies](/frontend/public/readReplies.png)
 
 In the read replies popup the user can then also ckeck what the applicant answered to the messages from the company user.
 
 ## Overview admin user
 
-![dashboardAdmin](/public/dashboardAdmin.png)
+![dashboardAdmin](/frontend/public/dashboardAdmin.png)
 
 The app also contains an admin user wich is the developer. The admin user is able to ban users or delete single jobs again by visiting the detailed jobpages.
 
-![adminUserdetails](/public/adminUserdetails.png)
+![adminUserdetails](/frontend/public/adminUserdetails.png)
 
 The admin can also view basic statistics from other users.
