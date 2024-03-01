@@ -1,131 +1,80 @@
-# Fullstack Job Application using React, Vite and PostgreSQL
+# Fullstack Job Application using React, Vite, Node.js, Express.js and PostgreSQL (PERN)
 
-This is the setup I use for bigger React projects in JavaScript.
-The projects have multiple pages and have a lot of functionality and complex state manipulation across the project.
-For fetching data RTK Query is used or async thunks.
+## This is fullstack application of a jobportal and a challenge from Frontend Mentor.
 
-## This template uses following setups
+## To install this project
 
 - Please remove the .git file by using command "rm -rf .git"
 - Then use "git init" again
 - Then "npm install" or "yarn install"
 - Then "npm update" or "yarn upgrade"
 
-### Using Vite for bundling
+## Used Technologies...
 
-[Vite](https://vitejs.dev/guide/) is a lightning-fast build tool for React projects.
+## [Vite](https://vitejs.dev/guide/)
 
-### Using Tailwind-CSS for quick Styling
+... is a lightning-fast build tool for React projects.
 
-[Tailwind-CSS](https://tailwindcss.com/docs/guides/vite) simplifies styling in your React application.
+## Frontend Technologies
 
-### Prepared React Testing Library and Jest
+### [React](https://react.dev/)
 
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) is a user-centric testing library that encourages testing your React components as users would interact with them.
-- [Jest](https://jestjs.io/docs/getting-started) is a JavaScript testing framework that provides a simple and powerful toolset for testing JavaScript applications, including React components, with built-in test runners and assertions.
+... is a JavaScript library for building user interfaces. Developed by Meta, it allows you to create reusable UI components, making it efficient to build interactive and dynamic web applications. Perfect for building modern and efficient front-end experiences.
 
-### Using React Router for routing
+### [Tailwind-CSS](https://tailwindcss.com/docs/guides/vite)
 
-- [React Router](https://reactrouter.com/en/main/start/overview) React Router is a popular library for routing in React applications. It allows you to navigate between different pages or views in your single-page application (SPA). With React Router, you can define routes and render components based on the URL, creating a seamless user experience.
+... simplifies styling in your React application by using classnames.
 
-### Using Redux Toolkit for state management
+### [Styled-Components](https://styled-components.com)
 
-- [Redux Toolkit](https://redux-toolkit.js.org/introduction/getting-started) Redux Toolkit is a library that simplifies and streamlines Redux, a state management tool for JavaScript applications. It reduces boilerplate code and provides useful utilities for easier development.
+... allows to use CSS code in your components and more.
 
-### images
+### [React Router](https://reactrouter.com/en/main/start/overview)
 
-- public/images with favicon
-- favicon-32x32.png
+... is a popular library for routing in React applications. It allows you to navigate between different pages or views in your single-page application (SPA). With React Router, you can define routes and render components based on the URL, creating a seamless user experience.
 
-#### styles
+### [Redux Toolkit](https://redux-toolkit.js.org/introduction/getting-started)
 
-- normalize.css
-- index.css
+... is a library that simplifies and streamlines Redux, a state management tool for JavaScript applications. It reduces boilerplate code and provides useful utilities for easier development.
 
-### Files
+## Backend Technologies
 
-#### netlify.toml
+### [Node.js](https://nodejs.org/en)
 
-- holding the rules for redirecting for netlify
+... is an open-source, cross-platform JavaScript runtime environment.
 
-#### store
+### [Express.js](https://expressjs.com/)
 
-- store.js hold the configuration for the store object used in redux. Example file.
+... is a web application framework for Node.js, simplifying the process of building robust and scalable web applications. It provides a set of features for routing, middleware, and handling HTTP requests and responses.
 
-#### slices
+### [node-postgres](https://node-postgres.com/)
 
-- slice directory and example todoSlice.js to demonstrate its use.
+... is a Node.js module for interacting with PostgreSQL databases. It allows you to easily connect to a PostgreSQL database, perform queries, and handle results. Useful for integrating PostgreSQL into your Node.js applications.
 
-#### thunks
+## Authorization
 
-- thunks directory and example todoThunk.js to demonstrate its use.
+### [Auth0 by Okta](https://auth0.com/)
 
-#### RTK Query api directory
+... is an identity and access management platform. It simplifies authentication and authorization processes, providing features like social login, multi-factor authentication, and single sign-on. Useful for securing and managing user access in your applications.
 
-- api directory holding the apiSlice.js.
-- configured store.js for RTK Query
-- installed Provider in main.jsx
+## Fetching
 
-#### Todos Examples
+### [Axios](https://axios-http.com/docs/intro)
 
-- Example Todos.jsx and Todo.jsx to demonstrate the use of redux.
+... is a promise-based HTTP client for the browser and Node.js. It simplifies making HTTP requests and handling responses. Commonly used for fetching data from APIs or sending data to a server.
 
-#### utils functions
+## Deployment (Front- and Backend)
 
-- utils.js currently has (saveDataToLocalStorage, loadDataFromLocalStorage) functions
+### [Netlify](https://www.netlify.com/)
 
-#### animations
+... is a web development platform that offers continuous integration, serverless functions, and automatic deployment. It simplifies the process of building, deploying, and managing modern web projects.
 
-- animations.js has prepared animations for framer library for react animations.
+### [Render](https://render.com/)
 
-#### App data
+... is a cloud platform that provides a simple and scalable solution for deploying and hosting web applications. It supports a variety of programming languages and frameworks, offering easy setup and automatic scaling.
 
-- data.js holding static data for the web app
+## Project Overview
 
-#### customHooks
+The project is representing a jobportal for developers with various functions.
 
-- useFetchData.jsx
-
-#### Loader
-
-- Loader.jsx a Styled-Component which you can use to represent fetching animation.
-
-#### Footer
-
-- Footer.jsx a footer component for Frontend Mentor. (Change your name there or styles or delete)
-
-#### Routes
-
-- Holding example path and how to structure the paths
-
-#### pages
-
-- pages directory to hold pages components
-
-#### SharedLayout
-
-- Holding an example of how to use shared components between pages
-
-#### ErrorPage
-
-- Holding example of 404 page
-
-#### HomePage
-
-- Example and placeholder page for starting route
-
-#### ErrorBoundary
-
-- ErrorBoundary.jsx optional component to catch errors and return a component on error
-
-#### Example Test
-
-- components/Example/Counter.jsx
-- .tests/Example/Counter.test.jsx
-
-You can run tests by using ("npm run test" or "yarn test" depending on your package manager).
-
-What you don't need you can remove and ofcourse install more dependencies which you might need for sure 😊
-I hope this might inspire you to create your own template which you can keep on modifying and ofcourse create different variants.
-
-Happy coding!
+## Overview of Homeroute
