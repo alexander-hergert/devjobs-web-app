@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Style = styled.section`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding-top: 5rem;
@@ -56,7 +56,9 @@ const DeleteModal = ({ id, handleDelete, setIsDeleteModalVisible, user }) => {
           </button>
           <button
             className="btn border-0 duration-0 capitalize text-white bg-accent hover:bg-info min-w-[4rem]"
-            onClick={() => setIsDeleteModalVisible(false)}
+            onClick={() => {
+              setIsDeleteModalVisible(false);
+            }}
           >
             Cancel
           </button>

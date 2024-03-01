@@ -14,7 +14,6 @@ import { FaPlus } from "react-icons/fa";
 import { getCsrfToken } from "../../../utils";
 import { toast, ToastContainer } from "react-toastify";
 import DeleteModal from "../DeleteModal";
-import { set } from "react-hook-form";
 
 const DashboardCompany = ({
   setViewApplications,
@@ -30,14 +29,20 @@ const DashboardCompany = ({
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const csrfToken = getCsrfToken();
 
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-
   const user = useSelector((state) => state.user.user);
+
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [itemId, setItemId] = useState(null);
 
   const handleViewApplications = async (i) => {
     setViewApplications(true);
     setSelectedJob(i);
     setIsMainVisible(false);
+  };
+
+  const handleModal = (i) => {
+    setIsDeleteModalVisible(true);
+    setItemId(i);
   };
 
   const handleEditJob = (i) => {
@@ -110,6 +115,14 @@ const DashboardCompany = ({
 
   return (
     <>
+      {isDeleteModalVisible && (
+        <DeleteModal
+          id={itemId}
+          handleDelete={handleDelete}
+          setIsDeleteModalVisible={setIsDeleteModalVisible}
+          user={user}
+        />
+      )}
       <ToastContainer />
       <section className="flex gap-12 justify-center items-center mb-10 m-auto max-md:w-[375px] md:w-[690px] xl:w-[1100px] px-4">
         <div className="flex gap-4 items-center">
@@ -189,17 +202,9 @@ const DashboardCompany = ({
                     <FaDoorClosed className="max-md:hidden text-xl" />
                   </div>
                 </button>
-                {isDeleteModalVisible && (
-                  <DeleteModal
-                    id={i}
-                    handleDelete={handleDelete}
-                    setIsDeleteModalVisible={setIsDeleteModalVisible}
-                    user={user}
-                  />
-                )}
                 <button
                   className="btn border-0 duration-0 capitalize text-white bg-red-500 hover:bg-red-200 min-w-[4rem]"
-                  onClick={() => setIsDeleteModalVisible(true)}
+                  onClick={() => handleModal(i)}
                 >
                   <div className="flex gap-2 items-center">
                     Delete
