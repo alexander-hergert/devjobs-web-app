@@ -81,9 +81,9 @@ const secret = csrfToken.secretSync();
 app.use((req, res, next) => {
   const token = csrfToken.create(secret);
   res.cookie("XSRF-TOKEN", token, {
-    secure: true,
+    secure: process.env.ENVIRONMENT === "production" ? true : false,
     httpOnly: true,
-    sameSite: "None",
+    sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
     partitioned: true,
   });
   next();
@@ -96,9 +96,9 @@ app.use((req, res, next) => {
     const token = req.cookies["XSRF-TOKEN"];
     if (!csrfToken.verify(secret, token)) {
       res.cookie("XSRF-TOKEN", token, {
-        secure: true,
+        secure: process.env.ENVIRONMENT === "production" ? true : false,
         httpOnly: true,
-        sameSite: "None",
+        sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
         partitioned: true,
       });
       res.status(403).send("Invalid token");
