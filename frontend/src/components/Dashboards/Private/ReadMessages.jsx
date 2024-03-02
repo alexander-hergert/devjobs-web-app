@@ -23,6 +23,23 @@ const Style = styled.section`
   white-space: pre-wrap;
   word-wrap: break-word;
 
+  h2,
+  p {
+    width: 56rem;
+    text-align: left;
+
+    //media query from 768px
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 32rem;
+    }
+
+    //media query from max 768px
+    @media screen and (max-width: 767px) {
+      font-size: 0.8rem;
+      width: 16rem;
+    }
+  }
+
   input {
     width: 100%;
     border-radius: 5px;
@@ -126,7 +143,7 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
           <h2 className="text-center font-bold">Read Messages</h2>
           <div className="flex flex-col gap-4 items-center my-4">
             {messages?.length === 0 && (
-              <p className="text-center">No messages yet</p>
+              <p className="text-center hyphens-auto">No messages yet</p>
             )}
             {messages?.map((message, i) => (
               <div
@@ -139,7 +156,9 @@ const ReadMessages = ({ setIsReadingMessages, setIsMainVisible }) => {
                     {`(${i + 1})  Subject: ${message?.subject}`}
                   </h3>
                   {selectedMessage === message?.message_id && (
-                    <p className="break-words">{message?.content}</p>
+                    <p className="break-words hyphens-auto">
+                      {message?.content}
+                    </p>
                   )}
                 </div>
                 <div className="flex md:flex-col md:self-start max-md:gap-4">

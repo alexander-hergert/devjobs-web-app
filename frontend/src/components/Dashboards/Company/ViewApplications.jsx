@@ -29,7 +29,7 @@ const Style = styled.section`
     width: 15rem;
     text-align: left;
 
-    //media qeury from 768px
+    //media query from 768px
     @media screen and (min-width: 768px) and (max-width: 1279px) {
       width: 20rem;
     }

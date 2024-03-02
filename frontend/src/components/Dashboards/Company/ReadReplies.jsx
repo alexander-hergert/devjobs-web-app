@@ -21,6 +21,22 @@ const Style = styled.section`
   white-space: pre-wrap;
   word-wrap: break-word;
 
+  h2,
+  p {
+    text-align: left;
+
+    //media query from 768px
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 32rem;
+    }
+
+    //media query from max 768px
+    @media screen and (max-width: 767px) {
+      font-size: 0.8rem;
+      width: 16rem;
+    }
+  }
+
   input {
     width: 100%;
     border-radius: 5px;
@@ -119,7 +135,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
         <h2 className="text-center font-bold">Read Replies</h2>
         <div className="flex flex-col gap-4 items-center my-4">
           {replies?.length === 0 && (
-            <p className="text-center">No replies yet</p>
+            <p className="text-center hyphens-auto">No replies yet</p>
           )}
           {replies?.map((reply, i) => (
             <div
@@ -132,7 +148,7 @@ const ReadMessages = ({ setIsReadingReplies, setIsMainVisible }) => {
                   {`(${i + 1})  Subject: ${reply?.subject}`}
                 </h3>
                 {selectedReply === reply?.reply_id && (
-                  <p className="break-words">{reply?.content}</p>
+                  <p className="break-words hyphens-auto">{reply?.content}</p>
                 )}
               </div>
               <button
