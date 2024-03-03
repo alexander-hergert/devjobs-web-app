@@ -14,6 +14,7 @@ import helmet from "helmet";
 import cron from "node-cron";
 import fetch from "node-fetch";
 import Token from "csrf";
+import useragent from "express-useragent";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -71,6 +72,7 @@ app.use(
   })
 );
 
+app.use(useragent.express());
 app.use(bodyParser.json());
 app.use(cookieParser());
 

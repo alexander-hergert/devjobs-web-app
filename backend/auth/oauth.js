@@ -4,6 +4,15 @@ dotenv.config();
 import pool from "../config/configDB.js";
 
 export const authorize = async (req) => {
+  //check if browser is supported
+  if (
+    req.browser !== "Chrome" ||
+    req.browser !== "Firefox" ||
+    req.browser !== "Edge"
+  ) {
+    return;
+  }
+  //authorize user
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   const signed_session_id = req.cookies["connect.sid"];

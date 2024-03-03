@@ -248,9 +248,15 @@ const SignUpPage = () => {
           <button
             className="btn my-4 duration-0 capitalize text-white bg-accent"
             onSubmit={handleSubmit(onSubmit)}
+            disabled={!/Firefox|Edg|Chrome/.test(navigator.userAgent)}
           >
             Sign Up
           </button>
+          {!/Firefox|Edg|Chrome/.test(navigator.userAgent) && (
+            <p className="mb-4">
+              Please use Chrome, Firefox or Edge to sign up
+            </p>
+          )}
         </form>
       </section>
     </>
