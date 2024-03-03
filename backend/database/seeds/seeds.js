@@ -224,7 +224,7 @@ const createTableMessages = async (client) => {
       `CREATE TABLE IF NOT EXISTS messages (
         message_id SERIAL PRIMARY KEY,
         app_id INT NOT NULL REFERENCES applications(app_id) ON DELETE CASCADE,
-        subject VARCHAR(100) NOT NULL,
+        subject VARCHAR(255) NOT NULL,
         content TEXT NOT NULL
         )
       `
@@ -251,7 +251,7 @@ const createTableReplies = async (client) => {
       `CREATE TABLE IF NOT EXISTS replies (
         reply_id SERIAL PRIMARY KEY,
         app_id INT NOT NULL REFERENCES applications(app_id) ON DELETE CASCADE,
-        subject VARCHAR(100) NOT NULL,
+        subject VARCHAR(255) NOT NULL,
         content TEXT NOT NULL
         )
       `
