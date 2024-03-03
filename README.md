@@ -85,6 +85,11 @@ The project is representing a role based jobportal for developers with various f
 --Dashboard
 --Errorpage (for not existing paths)
 
+## Important note for users
+
+The app currently does not support the signup and login as not Chrome, Firefox and Edge users.
+Safari does not store third-party cookies without disabling the "Prevent cross-site tracking" option or can create partitioned cookies. This behaviour can cause server issues at this state. For this I have disabled the option to signup and login for users other than the mentioned browsers above.
+
 ## General overview of the app
 
 ![Home](/frontend/public/home.png)

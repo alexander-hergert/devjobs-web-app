@@ -9,6 +9,7 @@ const LoginButton = () => {
     <button
       className="p-2 max-md:bg-accent bg-neutral max-md:text-white text-primary rounded-xl"
       onClick={() => loginWithRedirect()}
+      disabled={!/Firefox|Edg|Chrome/.test(navigator.userAgent)}
     >
       <div className="flex gap-2 justify-center items-center">
         Log In
