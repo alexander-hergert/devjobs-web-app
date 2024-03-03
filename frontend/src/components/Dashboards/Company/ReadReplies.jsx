@@ -21,7 +21,6 @@ const Style = styled.section`
   white-space: pre-wrap;
   word-wrap: break-word;
 
-  h2,
   p {
     text-align: left;
 
@@ -35,6 +34,11 @@ const Style = styled.section`
       font-size: 0.8rem;
       width: 16rem;
     }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    width: 100%;
   }
 
   input {

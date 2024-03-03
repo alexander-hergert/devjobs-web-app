@@ -20,12 +20,13 @@ privateRouter.post("/createuser", async (req, res) => {
       const picture = user?.picture;
       //check if user_website has http:// or https://
       if (
+        user_website &&
         !user_website?.startsWith("http://") &&
         !user_website?.startsWith("https://")
       ) {
         user_website = "https://" + user_website;
-      } else if (user_website === "") {
-        user_website = null;
+      } else if (!user_website) {
+        user_website = "";
       }
       try {
         const client = await pool.connect();

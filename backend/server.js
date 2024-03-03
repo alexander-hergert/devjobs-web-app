@@ -86,7 +86,7 @@ app.use((req, res, next) => {
     secure: process.env.ENVIRONMENT === "production" ? true : false,
     httpOnly: true,
     sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
-    partitioned: true,
+    partitioned: process.env.ENVIRONMENT === "production" ? true : false,
   });
   next();
 });
@@ -101,7 +101,7 @@ app.use((req, res, next) => {
         secure: process.env.ENVIRONMENT === "production" ? true : false,
         httpOnly: true,
         sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
-        partitioned: true,
+        partitioned: process.env.ENVIRONMENT === "production" ? true : false,
       });
       res.status(403).send("Invalid token");
       return;

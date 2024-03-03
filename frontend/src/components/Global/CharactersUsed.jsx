@@ -5,7 +5,7 @@ const CharactersUsed = ({ charactersUsed, maxCharacters, offset }) => {
 
   return (
     <div
-      className={`relative bottom-0 max-md:left-[${small}rem] md:left-[${medium}rem] xl:left-[${large}rem]`}
+      className={`text-sm text-gray-500 relative bottom-0 max-md:left-[${small}rem] md:left-[${medium}rem] xl:left-[${large}rem]`}
     >
       <p className={charactersUsed >= maxCharacters ? "text-red-500" : ""}>
         Characters used: {charactersUsed} / {maxCharacters}

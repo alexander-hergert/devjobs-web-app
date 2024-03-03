@@ -5,15 +5,14 @@ import pool from "../config/configDB.js";
 
 export const authorize = async (req) => {
   //check if browser is supported
-  console.log(req.useragent.browser);
   if (
-    req.useragent.browser !== "Chrome" ||
-    req.useragent.browser !== "Firefox" ||
-    req.useragent.browser !== "Edge"
+    req.useragent.browser === "Chrome" ||
+    req.useragent.browser === "Firefox" ||
+    req.useragent.browser === "Edge"
   ) {
-    console.log("Supported browser");
+    //if browser is supported -> continue
   } else {
-    console.log("Unsupported browser");
+    //if browser is not supported -> return
     return;
   }
   //authorize user

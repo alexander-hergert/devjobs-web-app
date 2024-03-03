@@ -203,12 +203,21 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="position"
-            {...register("position", { required: true, minLength: 3 })}
+            {...register("position", {
+              required: true,
+              minLength: 3,
+              maxLength: 50,
+            })}
             aria-label="position"
             placeholder="e.g. Frontend Developer"
             defaultValue={companyJobs[selectedJob]?.position}
           />
         </div>
+        <CharactersUsed
+          charactersUsed={watch("position")?.length || 0}
+          maxCharacters={50}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors.position?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
@@ -218,6 +227,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
           {errors.position?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
               Please use at least 3 characters!
+            </p>
+          )}
+          {errors.position?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 50 characters!
             </p>
           )}
         </div>
@@ -265,12 +279,21 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             className="max-md:w-[18rem] w-[20rem] rounded border pl-2 text-accent"
             type="text"
             id="location"
-            {...register("location", { required: true, minLength: 2 })}
+            {...register("location", {
+              required: true,
+              minLength: 2,
+              maxLength: 50,
+            })}
             aria-label="location"
             placeholder="e.g. Berlin"
             defaultValue={companyJobs[selectedJob]?.location}
           />
         </div>
+        <CharactersUsed
+          charactersUsed={watch("location")?.length || 0}
+          maxCharacters={50}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors.location?.type === "required" && (
             <p className="text-red-500 my-4" role="alert">
@@ -280,6 +303,11 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
           {errors.location?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
               Please use at least 2 characters!
+            </p>
+          )}
+          {errors.location?.type === "maxLength" && (
+            <p className="text-red-500 my-4" role="alert">
+              Please use max 50 characters!
             </p>
           )}
         </div>
@@ -292,16 +320,27 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
             {...register("website", {
               pattern:
                 /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+              maxLength: 100,
             })}
             aria-label="website"
             placeholder="e.g. https://www.company.com"
             defaultValue={companyJobs[selectedJob]?.company_website}
           />
         </div>
+        <CharactersUsed
+          charactersUsed={watch("website")?.length || 0}
+          maxCharacters={50}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors.website?.type === "pattern" && (
             <p className="text-red-500" role="alert">
               Please use a valid website url format
+            </p>
+          )}
+          {errors.website?.type === "maxLength" && (
+            <p className="text-red-500" role="alert">
+              Please use max 100 characters!
             </p>
           )}
         </div>
@@ -421,13 +460,13 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                 Add Item
               </button>
             </div>
-            <CharactersUsed
-              charactersUsed={watch("requirements-items")?.length || 0}
-              maxCharacters={100}
-              offset={{ small: 2, medium: 8, large: 13 }}
-            />
           </div>
         </div>
+        <CharactersUsed
+          charactersUsed={watch("requirements-items")?.length || 0}
+          maxCharacters={100}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center my-4">
           {errors["requirements-items"]?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
@@ -518,13 +557,13 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
                 Add Item
               </button>
             </div>
-            <CharactersUsed
-              charactersUsed={watch("role-items")?.length || 0}
-              maxCharacters={100}
-              offset={{ small: 2, medium: 8, large: 13 }}
-            />
           </div>
         </div>
+        <CharactersUsed
+          charactersUsed={watch("role-items")?.length || 0}
+          maxCharacters={100}
+          offset={{ small: 2, medium: 8, large: 13 }}
+        />
         <div className="max-md:flex-col gap-2 md:w-[30rem] xl:w-[40rem] flex justify-between items-center">
           {errors["role-items"]?.type === "minLength" && (
             <p className="text-red-500 my-4" role="alert">
@@ -545,7 +584,7 @@ const EditJob = ({ setIsEditJob, selectedJob, setIsMainVisible }) => {
         <input
           type="submit"
           value="Save and publish"
-          className="btn border-0 my-4 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
+          className="btn mt-8 mb-4 border-0 duration-0 capitalize text-white bg-accent max-md:w-full hover:bg-info"
         />
       </form>
     </Style>
