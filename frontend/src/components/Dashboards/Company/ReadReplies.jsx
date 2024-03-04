@@ -22,6 +22,7 @@ const Style = styled.section`
   word-wrap: break-word;
 
   p {
+    width: 56rem;
     text-align: left;
 
     //media query from 768px

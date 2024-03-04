@@ -94,7 +94,7 @@ Safari does not store third-party cookies without disabling the "Prevent cross-s
 
 ![Home](/frontend/public/home.png)
 
-On the Rootpage of the application the app is fetching existing jobs from the database and renders the job components. On top is a filter functionality tofilter the jobs.
+On the Rootpage of the application the app is fetching existing jobs from the database and renders the job components. On top is a filter functionality to filter the jobs.
 The app can be displayed in light and dark mode. Clicking on the job components will
 link you to the details of the jobs.
 
