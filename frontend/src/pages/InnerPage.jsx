@@ -30,9 +30,11 @@ const InnerPage = () => {
       return;
     }
     try {
-      axios.get(`${baseUrl}/${jobId}`).then((response) => {
-        dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
-      });
+      axios
+        .get(`${baseUrl}/${jobId}`, { withCredentials: true })
+        .then((response) => {
+          dispatch(getSingleJob({ jobs: response.data, isLoading: false }));
+        });
     } catch {
       console.error("Error fetching job");
       toast.error("Error fetching job");

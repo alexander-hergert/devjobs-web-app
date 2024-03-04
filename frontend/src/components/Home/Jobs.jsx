@@ -23,11 +23,13 @@ const Jobs = () => {
   useEffect(() => {
     try {
       if (!location.search) {
-        axios.get(`${baseUrl}/jobs`).then((response) => {
-          dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
-          dispatch(getTotalJobs({ payload: response.data[1] }));
-          dispatch(setPage({ payload: 1 }));
-        });
+        axios
+          .get(`${baseUrl}/jobs`, { withCredentials: true })
+          .then((response) => {
+            dispatch(getJobs({ jobs: response.data[0], isLoading: false }));
+            dispatch(getTotalJobs({ payload: response.data[1] }));
+            dispatch(setPage({ payload: 1 }));
+          });
       } else {
         //Query string is present
         axios.get(`${baseUrl}/jobs${location.search}`).then((response) => {

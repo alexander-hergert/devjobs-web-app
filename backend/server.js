@@ -97,6 +97,7 @@ app.use((req, res, next) => {
   if (req.method !== "GET") {
     const token = req.cookies["XSRF-TOKEN"];
     if (!csrfToken.verify(secret, token)) {
+      const token = csrfToken.create(secret);
       res.cookie("XSRF-TOKEN", token, {
         secure: process.env.ENVIRONMENT === "production" ? true : false,
         httpOnly: true,
@@ -110,7 +111,6 @@ app.use((req, res, next) => {
   next();
 });
 
-session;
 app.use(
   session({
     genid: () => uuidv4(),
@@ -124,11 +124,6 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: process.env.ENVIRONMENT === "production" ? "None" : null,
       partitioned: process.env.ENVIRONMENT === "production" ? true : false,
-      domain:
-        process.env.ENVIRONMENT === "production"
-          ? process.env.DOMAIN
-          : "localhost",
-      path: "/",
     },
   })
 );

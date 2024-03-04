@@ -13,7 +13,6 @@ publicRouter.get("/logout", (req, res) => {
     if (err) {
       console.log(err);
     }
-    res.clearCookie("connect.sid");
     res.status(200).send("logged out");
   });
 });
