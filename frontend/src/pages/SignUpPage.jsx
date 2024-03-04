@@ -230,7 +230,8 @@ const SignUpPage = () => {
               id="user_website"
               placeholder="www.example.com"
               {...register("user_website", {
-                pattern: /^www\.\w+\.\w{2,3}$/,
+                pattern:
+                  /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]*)?$/,
                 maxLength: 100,
               })}
             />
