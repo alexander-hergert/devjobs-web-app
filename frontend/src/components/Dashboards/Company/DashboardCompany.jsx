@@ -14,6 +14,7 @@ import { FaPlus } from "react-icons/fa";
 import { getCsrfToken } from "../../../utils";
 import { toast, ToastContainer } from "react-toastify";
 import DeleteModal from "../DeleteModal";
+import { Link } from "react-router-dom";
 
 const DashboardCompany = ({
   setViewApplications,
@@ -28,7 +29,6 @@ const DashboardCompany = ({
   const { getAccessTokenSilently } = useAuth0();
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const csrfToken = getCsrfToken();
-
   const user = useSelector((state) => state.user.user);
 
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
@@ -166,7 +166,9 @@ const DashboardCompany = ({
                 className="max-xl:grid-cols-5 grid max-md:gap-4 gap-12 grid-cols-7 my-2 items-center p-2 bg-neutral"
                 key={job.job_id}
               >
-                <p className="text-sm">{job.position}</p>
+                <Link to={`/${job.job_id}`} className="text-sm text-accent">
+                  {job.position}
+                </Link>
                 <p className="max-xl:hidden">{job.location}</p>
                 <p className="max-xl:hidden">
                   {job.status ? "open" : "closed"}
