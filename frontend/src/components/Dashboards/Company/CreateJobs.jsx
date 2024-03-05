@@ -8,6 +8,7 @@ import { getCompanyJobs } from "../../../slices/companyJobsSlice";
 import CharactersUsed from "../../Global/CharactersUsed";
 import { getCsrfToken } from "../../../utils";
 import { toast, ToastContainer } from "react-toastify";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 const Style = styled.section`
   position: absolute;
@@ -404,7 +405,11 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
                   key={`${item + index}`}
                 >
                   <li className="text-lg">{item}</li>
-                  <p onClick={() => removeRequirement(index)}>X</p>
+                  <p onClick={() => removeRequirement(index)}>
+                    <span className="cursor-pointer">
+                      <IoMdCloseCircleOutline />
+                    </span>
+                  </p>
                 </div>
               ))}
             </ul>
@@ -505,7 +510,11 @@ const CreateJobs = ({ setIsCreateJob, setIsMainVisible }) => {
                   key={`${item + index}`}
                 >
                   <li className="text-lg">{item}</li>
-                  <p onClick={() => removeRole(index)}>X</p>
+                  <p onClick={() => removeRole(index)}>
+                    <span className="cursor-pointer">
+                      <IoMdCloseCircleOutline />
+                    </span>
+                  </p>
                 </div>
               ))}
             </ul>
