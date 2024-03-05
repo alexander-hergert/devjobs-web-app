@@ -163,6 +163,23 @@ privateRouter.put("/userprofile", async (req, res) => {
         user_id,
         url,
       ]);
+
+      //only for company users, select and update all jobs logo
+      if (user.role === "company") {
+        //select all jobs from user
+        const resultJobs = await client.query(
+          "SELECT * FROM jobs WHERE user_id = $1",
+          [user_id]
+        );
+        //update all jobs logo
+        const jobIds = resultJobs.rows.map((job) => job.job_id);
+        await client.query("UPDATE jobs SET logo = $2 WHERE job_id = ANY($1)", [
+          jobIds,
+          url,
+        ]);
+      }
+      //end of jobs updates
+
       //select user
       const result = await client.query(
         "SELECT * FROM users WHERE user_id = $1",
