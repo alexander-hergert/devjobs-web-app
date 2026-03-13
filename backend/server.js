@@ -56,10 +56,10 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://a-hergert-devjobs-web-app.netlify.app"],
-      styleSrc: ["'self'", "https://a-hergert-devjobs-web-app.netlify.app"],
+      scriptSrc: ["'self'", "https://devjobs.alexander-hergert.com/"],
+      styleSrc: ["'self'", "https://devjobs.alexander-hergert.com/"],
     },
-  })
+  }),
 );
 
 app.use(
@@ -67,7 +67,7 @@ app.use(
     credentials: true,
     origin:
       process.env.ENVIRONMENT === "production"
-        ? "https://a-hergert-devjobs-web-app.netlify.app"
+        ? "https://devjobs.alexander-hergert.com"
         : "http://localhost:5173",
   })
 );
